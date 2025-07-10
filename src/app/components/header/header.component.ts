@@ -8,6 +8,8 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { ProductsService } from '../../services/products.service';
 import { Profile } from '../../interfaces/profile.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { ViewProductComponent } from '../products/view-product/view-product.component';
 
 @Component({
   selector: 'app-header',
@@ -30,6 +32,7 @@ export class HeaderComponent {
   private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
   private _productsService = inject(ProductsService);
+  private _matDialog = inject(MatDialog);
 
   protected isDropdownOpen = signal(false);
   protected headerClass = signal('');
@@ -93,7 +96,19 @@ export class HeaderComponent {
   }
 
   private _normalizeValue(value: string): string {
-    return value.toLowerCase().replace(/\s/g, '');
+    if (typeof value === 'string')
+      return value.toLowerCase().replace(/\s/g, '');
+    return '';
+  }
+
+  displayFn(profile: Profile): string {
+    return profile && profile.name ? profile.name : '';
+  }
+
+  onProfileClick(profile: Profile) {
+    this._matDialog.open(ViewProductComponent, {
+      data: profile
+    });
   }
 
 }

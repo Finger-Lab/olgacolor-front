@@ -8,6 +8,7 @@
     "build:ssr": "ng run olgacolor:server",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "deploy": "firebase deploy --only hosting",
     "serve:ssr:olgacolor": "npm run build:ssr && node dist/olgacolor/server/server.mjs"
   },
   "private": true,
