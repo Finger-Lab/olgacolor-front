@@ -45,8 +45,6 @@ export class HeaderComponent {
 
   ngOnInit(): void {
     this.headerClass.set(this.customClass() ? this.customClass() : '');
-
-    this._getAllProfiles();
   }
 
   @HostListener('window:scroll', [])
@@ -74,6 +72,13 @@ export class HeaderComponent {
   logout() {
     this.authService.logout()
     this.router.navigate(['/login'])
+  }
+
+  onFocus(): void {
+    if (this._profiles.length > 0)
+      return;
+
+    this._getAllProfiles();
   }
 
   private _getAllProfiles(): void {
