@@ -1,20 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-main',
   imports: [],
   templateUrl: './main.component.html',
-  styleUrl: './main.component.scss'
+  styleUrl: './main.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MainComponent {
-  constructor(private sanitizer: DomSanitizer) {}
+export class MainComponent implements OnInit {
 
-  getSafeHtml(img: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(img)
+  private sanitizer = inject(DomSanitizer);
+
+  private _getSafeHtml(img: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(img);
   }
 
-  blocks: any[] = [
+  protected blocks: any[] = [
     {
       img: `
         <svg preserveAspectRatio="xMidYMid meet" data-bbox="-76.8 -76.8 921.6 921.6" height="32" viewBox="-76.8 -76.8 921.6 921.6" width="32" xmlns="http://www.w3.org/2000/svg" data-type="color" role="presentation" aria-hidden="true" aria-label="">
@@ -221,5 +223,13 @@ export class MainComponent {
       title: 'Iso',
       description: 'ISO 9001.'
     },
-  ]
+  ];
+
+  ngOnInit(): void {
+    this.blocks = this.blocks.map((block: any) => ({
+      ...block,
+      safeImg: this._getSafeHtml(block.img)
+    }));
+  }
+
 }
