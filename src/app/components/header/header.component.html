@@ -29,6 +29,20 @@
             <a routerLink="/"><i class="bi bi-youtube"></i></a>
             <a href="https://wa.me/551133181030" target="_blank"><i class="bi bi-whatsapp"></i></a>
         </div>
+
+        <!-- Campo de busca -->
+        <input (focus)="onFocus()" [formControl]="searchProfileControl" [matAutocomplete]="auto" class="search-profile"
+            type="text" placeholder="Buscar perfis" />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            @for (profile of filteredProfiles | async; track profile.id) {
+            <mat-option (click)="onProfileClick(profile)" [value]="profile">
+                <div class="option">
+                    <img [src]="profile.image_small" alt="Profile image" />
+                    <span>{{ profile.name }}</span>
+                </div>
+            </mat-option>
+            }
+        </mat-autocomplete>
     </div>
 
     <div class="container">
@@ -104,20 +118,5 @@
                 </li>
             </ul>
         </div>
-    </div>
-
-    <div class="container">
-        <input (focus)="onFocus()" [formControl]="searchProfileControl" [matAutocomplete]="auto" class="search-profile"
-            type="text" placeholder="Buscar perfis" />
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-            @for (profile of filteredProfiles | async; track profile.id) {
-            <mat-option (click)="onProfileClick(profile)" [value]="profile">
-                <div class="option">
-                    <img [src]="profile.image_small" alt="Profile image" />
-                    <span>{{ profile.name }}</span>
-                </div>
-            </mat-option>
-            }
-        </mat-autocomplete>
     </div>
 </nav>
