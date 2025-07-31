@@ -116,4 +116,19 @@ export class HeaderComponent {
     });
   }
 
+  // Métodos para controlar o hover dos dropdowns
+  protected onDropdownMouseEnter(event: Event): void {
+    const target = event.currentTarget as HTMLElement;
+    const dropdownMenu = target.querySelector('.dropdown-menu') as HTMLElement;
+    if (dropdownMenu)
+      dropdownMenu.classList.add('show');
+  }
+
+  protected onDropdownMouseLeave(event: Event): void {
+    const target = event.currentTarget as HTMLElement;
+    const dropdownMenu = target.querySelector('.dropdown-menu') as HTMLElement;
+    if (dropdownMenu)
+      dropdownMenu.classList.remove('show');
+  }
+
 }

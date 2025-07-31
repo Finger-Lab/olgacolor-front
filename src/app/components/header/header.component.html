@@ -60,8 +60,9 @@
                 <!-- <li class="nav-item">
                     <a class="nav-link active" aria-current="page" routerLink="/pagina-inicial">Home</a>
                 </li> -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown" (mouseenter)="onDropdownMouseEnter($event)"
+                    (mouseleave)="onDropdownMouseLeave($event)">
+                    <a class="nav-link dropdown-toggle" role="button">
                         Institucional
                     </a>
                     <ul class="dropdown-menu">
@@ -73,39 +74,42 @@
                         <li><a class="dropdown-item" routerLink="/processos-producao/usinagem">Usinagem</a></li> -->
                     </ul>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown" (mouseenter)="onDropdownMouseEnter($event)"
+                    (mouseleave)="onDropdownMouseLeave($event)">
+                    <a routerLink="/mercados" class="nav-link dropdown-toggle" role="button">
                         Mercados
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" routerLink="/mercados">Mercados</a></li>
                         <li><a class="dropdown-item" routerLink="/mercados/construcao-civil">Construção Civil</a></li>
                         <li><a class="dropdown-item" routerLink="/mercados/linha-moveleira">Perfis Moveleiros</a></li>
                         <li><a class="dropdown-item" routerLink="/mercados/linha-industrial">Perfis Industriais</a></li>
                         <li><a class="dropdown-item" routerLink="/mercados/envidracamento">Vidraçaria</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown" (mouseenter)="onDropdownMouseEnter($event)"
+                    (mouseleave)="onDropdownMouseLeave($event)">
+                    <a routerLink="/perfis" class="nav-link dropdown-toggle" role="button">
                         Perfis
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" routerLink="/perfis">Perfis</a></li>
-                        <li><a class="dropdown-item" (click)="onPerfilClick('Construção Civil')">Perfis Construção
-                                Civil</a></li>
+                        <li>
+                            <a class="dropdown-item" (click)="onPerfilClick('Construção Civil')">
+                                Perfis Construção Civil
+                            </a>
+                        </li>
                         <li><a class="dropdown-item" (click)="onPerfilClick('Vidraçaria')">Perfis Vidraçaria</a></li>
                         <li><a class="dropdown-item" (click)="onPerfilClick('Moveleira')">Perfis Moveleiros</a></li>
                         <li><a class="dropdown-item" (click)="onPerfilClick('Industrial')">Perfis Industriais</a></li>
                         <li><a class="dropdown-item" (click)="onPerfilClick('Tabelados O')">Perfis Tabelados</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item">
+                    <a routerLink="/acabamentos" class="nav-link">
                         Acabamentos
                     </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" routerLink="/acabamentos">Acabamentos</a></li>
-                    </ul>
+                    <!-- <ul class="dropdown-menu"> -->
+                    <!-- <li><a class="dropdown-item" routerLink="/acabamentos">Acabamentos</a></li> -->
+                    <!-- </ul> -->
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="#">Obras</a>
