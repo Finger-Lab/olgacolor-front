@@ -1,70 +1,72 @@
 <div id="products_main">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="sidebar bg-light p-lg-3">
-                    <!-- Campo de Busca -->
-                    <div class="mb-4">
-                      <h6>Buscar</h6>
-                      <div class="input-group">
-                        <input 
-                          type="text" 
-                          class="form-control" 
-                          placeholder="Buscar..." 
-                          [(ngModel)]="searchTerm"
-                          (keyup)="onSearch()">
-                        <button 
-                          class="btn btn-primary" 
-                          type="button" 
-                          (click)="onSearch()">
-                          <i class="bi bi-search"></i>
-                        </button>
-                      </div>
-                    </div>
-                  
-                    <div>
-                      <h6>Categorias</h6>
-                      <div class="list-group">
-                        <ul class="list-group-flush">
-                          @for(category of categories; track category.mainCategory) {
-                            <li class="list-group-item"
-                                (click)="onCategorySelect(category.mainCategory)">
-                                {{ category.mainCategory }}
-                            </li>
-                          }
-                        </ul>
-                      </div>
-                    </div>
-                </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+        <div class="sidebar bg-light p-lg-3">
+          <!-- Campo de Busca -->
+          <div class="mb-4">
+            <h6>Buscar</h6>
+            <div class="input-group">
+              <input type="text" class="form-control" placeholder="Buscar..." [formControl]="searchTerm" />
             </div>
+          </div>
 
-            <div class="mt-4 mt-lg-0 col-lg-{{productSelected ? 6 : 9}}">   
-                @if (route.snapshot.queryParams['category']) {
-                  <h5>Produtos da categoria: {{ route.snapshot.queryParams['category'].toUpperCase() }}</h5>
+          <div>
+            <h6>Categorias</h6>
+            <div class="list-group">
+              <ul class="list-group-flush">
+                @for(category of categories(); track category.mainCategory) {
+                <li class="list-group-item" (click)="onCategorySelect(category.mainCategory)">
+                  {{ category.mainCategory }}
+                </li>
                 }
-
-                <div>
-                  @for (product of productsFiltered; track product.id) {                        
-                    <div class="product" (click)="onProductClick(product)" title="Clique para ver mais detalhes do produto {{ product.name }}">
-                      <img [src]="product.image_small" [alt]="product.name">
-                      <h5>{{ product.name }}</h5>
-                    </div>
-                  }
-                </div>
+              </ul>
             </div>
-
-            @if (productSelected) {
-                <div class="col-lg-3 mt-4 mt-lg-0">
-                    <div class="product-details">
-                        <img [src]="productSelected.image_big" [alt]="productSelected.name">
-                        <h6>{{ productSelected.name }}</h6>
-                    </div>
-                </div>
-            }
+          </div>
         </div>
-    </div>
+      </div>
 
-    <button type="button" (click)="scrollToTop()">
-        <i class="bi bi-arrow-up"></i>
-    </button>
+      <div class="mt-4 mt-lg-0 col-lg-{{productSelected() ? 6 : 9}}">
+        @if (route.snapshot.queryParams['category']) {
+        <h5>Produtos da categoria: {{ route.snapshot.queryParams['category'].toUpperCase() }}</h5>
+        }
+
+        <div>
+          @for (product of productsFiltered(); track product.id) {
+          <div class="product" (click)="onProductClick(product)"
+            title="Clique para ver mais detalhes do produto {{ product.name }}">
+            <img [src]="product.image_small" [alt]="product.name">
+            <h5>{{ product.name }}</h5>
+          </div>
+          }
+        </div>
+
+        <!-- Paginação -->
+        <!-- <div class="pagination">
+          <button class="button-pagination" (click)="previousPage()">
+            <mat-icon fontIcon="chevron_left" />
+            Anterior
+          </button>
+          <button class="button-pagination" (click)="nextPage()">
+            Próxima
+            <mat-icon fontIcon="chevron_right" />
+          </button>
+        </div> -->
+
+      </div>
+
+      @if (productSelected()) {
+      <div class="col-lg-3 mt-4 mt-lg-0">
+        <div class="product-details">
+          <img [src]="productSelected().image_big" [alt]="productSelected().name">
+          <h6>{{ productSelected().name }}</h6>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+
+  <button class="scroll-to-top" type="button" (click)="scrollToTop()">
+    <i class="bi bi-arrow-up"></i>
+  </button>
 </div>

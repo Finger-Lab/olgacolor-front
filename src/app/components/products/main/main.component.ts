@@ -1,78 +1,96 @@
-import { Component } from '@angular/core';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { ProductsService } from '../../../services/products.service';
-import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+
 @Component({
   selector: 'app-main',
-  imports: [FormsModule],
+  imports: [
+    ReactiveFormsModule,
+    MatIconModule
+  ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
-export class MainComponent {
-  products: any[] = []
-  productsFiltered: any[] = []
-  productSelected: any = null
-  searchTerm: string = ''
-  categories: any[] = []
+export class MainComponent implements OnInit {
 
-  constructor(
-    private productsService: ProductsService,
-    public route: ActivatedRoute,
-    private router: Router
-  ) {}
+  private _products: any[] = [];
+  private _productsService = inject(ProductsService);
+  private _router = inject(Router);
+
+  protected route = inject(ActivatedRoute);
+  protected categories = signal<any[]>([]);
+  protected searchTerm = new FormControl<string>('');
+  protected productSelected = signal<any>(null);
+  protected productsFiltered = signal<any[]>([]);
+
+  constructor() {
+    effect(() => {
+      if (this._productsService.productSelected())
+        this.productSelected.set(this._productsService.productSelected());
+    })
+  }
 
   ngOnInit(): void {
-    if (this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationEnd) {
-        if (event.url.includes('produtos')) {
-          if (this.router.url === this.router.url) {
-            this.onCategorySelect(this.route.snapshot.queryParams['category'])
-          }
-        }
-      }
-    }))
+    this.onCategorySelect(this.route.snapshot.queryParams['category']);
+    this._getProducts();
+    this._setSearchObservable();
+  }
 
-    this.productsService.getProducts().subscribe((products: any) => {
-      this.products = products  
-      this.productsFiltered = products
+  private _getProducts(): void {
+    this._productsService.getProducts().subscribe((products: any) => {
+      this._products = products;
+      this.productsFiltered.set(
+        [products[0], products[1], products[2], products[3], products[4], products[5], products[6], products[7], products[8], products[9]]
+      );
 
-      const mainCategorySet = new Set<string>()
+      const mainCategorySet = new Set<string>();
 
-      products.forEach((product: any) => {
-        const paths = product.category.split(/,|>/)
-        const mainCategory = paths[0].toUpperCase().trim()
+      for (const product of products) {
+        const paths = product.category.split(/,|>/);
+        const mainCategory = paths[0].toUpperCase().trim();
 
         if (!mainCategorySet.has(mainCategory)) {
-          mainCategorySet.add(mainCategory)
-          this.categories.push({
-            mainCategory
-          })
+          mainCategorySet.add(mainCategory);
+          this.categories.update((curr: any[]) => {
+            curr.push({ mainCategory });
+            return curr;
+          });
         }
-      })
-    })
-  } 
-  
-  toCurrency(value: number) {
-    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value)
+      }
+    });
   }
 
-  onSearch() {
-    this.productsFiltered = this.products.filter((product: any) => product.name.toLowerCase().includes(this.searchTerm.toLowerCase()))
+  private _setSearchObservable(): void {
+    this.searchTerm.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe(() => this._onSearch())
   }
 
-  onCategorySelect(category: string) {
-    this.productSelected = null
-    this.productsFiltered = this.products.filter((product: any) => product.category.toLowerCase().includes(category.toLowerCase()))
-    this.router.navigate(['/produtos'], { queryParams: { category: category.toUpperCase() } })
+  private _onSearch(): void {
+    this.productsFiltered.set(
+      this._products.filter((product: any) => product.name.toLowerCase().includes(this.searchTerm.value?.toLowerCase() || ''))
+    );
+  }
+
+  protected onCategorySelect(category: string): void {
+    this.productSelected.set(null);
+    this.productsFiltered.set(
+      this._products.filter((product: any) => product.category.toLowerCase().includes(category.toLowerCase()))
+    );
+    this._router.navigate(['/produtos'], { queryParams: { category: category?.toUpperCase() } })
   }
 
   onProductClick(product: any) {
-    this.productSelected = product
+    this.productSelected.set(product);
 
     if (window.innerWidth < 992) {
       const element = document.getElementsByClassName('product-details')[0] as HTMLElement
       window.scrollTo({
-        top: element.offsetTop + 100,  
+        top: element.offsetTop + 100,
         behavior: 'smooth'
       })
     }
@@ -81,4 +99,5 @@ export class MainComponent {
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
 }
