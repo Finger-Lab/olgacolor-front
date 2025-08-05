@@ -21,7 +21,7 @@
             position: absolute;
             inset: 0;
             z-index: 0;
-            background: linear-gradient(to right, rgba(0,0,0,.75), rgba(0,0,0,.25));
+            background: linear-gradient(to right, rgba(0, 0, 0, .75), rgba(0, 0, 0, .25));
         }
     }
 
@@ -30,14 +30,15 @@
         z-index: 1;
         color: #FFF;
 
-        > div {
+        >div {
             display: flex;
             justify-content: center;
 
-            > div {
+            >div {
                 max-width: 100%;
-                
-                h2, h5 {
+
+                h2,
+                h5 {
                     margin: 0;
                     font-weight: 300;
                 }
@@ -59,5 +60,16 @@
                 }
             }
         }
+    }
+}
+
+.more-info {
+    text-align: center;
+    margin-top: 1rem;
+
+    a {
+        text-decoration: underline;
+        color: #FFF;
+        cursor: pointer;
     }
 }
