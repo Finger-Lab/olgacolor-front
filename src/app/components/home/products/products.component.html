@@ -1,6 +1,6 @@
 <div id="products">
     <div class="container">
-        <app-dividing-line [width]="dynamicWidth" [bg]="dynamicBg" />
+        <app-dividing-line [width]="dynamicWidth()" [bg]="dynamicBg()" />
 
         <h5>PRODUTOS</h5>
 
@@ -11,7 +11,7 @@
         </div>
 
         <div class="parallax_container">
-            @for (block of products_blocks; track block) {
+            @for (block of products_blocks(); track block) {
             @if (block.isLeft) {
             <div class="products_block">
                 <div class="row mt-5 align-items-center justify-content-between">
@@ -29,7 +29,7 @@
                         <p>{{ block.description }}</p>
                         <ul class="links">
                             <li>
-                                <a routerLink="/pagina-inicial">
+                                <a routerLink="/catalogos">
                                     <h6>SAIBA MAIS</h6>
                                     <span class="bi bi-arrow-right-short fs-3"></span>
                                 </a>
@@ -68,7 +68,7 @@
                         <p>{{ block.description }}</p>
                         <ul class="links">
                             <li>
-                                <a routerLink="/pagina-inicial">
+                                <a routerLink="/catalogos">
                                     <h6>SAIBA MAIS</h6>
                                     <span class="bi bi-arrow-right-short fs-3"></span>
                                 </a>
