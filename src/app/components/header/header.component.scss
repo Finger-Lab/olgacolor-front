@@ -163,7 +163,7 @@
 
 
 .search-profile {
-    border: 1px solid transparent;
+    border: 1px solid #FFF;
     padding-inline: 8px;
     border-radius: 2px;
     background-color: transparent;
@@ -173,11 +173,6 @@
     &::placeholder {
         color: #FFF;
         font-weight: 200;
-    }
-
-    &:hover,
-    &:focus-visible {
-        border: 1px solid #FFF;
     }
 }
 
