@@ -25,8 +25,8 @@
                         </div>
                         <div>
                             <div>
-                                <p class="mb-0">{{ currentMonth() <= 9 ? 0 : '' }}{{ currentMonth() }}/{{ currentYear()
-                                        }}</p>
+                                <p class="mb-0">
+                                    {{ currentMonth() <= 9 ? 0 : '' }}{{ currentMonth() }}/{{ currentYear() }} </p>
                             </div>
                             <div class="currency_content">
                                 <div>
@@ -35,7 +35,7 @@
                                 </div>
                                 <div>
                                     <p class="mb-0">Variação:
-                                        <span [ngStyle]="{color: currency.variation >= 0 ? 'green' : 'red'}">
+                                        <span [ngStyle]="{color: currency.variation >= 0 ? '#27a527' : 'red'}">
                                             {{ currency.variation }}
                                         </span>
                                     </p>
