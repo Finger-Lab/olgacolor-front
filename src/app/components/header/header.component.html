@@ -89,6 +89,8 @@
                         <li><a class="dropdown-item" routerLink="/mercados/envidracamento">Vidraçaria</a></li>
                     </ul>
                 </li>
+
+                <!-- Perfis -->
                 <li class="nav-item dropdown" (mouseenter)="onDropdownMouseEnter($event)"
                     (mouseleave)="onDropdownMouseLeave($event)">
                     <a routerLink="/perfis" class="nav-link dropdown-toggle" role="button">
@@ -106,13 +108,19 @@
                         <li><a class="dropdown-item" (click)="onPerfilClick('Tabelados O')">Perfis Tabelados</a></li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a routerLink="/acabamentos" class="nav-link">
+
+                <!-- Acabamentos -->
+                <li class="nav-item dropdown" (mouseenter)="onDropdownMouseEnter($event)"
+                    (mouseleave)="onDropdownMouseLeave($event)">
+                    <a routerLink="/acabamentos" class="nav-link dropdown-toggle" role="button">
                         Acabamentos
                     </a>
-                    <!-- <ul class="dropdown-menu"> -->
-                    <!-- <li><a class="dropdown-item" routerLink="/acabamentos">Acabamentos</a></li> -->
-                    <!-- </ul> -->
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" (click)="onFinishesClick('Anodização')">Anodização</a></li>
+                        <li><a class="dropdown-item" (click)="onFinishesClick('Pintura')">Pintura Eletrostática a Pó</a>
+                        </li>
+                        <li><a class="dropdown-item" (click)="onFinishesClick('Efeito Madeira')">Efeito Madeira</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="#">Obras</a>

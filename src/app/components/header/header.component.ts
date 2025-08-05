@@ -56,6 +56,10 @@ export class HeaderComponent {
     this.router.navigate(['/produtos'], { queryParams: { category: category.toUpperCase() } })
   }
 
+  onFinishesClick(category: string): void {
+    this.router.navigate(['/acabamentos'], { queryParams: { category: category.toUpperCase() } })
+  }
+
   changeLanguage(language: string) {
     this.translate.use(language)
     this.cdr.detectChanges()
