@@ -6,12 +6,12 @@
             margin-bottom: 1.5rem;
             font-weight: 400;
         }
-    
-        > div {
+
+        >div {
             &:nth-of-type(1) {
                 margin: 1.5rem 0 3rem;
                 width: 100%;
-    
+
                 @media (min-width: 768px) {
                     max-width: 50%;
                 }
@@ -36,7 +36,7 @@
                         span {
                             flex-shrink: 0;
                             border: 3px solid #FFF;
-                            border-radius: 50%; 
+                            border-radius: 50%;
                             width: 2rem;
                             height: 2rem;
                             display: flex;
@@ -61,7 +61,7 @@
                     }
                 }
 
-                > div {
+                >div {
                     &:nth-of-type(1) {
                         .block {
                             padding-bottom: 4rem;
@@ -69,7 +69,7 @@
                     }
 
                     &:nth-of-type(2) {
-                        margin-top: 1rem; 
+                        margin-top: 1rem;
 
                         @media (min-width: 992px) {
                             margin-top: 0;
@@ -81,7 +81,7 @@
                     }
 
                     &:nth-of-type(3) {
-                        margin-top: 1rem; 
+                        margin-top: 1rem;
 
                         @media (min-width: 992px) {
                             margin-top: 0;
@@ -95,4 +95,9 @@
             }
         }
     }
+}
+
+.more-info {
+    color: #FFF;
+    cursor: pointer;
 }

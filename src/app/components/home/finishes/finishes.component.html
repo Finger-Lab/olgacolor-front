@@ -1,16 +1,16 @@
 <div id="finishes">
     <div class="container">
         <h3>Acabamentos</h3>
-        <app-dividing-line [width]="dynamicWidth" [bg]="dynamicBg" />
+        <app-dividing-line [width]="dynamicWidth()" [bg]="dynamicBg()" />
         <div>
             <p>
-                A perceção das cores e acabamentos pode variar conforme o ecrã e a iluminação. 
-                Para garantir precisão na escolha, recomendamos sempre a consulta prévia da 
-                disponibilidade de cores, padrões e produtos com o acabamento desejado. 
+                A perceção das cores e acabamentos pode variar conforme o ecrã e a iluminação.
+                Para garantir precisão na escolha, recomendamos sempre a consulta prévia da
+                disponibilidade de cores, padrões e produtos com o acabamento desejado.
                 Inspire-se nos detalhes, mas confie na experiência para a decisão final.
             </p>
         </div>
-        <div class="row align-items-end">            
+        <div class="row align-items-end">
             <div class="col-lg-4" *ngFor="let finish of finishes; let i = index">
                 <div class="block px-4 pt-4" [style.backgroundImage]="'url(' + finish.img + ')'">
                     <div class="header">
@@ -24,6 +24,11 @@
                             paddingTop: finish.show ? '2rem' : 0
                         }">
                             {{ finish.content }}
+
+                            <br /><br />
+                            <a [routerLink]="['/acabamentos', { outlets: { second: 'products' } }]" class="more-info">
+                                Saiba mais
+                            </a>
                         </p>
                     </div>
                 </div>

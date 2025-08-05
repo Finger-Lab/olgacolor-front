@@ -1,41 +1,50 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { DividingLineComponent } from "../../dividing-line/dividing-line.component";
-import { CommonModule } from '@angular/common';
+import { NgFor, NgStyle } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-finishes',
-  imports: [DividingLineComponent, CommonModule],
+  imports: [
+    DividingLineComponent,
+    NgStyle,
+    NgFor,
+    RouterLink
+  ],
   templateUrl: './finishes.component.html',
   styleUrl: './finishes.component.scss'
 })
 export class FinishesComponent {
-  dynamicWidth: number = 100
-  dynamicBg: string = 'transparent'
 
-  show1: boolean = false
+  protected dynamicWidth = signal<number>(100);
+  protected dynamicBg = signal<string>('transparent');
 
-  finishes: any[] = [
+  protected finishes = [
     {
       title: 'ANODIZAÇÃO',
       content: 'Proteção eletroquímica que garante durabilidade, resistência e um acabamento sofisticado.',
       img: 'assets/images/home/finishes_first.avif',
-      show: false
+      show: false,
+      route: '/acabamentos/(second:products)'
     },
     {
       title: 'PINTURA ELETROSTÁTICA A PÓ',
       content: 'Tecnologia de alta performance para um acabamento uniforme, resistente e de longa duração.',
       img: 'assets/images/home/finishes_second.avif',
-      show: false
+      show: false,
+      route: '/acabamentos/(second:products)'
     },
     {
       title: 'EFEITO MADEIRA',
       content: 'A estética natural da madeira aliada à durabilidade do metal, criando harmonia entre design e resistência.',
       img: 'assets/images/home/finishes_third.avif',
-      show: false
+      show: false,
+      route: '/acabamentos/(second:products)'
     }
   ]
 
   changeOpacity(index: number): void {
     this.finishes[index].show = !this.finishes[index].show
   }
+
 }
