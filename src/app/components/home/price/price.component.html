@@ -1,48 +1,52 @@
 <div id="price">
     <div class="container">
-        <app-dividing-line [width]="dynamicWidth" [bg]="dynamicBg" />
+        <app-dividing-line [width]="dynamicWidth()" [bg]="dynamicBg()" />
 
         <h5>COTAÇÃO LME</h5>
 
         <h1>Alumínio e Dólar</h1>
     </div>
-    
+
     <div class="container-fluid">
         <div class="row justify-content-end">
             <div class="col-lg-11">
                 <div class="currencies">
-                    @for (currency of currencies; track currency) {
-                        <div class="currency">
+                    @for (currency of currencies(); track currency) {
+                    <div class="currency">
+                        <div>
+                            @if (currency.variation >= 0) {
+                            <div class="triangulo-para-cima"></div>
+                            } @else {
+                            <div class="triangulo-para-baixo"></div>
+                            }
+                            <h6>
+                                {{ currency.name }}
+                            </h6>
+                        </div>
+                        <div>
                             <div>
-                                @if (currency.variation >= 0) {
-                                    <div class="triangulo-para-cima"></div>
-                                } @else {
-                                    <div class="triangulo-para-baixo"></div>
-                                }
-                                <h6>
-                                    {{ currency.name }}
-                                </h6>
+                                <p class="mb-0">{{ currentMonth() <= 9 ? 0 : '' }}{{ currentMonth() }}/{{ currentYear()
+                                        }}</p>
                             </div>
-                            <div>
+                            <div class="currency_content">
                                 <div>
-                                    <p class="mb-0">{{ currentMonth <= 9 ? 0 : '' }}{{ currentMonth }}/{{ currentYear }}</p>
+                                    <p class="mb-0">{{ currency.sigla }}</p>
+                                    <p class="mb-0">{{ currency.buy }}</p>
                                 </div>
-                                <div class="currency_content">
-                                    <div>
-                                        <p class="mb-0">{{ currency.sigla }}</p>
-                                        <p class="mb-0">{{ currency.buy }}</p>
-                                    </div>
-                                    <div>
-                                        <p class="mb-0">Variação: 
-                                            <span 
-                                                [ngStyle]="{color: currency.variation >= 0 ? 'green' : 'red'}">
-                                                {{ currency.variation }}
-                                            </span>
-                                        </p>
-                                    </div>
+                                <div>
+                                    <p class="mb-0">Variação:
+                                        <span [ngStyle]="{color: currency.variation >= 0 ? 'green' : 'red'}">
+                                            {{ currency.variation }}
+                                        </span>
+                                    </p>
                                 </div>
                             </div>
-                        </div>            
+                        </div>
+                    </div>
+                    } @empty {
+                    <div class="currency">
+                        <p>Não foi possível buscar a cotação LME</p>
+                    </div>
                     }
                 </div>
             </div>
