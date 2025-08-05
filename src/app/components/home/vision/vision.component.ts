@@ -1,6 +1,5 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { DividingLineComponent } from "../../dividing-line/dividing-line.component";
-import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-vision',
@@ -9,6 +8,8 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrl: './vision.component.scss'
 })
 export class VisionComponent {
-  dynamicWidth: number = 10
-  dynamicBg: string = '#FFF'
+
+  protected dynamicWidth = signal<number>(10);
+  protected dynamicBg = signal<string>('#FFF');
+
 }
