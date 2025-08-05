@@ -77,6 +77,8 @@
                         <li><a class="dropdown-item" routerLink="/processos-producao/usinagem">Usinagem</a></li> -->
                     </ul>
                 </li>
+
+                <!-- Mercados -->
                 <li class="nav-item dropdown" (mouseenter)="onDropdownMouseEnter($event)"
                     (mouseleave)="onDropdownMouseLeave($event)">
                     <a routerLink="/mercados" class="nav-link dropdown-toggle" role="button">
@@ -84,8 +86,8 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" routerLink="/mercados/construcao-civil">Construção Civil</a></li>
-                        <li><a class="dropdown-item" routerLink="/mercados/linha-moveleira">Perfis Moveleiros</a></li>
-                        <li><a class="dropdown-item" routerLink="/mercados/linha-industrial">Perfis Industriais</a></li>
+                        <li><a class="dropdown-item" routerLink="/mercados/linha-moveleira">Moveleiros</a></li>
+                        <li><a class="dropdown-item" routerLink="/mercados/linha-industrial">Industriais</a></li>
                         <li><a class="dropdown-item" routerLink="/mercados/envidracamento">Vidraçaria</a></li>
                     </ul>
                 </li>
@@ -99,13 +101,13 @@
                     <ul class="dropdown-menu">
                         <li>
                             <a class="dropdown-item" (click)="onPerfilClick('Construção Civil')">
-                                Perfis Construção Civil
+                                Construção Civil
                             </a>
                         </li>
-                        <li><a class="dropdown-item" (click)="onPerfilClick('Vidraçaria')">Perfis Vidraçaria</a></li>
-                        <li><a class="dropdown-item" (click)="onPerfilClick('Moveleira')">Perfis Moveleiros</a></li>
-                        <li><a class="dropdown-item" (click)="onPerfilClick('Industrial')">Perfis Industriais</a></li>
-                        <li><a class="dropdown-item" (click)="onPerfilClick('Tabelados O')">Perfis Tabelados</a></li>
+                        <li><a class="dropdown-item" (click)="onPerfilClick('Vidraçaria')">Vidraçaria</a></li>
+                        <li><a class="dropdown-item" (click)="onPerfilClick('Moveleira')">Moveleiros</a></li>
+                        <li><a class="dropdown-item" (click)="onPerfilClick('Industrial')">Industriais</a></li>
+                        <li><a class="dropdown-item" (click)="onPerfilClick('Tabelados O')">Tabelados</a></li>
                     </ul>
                 </li>
 
