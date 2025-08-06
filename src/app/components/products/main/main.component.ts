@@ -30,7 +30,12 @@ export class MainComponent implements OnInit {
     effect(() => {
       if (this._productsService.productSelected())
         this.productSelected.set(this._productsService.productSelected());
-    })
+    });
+
+    effect(() => {
+      if (this._productsService.categorySelected())
+        this.onCategorySelect(this._productsService.categorySelected() || '');
+    });
   }
 
   ngOnInit(): void {
@@ -42,9 +47,7 @@ export class MainComponent implements OnInit {
   private _getProducts(): void {
     this._productsService.getProducts().subscribe((products: any) => {
       this._products = products;
-      this.productsFiltered.set(
-        [products[0], products[1], products[2], products[3], products[4], products[5], products[6], products[7], products[8], products[9]]
-      );
+      this.productsFiltered.set(products);
 
       const mainCategorySet = new Set<string>();
 
@@ -59,6 +62,10 @@ export class MainComponent implements OnInit {
             return curr;
           });
         }
+      }
+
+      if (this.route.snapshot.queryParams['category']) {
+        this._productsService.categorySelected.set(this.route.snapshot.queryParams['category']);
       }
     });
   }

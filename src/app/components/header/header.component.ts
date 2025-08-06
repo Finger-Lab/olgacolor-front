@@ -53,6 +53,7 @@ export class HeaderComponent {
   }
 
   onPerfilClick(category: string) {
+    this._productsService.categorySelected.set(category);
     this.router.navigate(['/produtos'], { queryParams: { category: category.toUpperCase() } })
   }
 

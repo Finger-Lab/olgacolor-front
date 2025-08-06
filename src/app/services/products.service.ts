@@ -8,6 +8,7 @@ import { Profile } from '../interfaces/profile.interface';
 export class ProductsService {
 
   public productSelected = signal<Profile | null>(null);
+  public categorySelected = signal<string | null>(null);
 
   private readonly _http = inject(HttpClient);
   private readonly _url = `${environment.apiUrl}/api`;

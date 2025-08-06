@@ -17,7 +17,7 @@
               <ul class="list-group-flush">
                 @for(category of categories(); track category.mainCategory) {
                 <li class="list-group-item" (click)="onCategorySelect(category.mainCategory)">
-                  {{ category.mainCategory }}
+                  {{ category.mainCategory || 'TODOS OS PRODUTOS' }}
                 </li>
                 }
               </ul>
@@ -40,19 +40,6 @@
           </div>
           }
         </div>
-
-        <!-- Paginação -->
-        <!-- <div class="pagination">
-          <button class="button-pagination" (click)="previousPage()">
-            <mat-icon fontIcon="chevron_left" />
-            Anterior
-          </button>
-          <button class="button-pagination" (click)="nextPage()">
-            Próxima
-            <mat-icon fontIcon="chevron_right" />
-          </button>
-        </div> -->
-
       </div>
 
       @if (productSelected()) {
