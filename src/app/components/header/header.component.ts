@@ -8,6 +8,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { ProductsService } from '../../services/products.service';
 import { Profile } from '../../interfaces/profile.interface';
+import { FinishesService } from '../../pages/finishes/services/finishes.service';
 
 @Component({
   selector: 'app-header',
@@ -30,6 +31,7 @@ export class HeaderComponent {
   private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
   private _productsService = inject(ProductsService);
+  private _finishesService = inject(FinishesService);
 
   protected isDropdownOpen = signal(false);
   protected headerClass = signal('');
@@ -58,7 +60,8 @@ export class HeaderComponent {
   }
 
   onFinishesClick(category: string): void {
-    this.router.navigate(['/acabamentos'], { queryParams: { category: category.toUpperCase() } })
+    this._finishesService.categorySelected.set(category);
+    this.router.navigate(['/acabamentos', { outlets: { second: 'products' } }], { queryParams: { category: category.toLowerCase() } })
   }
 
   changeLanguage(language: string) {

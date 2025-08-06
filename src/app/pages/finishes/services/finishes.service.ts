@@ -9,6 +9,11 @@ interface PaginationParams {
   category?: string;
 }
 
+interface FilterParams {
+  search?: string;
+  category?: string;
+}
+
 interface PortfolioItem {
   id: string;
   titulo?: string;
@@ -22,8 +27,43 @@ interface PortfolioItem {
 export class FinishesService {
 
   public selectedProduct = signal<any>(null);
+  public categorySelected = signal<string | null>(null);
 
   private readonly _firestore = inject(Firestore);
+
+  getAllPortfolio(params: FilterParams = {}): Observable<any[]> {
+    const portfolioRef = collection(this._firestore, 'portfolio');
+
+    return from(getDocs(portfolioRef).then(snapshot => {
+      let docs = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      })) as PortfolioItem[];
+
+      // Aplicar filtro de busca
+      if (params.search && params.search.trim()) {
+        const searchTerm = params.search.toLowerCase().trim();
+        docs = docs.filter(doc =>
+          doc.titulo && doc.titulo.toLowerCase().includes(searchTerm)
+        );
+      }
+
+      // Aplicar filtro de categoria
+      if (params.category && params.category.trim()) {
+        const categoryTerm = params.category.toLowerCase().trim();
+        docs = docs.filter(doc =>
+          doc.categorias && doc.categorias.some(cat =>
+            cat.toLowerCase().includes(categoryTerm)
+          )
+        );
+      }
+
+      // Ordenar por slug
+      docs.sort((a, b) => (a.slug || '').localeCompare(b.slug || ''));
+
+      return docs;
+    }));
+  }
 
   getPortfolio(params: PaginationParams = { pageSize: 12, page: 0 }): Observable<any[]> {
     const portfolioRef = collection(this._firestore, 'portfolio');

@@ -1,10 +1,10 @@
-import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { Component, inject, OnInit, signal, OnDestroy, effect } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { catchError, of, take, debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { FinishesService } from '../../../pages/finishes/services/finishes.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -12,7 +12,6 @@ import { MatButtonModule } from '@angular/material/button';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatPaginatorModule,
     MatIconModule,
     MatButtonModule
   ],
@@ -23,19 +22,32 @@ export class FinishesProductsComponent implements OnInit, OnDestroy {
 
   private readonly _finishesService = inject(FinishesService);
   private readonly destroy$ = new Subject<void>();
+  private readonly _route = inject(ActivatedRoute);
+  private readonly _router = inject(Router);
 
   protected searchControl = new FormControl('');
   protected colors = signal<any[]>([]);
   protected isLoading = signal<boolean>(false);
-  protected totalItems = signal<number>(0);
-  protected pageSize = 12;
-  protected currentPage = 0;
   protected selectedCategory = signal<string>('');
+
+  constructor() {
+    effect(() => {
+      const categoryFromService = this._finishesService.categorySelected();
+      if (categoryFromService && categoryFromService !== this.selectedCategory()) {
+        this.onCategoryClick(categoryFromService);
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.setupSearchSubscription();
-    this.loadTotalItems();
     this.loadData();
+
+    // Verificar se há categoria nos query params na inicialização
+    const categoryFromParams = this._route.snapshot.queryParams['category'];
+    if (categoryFromParams) {
+      this.onCategoryClick(categoryFromParams);
+    }
   }
 
   ngOnDestroy(): void {
@@ -49,27 +61,18 @@ export class FinishesProductsComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       takeUntil(this.destroy$)
     ).subscribe(searchTerm => {
-      this.currentPage = 0; // Reset para primeira página
-      this.loadTotalItems(searchTerm || '', this.selectedCategory());
       this.loadData(searchTerm || '', this.selectedCategory());
     });
-  }
-
-  private loadTotalItems(searchTerm: string = '', category: string = ''): void {
-    this._finishesService.getPortfolioCount(searchTerm, category).pipe(take(1))
-      .subscribe((count) => this.totalItems.set(count));
   }
 
   private loadData(searchTerm: string = '', category: string = ''): void {
     this.isLoading.set(true);
     const params = {
-      pageSize: this.pageSize,
-      page: this.currentPage,
       search: searchTerm,
       category: category
     };
 
-    this._finishesService.getPortfolio(params).pipe(
+    this._finishesService.getAllPortfolio(params).pipe(
       take(1),
       catchError(_ => {
         this.isLoading.set(false);
@@ -81,28 +84,19 @@ export class FinishesProductsComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected onPageChange(event: PageEvent): void {
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.loadData(this.searchControl.value || '', this.selectedCategory());
-  }
-
   protected setProduct(product: any): void {
     this._finishesService.selectedProduct.set(product);
   }
 
   protected onCategoryClick(categoryName: string): void {
     this.selectedCategory.set(categoryName);
-    this.currentPage = 0; // Reset para primeira página
-    this.loadTotalItems(this.searchControl.value || '', categoryName);
+    this._router.navigate(['/acabamentos', { outlets: { second: 'products' } }], { queryParams: { category: categoryName.toLowerCase() } })
     this.loadData(this.searchControl.value || '', categoryName);
   }
 
   protected clearFilters(): void {
     this.selectedCategory.set('');
     this.searchControl.setValue('');
-    this.currentPage = 0;
-    this.loadTotalItems();
     this.loadData();
   }
 
