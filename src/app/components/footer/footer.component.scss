@@ -40,3 +40,25 @@
 .dropdown-item {
     cursor: pointer;
 }
+
+.units {
+    display: flex;
+    flex-direction: column;
+    margin-top: .5rem;
+}
+
+.custom {
+    list-style: none;
+
+    a {
+        color: #6e6e6e;
+        transition: all .35s ease-in-out;
+        text-decoration: none;
+    }
+
+    &:hover {
+        a {
+            color: #000;
+        }
+    }
+}
