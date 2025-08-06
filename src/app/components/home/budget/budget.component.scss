@@ -2,13 +2,15 @@
     padding: 5rem 0;
 
     .container {
-        h2, h5 {
+
+        h2,
+        h5 {
             font-weight: 400;
         }
 
-        > div {
+        >div {
             &:nth-of-type(1) {
-                > div {
+                >div {
                     &:nth-of-type(1) {
                         .img {
                             height: 10rem;
@@ -24,11 +26,11 @@
                     }
 
                     &:nth-of-type(2) {
-                        box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, 
-                            rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, 
-                            rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, 
-                            rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, 
-                            rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, 
+                        box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px,
+                            rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px,
+                            rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px,
+                            rgba(42, 51, 70, 0.04) 0px 6px 6px -3px,
+                            rgba(14, 63, 126, 0.04) 0px 12px 12px -6px,
                             rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;
                         border-radius: .75rem;
                         padding: 4rem 0;
@@ -37,44 +39,20 @@
             }
 
             &:nth-of-type(2) {
-                > div {
-                    &:nth-of-type(1) { 
-                        > div {
-                            box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, 
-                                rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, 
-                                rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, 
-                                rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, 
-                                rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, 
+                >div {
+                    &:nth-of-type(1) {
+                        >div {
+                            box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px,
+                                rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px,
+                                rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px,
+                                rgba(42, 51, 70, 0.04) 0px 6px 6px -3px,
+                                rgba(14, 63, 126, 0.04) 0px 12px 12px -6px,
                                 rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;
                             border-radius: .75rem;
                             padding: 2rem 0;
                         }
 
-                        ul {
-                            margin-top: 3rem;
-                            padding: 0;
-                            border-radius: .5rem;
-                    
-                            li {
-                                list-style: none;
-                    
-                                a {
-                                    display: flex;
-                                    justify-content: space-between;
-                                    align-items: center;
-                                    color: #000;
-                                    text-decoration: none;
-                                    box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px, 
-                                                rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px, 
-                                                rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px, 
-                                                rgba(42, 51, 70, 0.04) 0px 6px 6px -3px, 
-                                                rgba(14, 63, 126, 0.04) 0px 12px 12px -6px, 
-                                                rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;
-                                    padding: 1rem 2rem;
-                                    border-radius: .75rem;
-                                }
-                            }
-                        }
+
                     }
                 }
             }
@@ -84,5 +62,47 @@
     video {
         width: 100%;
         height: 10rem;
+    }
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    .text-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .img img {
+        width: 100%;
+    }
+
+    ul {
+        margin-top: 3rem;
+        padding: 0;
+        border-radius: .5rem;
+
+        li {
+            list-style: none;
+
+            a {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                color: #000;
+                text-decoration: none;
+                box-shadow: rgba(14, 63, 126, 0.04) 0px 0px 0px 1px,
+                    rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px,
+                    rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px,
+                    rgba(42, 51, 70, 0.04) 0px 6px 6px -3px,
+                    rgba(14, 63, 126, 0.04) 0px 12px 12px -6px,
+                    rgba(14, 63, 126, 0.04) 0px 24px 24px -12px;
+                padding: 1rem 2rem;
+                border-radius: .75rem;
+            }
+        }
     }
 }
