@@ -9,7 +9,7 @@ import { InfrastructureComponent } from "../../components/technology/infrastruct
 
 @Component({
   selector: 'app-technology',
-  imports: [HeaderComponent, FooterComponent, NewsletterComponent, MainComponent, TraditionExcellenceComponent, ReferencesComponent, InfrastructureComponent],
+  imports: [HeaderComponent, FooterComponent, MainComponent, TraditionExcellenceComponent, ReferencesComponent, InfrastructureComponent],
   templateUrl: './technology.component.html',
   styleUrl: './technology.component.scss'
 })
