@@ -60,8 +60,8 @@ export class HeaderComponent {
   }
 
   onFinishesClick(category: string): void {
-    this._finishesService.categorySelected.set(category);
     this.router.navigate(['/acabamentos', { outlets: { second: 'products' } }], { queryParams: { category: category.toLowerCase() } })
+    this._finishesService.categorySelected.set(category);
   }
 
   changeLanguage(language: string) {
