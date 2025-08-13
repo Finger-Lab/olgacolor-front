@@ -16,6 +16,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/technology/technology.component').then(mod => mod.TechnologyComponent)
     },
     {
+        path: 'politica-qualidade',
+        loadComponent: () => import('./pages/quality-policy/quality-policy.component').then(c => c.QualityPolicyComponent)
+    },
+    {
         path: 'processos-producao',
         loadComponent: () => import('./pages/processes-production/processes-production.component').then(mod => mod.ProcessesProductionComponent)
     },
