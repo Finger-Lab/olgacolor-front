@@ -7,7 +7,7 @@
     }
 
     .row {
-        > div {
+        >div {
             &:nth-of-type(1) {
                 img {
                     margin-top: 6rem;
@@ -15,7 +15,7 @@
             }
 
             &:nth-of-type(2) {
-                > div {
+                >div {
                     &:not(:first-of-type) {
                         margin-top: 1.5rem;
                     }
@@ -31,4 +31,8 @@
             }
         }
     }
+}
+
+.quality-testing img {
+    border-radius: 2.5rem 0 0 2.5rem;
 }
