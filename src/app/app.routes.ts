@@ -124,6 +124,8 @@ export const routes: Routes = [
     },
     {
         path: 'catalogos',
+        canActivate: [AdminGuard],
+        data: { roles: ['Admin', 'User'] },
         loadComponent: () => import('./pages/catalogs/catalogs.component').then(mod => mod.CatalogsComponent)
     },
     {
