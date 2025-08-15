@@ -9,10 +9,16 @@ import { Component } from '@angular/core';
 export class InfrastructureComponent {
   imgCarouselSlider: any[] = [
     {
-      src: 'assets/images/technology/slider-infrastructure-1.avif'
+      src: 'assets/images/technology/jacutinga-olga.png'
     },
     {
-      src: 'assets/images/technology/slider-infrastructure-2.jpg'
+      src: 'assets/images/technology/jacutinha-2.png'
+    },
+    {
+      src: 'assets/images/technology/jacutinga-3.png'
+    },
+    {
+      src: 'assets/images/technology/jacutinga-4.png'
     },
   ]
 
