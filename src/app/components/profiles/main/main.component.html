@@ -8,71 +8,71 @@
                     Conheça cada produto navegando em nossos catálogos online.
                     Ao clicar em um dos produtos você terá acesso à imagem e às especificações técnicas.
                 </p>
-                <a routerLink="/produtos" class="btn btn-outline-dark rounded-pill px-4 mt-2">Produtos</a>
+                <a class="btn btn-outline-dark rounded-pill px-4 mt-2" (click)="onTodosClick()">Produtos</a>
             </div>
 
             <div class="col-lg-6 mt-5 mt-lg-0">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3">
                     <div class="col">
                         <img src="assets/images/profiles/civil_construction.png" alt="Imagem de construção civil"
-                            class="img-fluid">
+                            class="img-fluid" (click)="onCategoryClick('Construção Civil')">
                         <h6>Construção Civil</h6>
                     </div>
                     <div class="col mt-5 mt-sm-0">
-                        <img src="assets/images/profiles/glassware.png" alt="Imagem de vidraçaria" class="img-fluid">
+                        <img src="assets/images/profiles/glassware.png" alt="Imagem de vidraçaria" class="img-fluid" (click)="onCategoryClick('Vidraçaria')">
                         <h6>Vidraçaria</h6>
                     </div>
                     <div class="col mt-5 mt-sm-0">
                         <img src="assets/images/profiles/furniture_line.png" alt="Imagem de moveleira"
-                            class="img-fluid">
+                            class="img-fluid" (click)="onCategoryClick('Moveleira')">
                         <h6>Moveleira</h6>
                     </div>
                     <div class="col mt-5 mt-sm-0">
-                        <img src="assets/images/profiles/industrial.png" alt="Imagem de industrial" class="img-fluid">
+                        <img src="assets/images/profiles/industrial.png" alt="Imagem de industrial" class="img-fluid" (click)="onCategoryClick('Industrial')">
                         <h6>Industrial</h6>
                     </div>
                     <div class="col mt-5 mt-sm-0">
                         <img src="assets/images/profiles/tabulated_profiles.png" alt="Imagem de perfis tabelados"
-                            class="img-fluid">
+                            class="img-fluid" (click)="onCategoryClick('Tabelados O')">
                         <h6>Perfis Tabelados</h6>
                     </div>
                     <div class="col mt-5 mt-sm-0">
-                        <img src="assets/images/profiles/several.png" alt="Imagem de diversos" class="img-fluid">
+                        <img src="assets/images/profiles/several.png" alt="Imagem de diversos" class="img-fluid" (click)="onCategoryClick('Diversos')">
                         <h6>Diversos</h6>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row mt-5">
+    <div class="row mt-5 justify-content-center">
             <h2 class="text-center mt-lg-5">Nossos serviços</h2>
 
             <div class="col-sm-6 col-md-4 col-lg-3 mt-5">
                 <div class="img">
-                    <img src="assets/images/profiles/anodizing.jpg" alt="Imagem de anodização">
+                    <img src="assets/images/profiles/anodizing.jpg" alt="Imagem de anodização" (click)="onFinishesClick('Anodização')">
                 </div>
                 <h5 class="mt-4">Anodização</h5>
             </div>
 
-            <div class="col-sm-6 col-md-4 col-lg-3 mt-5">
+            <!-- <div class="col-sm-6 col-md-4 col-lg-3 mt-5">
                 <div class="img">
                     <img src="assets/images/profiles/ral.png" alt="Imagem de ral">
                 </div>
                 <h5 class="mt-4">Ral</h5>
-            </div>
+            </div> -->
 
             <div class="col-sm-6 col-md-4 col-lg-3 mt-5">
                 <div class="img">
-                    <img src="assets/images/profiles/painting.jpg" alt="Imagem de pintura">
+                    <img src="assets/images/profiles/painting.jpg" alt="Imagem de pintura" (click)="onFinishesClick('Pintura')">
                 </div>
                 <h5 class="mt-4">Pintura</h5>
             </div>
 
             <div class="col-sm-6 col-md-4 col-lg-3 mt-5">
                 <div class="img">
-                    <img src="assets/images/profiles/decorative.jpg" alt="Imagem de decoral">
+                    <img src="assets/images/profiles/decorative.jpg" alt="Imagem de decoral" (click)="onFinishesClick('Efeito Madeira')">
                 </div>
-                <h5 class="mt-4">Decoral</h5>
+                <h5 class="mt-4">Efeito madeira</h5>
             </div>
         </div>
     </div>
