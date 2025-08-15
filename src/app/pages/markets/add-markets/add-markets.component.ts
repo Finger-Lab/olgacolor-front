@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-add-markets',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent, ReactiveFormsModule, CommonModule],
+  imports: [HeaderComponent, FooterComponent, ReactiveFormsModule, CommonModule],
   templateUrl: './add-markets.component.html',
   styleUrl: './add-markets.component.scss'
 })

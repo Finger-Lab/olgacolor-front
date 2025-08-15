@@ -6,7 +6,6 @@ import { FinishesService } from '../../../pages/finishes/services/finishes.servi
 
 @Component({
   selector: 'app-main',
-  imports: [RouterLink],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })

@@ -28,7 +28,6 @@ import { NewsletterComponent } from "../../components/newsletter/newsletter.comp
     PriceComponent,
     MainComponent,
     HeaderComponent,
-    NewsletterComponent
 ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

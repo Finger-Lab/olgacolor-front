@@ -8,7 +8,7 @@ import { environment } from '../../../../../environments/environment.development
 
 @Component({
   selector: 'app-products',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent],
+  imports: [HeaderComponent, FooterComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })

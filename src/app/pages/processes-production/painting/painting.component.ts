@@ -6,7 +6,7 @@ import { MainComponent } from '../../../components/processes-production/painting
 
 @Component({
   selector: 'app-painting',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent, MainComponent],
+  imports: [HeaderComponent, FooterComponent, MainComponent],
   templateUrl: './painting.component.html',
   styleUrl: './painting.component.scss'
 })

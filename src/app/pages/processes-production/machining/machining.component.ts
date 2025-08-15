@@ -6,7 +6,7 @@ import { MainComponent } from '../../../components/processes-production/machinin
 
 @Component({
   selector: 'app-machining',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent, MainComponent],
+  imports: [HeaderComponent, FooterComponent, MainComponent],
   templateUrl: './machining.component.html',
   styleUrl: './machining.component.scss'
 })

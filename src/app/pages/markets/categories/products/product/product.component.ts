@@ -9,7 +9,7 @@ import { environment } from '../../../../../../environments/environment.developm
 
 @Component({
   selector: 'app-product',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent, CommonModule],
+  imports: [HeaderComponent, FooterComponent, CommonModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })

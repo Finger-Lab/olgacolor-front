@@ -6,7 +6,7 @@ import { MainComponent } from '../../../components/processes-production/anodizin
 
 @Component({
   selector: 'app-anodizing',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent, MainComponent],
+  imports: [HeaderComponent, FooterComponent, MainComponent],
   templateUrl: './anodizing.component.html',
   styleUrl: './anodizing.component.scss'
 })

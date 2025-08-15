@@ -11,7 +11,6 @@ import { FinishesService } from './services/finishes.service';
   imports: [
     HeaderComponent,
     RouterOutlet,
-    NewsletterComponent,
     FooterComponent,
     MatSidenavModule
   ],

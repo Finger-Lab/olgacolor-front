@@ -6,7 +6,7 @@ import { MainComponent } from '../../../components/processes-production/polishin
 
 @Component({
   selector: 'app-polishing',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent, MainComponent],
+  imports: [HeaderComponent, FooterComponent, MainComponent],
   templateUrl: './polishing.component.html',
   styleUrl: './polishing.component.scss'
 })

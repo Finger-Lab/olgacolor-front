@@ -6,7 +6,7 @@ import { MainComponent } from "../../../components/processes-production/extrusio
 
 @Component({
   selector: 'app-extrusion',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent, MainComponent],
+  imports: [HeaderComponent, FooterComponent, MainComponent],
   templateUrl: './extrusion.component.html',
   styleUrl: './extrusion.component.scss'
 })
