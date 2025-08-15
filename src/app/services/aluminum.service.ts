@@ -45,7 +45,7 @@ export class AluminumService {
       url += `&date=${date}`;
     }
 
-    const request = this._http.get<any[]>(url, {
+    const request = this._http.get<any>(url, {
       headers: {
         Authorization: `Bearer ${token}`
       }

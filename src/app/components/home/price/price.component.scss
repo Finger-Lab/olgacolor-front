@@ -27,32 +27,84 @@
     }
 
     .currencies {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
+        overflow: hidden;
+        white-space: nowrap;
+        position: relative;
         margin-top: 3rem;
+        padding: 1rem 0;
+
+        // Efeito fade nas bordas
+        &::before,
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        &::before {
+            left: 0;
+            background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+        }
+
+        &::after {
+            right: 0;
+            background: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+        }
+
+        // Container interno que fará a animação
+        .currencies-track {
+            display: inline-flex;
+            gap: 2rem;
+            animation: scroll-left 30s linear infinite;
+            
+            // Pausar animação no hover para melhor usabilidade
+            &:hover {
+                animation-play-state: paused;
+            }
+
+            // Melhorar performance da animação
+            will-change: transform;
+            backface-visibility: hidden;
+
+            // Responsividade da animação
+            @media (max-width: 768px) {
+                animation-duration: 25s;
+                gap: 1.5rem;
+            }
+
+            @media (max-width: 576px) {
+                animation-duration: 20s;
+                gap: 1rem;
+            }
+        }
 
         .currency {
-            display: flex;
+            display: inline-flex;
             flex-direction: column;
             gap: .5rem;
-            width: 100%;
-            padding: 2rem;
+            min-width: 280px;
+            padding: 1.5rem;
             border: 1px solid rgb(219, 219, 219);
             border-radius: 1rem;
             align-items: center;
             font-weight: bold;
+            white-space: normal;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
 
-            @media (min-width: 576px) {
-                width: calc(50% - .5rem);
+            // Responsividade
+            @media (max-width: 768px) {
+                min-width: 240px;
+                padding: 1rem;
             }
 
-            @media (min-width: 768px) {
-                width: calc(33.33% - .67rem);
-            }
-
-            @media (min-width: 992px) {
-                width: calc(25% - .75rem);
+            @media (max-width: 576px) {
+                min-width: 200px;
+                padding: 0.8rem;
             }
 
             >div {
@@ -147,10 +199,19 @@
             }
 
             &:hover {
-                >div {
-                    transform: scale(1.1);
-                }
+                transform: scale(1.05);
+                z-index: 10;
             }
         }
+    }
+}
+
+// Animação de rolagem contínua da direita para esquerda
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
     }
 }
