@@ -41,11 +41,9 @@ export class PriceComponent implements OnInit {
       
       // Buscar variações do dólar
       const dollarVariations = await this.aluminumService.getVariations('USD');
-      console.log('Dollar variations response:', dollarVariations);
       
       // Buscar variações do alumínio
       const aluminumVariations = await this.aluminumService.getVariations('ALUMINUM');
-      console.log('Aluminum variations response:', aluminumVariations);
 
       // Processar resposta do dólar
       let dollarDaily = 0;
@@ -68,7 +66,6 @@ export class PriceComponent implements OnInit {
       aluminumPreviousMonthValue = aluminumVariations.variations.monthly?.previous || 0;
 
       // Extrair valores atuais das cotações
-      console.log(dollarDaily);
       dollarCurrentValue = dollarVariations?.variations.daily.current || 0;
       aluminumCurrentValue = aluminumVariations.variations.daily.current || 0;
 

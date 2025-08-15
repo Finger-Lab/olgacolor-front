@@ -60,27 +60,20 @@ export class MainComponent {
   generateMonthOptions(): { value: string, label: string, date: string }[] {
     const months = [];
     const currentDate = new Date();
-    
-    console.log('Current date in generateMonthOptions:', currentDate);
-    console.log('Current month index:', currentDate.getMonth());
-    
+        
     // Gerar apenas até o mês atual (12 meses anteriores + mês atual)
     for (let i = 0; i >= -12; i--) {
       const date = new Date(currentDate.getFullYear(), currentDate.getMonth() + i, 1);
       const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
       const year = date.getFullYear().toString().slice(-2);
       const monthName = monthNames[date.getMonth()];
-      
-      console.log(`i=${i}, date=${date}, monthName=${monthName}/${year}`);
-      
+            
       months.push({
         value: `${monthName}/${year}`,
         label: `${monthName}/${year}`,
         date: `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-01`
       });
     }
-    
-    console.log('Generated months:', months);
     return months; // Já está em ordem decrescente devido ao loop
   }
 
@@ -156,7 +149,6 @@ export class MainComponent {
       
       // Buscar variações: hoje por padrão, último dia do mês se for mês anterior
       const variationDate = this.getVariationsDate();
-      console.log(variationDate)
       const res = await this.aluminumService.getVariations(this.selectedOption, variationDate)
       this.variations = res;
       
@@ -165,7 +157,6 @@ export class MainComponent {
       
       if (selectedMonthData.length > 0) {
         this.dailyPrices = selectedMonthData;
-        console.log('Dados mensais:', this.dailyPrices);
         const variations = this.calculateVariations(this.dailyPrices)      
         this.updateChart(variations)
       } else {
