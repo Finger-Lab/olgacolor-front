@@ -1,18 +1,19 @@
 #technology_main {
     position: relative;
-    height: 35dvh;
+    height: 44dvh;
+    padding: 1rem 0;
 
     img {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: top right;
+        object-position: center;
     }
 
-    &::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-color: rgba(0, 0, 0, 0.5);
-    }
+    // &::after {
+    //     content: '';
+    //     // position: absolute;
+    //     inset: 0;
+    //     background-color: rgba(0, 0, 0, 0.5);
+    // }
 }

@@ -2,7 +2,11 @@
     min-height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: center;        
+    justify-content: center; 
+    background-image: url('../../../assets/images/facades.png');  
+
+
+    
 
     .container {
         .row {
@@ -12,14 +16,11 @@
                 border-radius: .5rem;
                 overflow: hidden;
 
-                .content-bg {
-                    width: 30%;
-                    background-image: url('../../../assets/images/login/bg.avif');
-                }
+                
 
                 .content-login {
-                    width: 70%;
-                    background-color: #FFF;
+                    width: 300px;
+                    background-color: #ffffffd2;
                     padding: 2rem;
                     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
                 }
