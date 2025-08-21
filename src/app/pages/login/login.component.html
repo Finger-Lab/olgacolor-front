@@ -11,7 +11,7 @@
                     
                     <form [formGroup]="formAuth">
                         @if (!isLogin) {
-                            <div class="form-group mt-5">
+                            <div class="form-group mt-3">
                                 <label for="name">Nome</label>
                                 <input type="text" class="form-control" id="name" formControlName="name" placeholder="Digite seu nome">
                             </div>
@@ -21,6 +21,24 @@
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" formControlName="email" placeholder="Digite seu email">
                         </div>
+
+                        @if (!isLogin) {
+                            <div class="form-group mt-3">
+                                <label for="telefone">Telefone</label>
+                                <input type="text" class="form-control" id="telefone" formControlName="telefone" placeholder="Digite seu telefone">
+                            </div>
+                        }
+
+                        @if (!isLogin) {
+                            <div class="form-group mt-3">
+                                <label for="empresa">Empresa</label>
+                                <input type="text" class="form-control" id="empresa" formControlName="empresa" placeholder="Empresa que representa">
+                            </div>
+                        }
+
+                        
+
+                        
 
                         <div class="form-group mt-3 mb-3">
                             <label for="password">Senha</label>

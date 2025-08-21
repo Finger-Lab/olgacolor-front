@@ -1,17 +1,55 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, CUSTOM_ELEMENTS_SCHEMA, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { DividingLineComponent } from "../../dividing-line/dividing-line.component";
 import { RouterLink } from '@angular/router';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
+// Register Swiper web components
+import { register } from 'swiper/element/bundle';
+register();
 
 @Component({
   selector: 'app-products',
   imports: [DividingLineComponent, RouterLink],
   templateUrl: './products.component.html',
-  styleUrl: './products.component.scss'
+  styleUrl: './products.component.scss',
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ProductsComponent {
+export class ProductsComponent implements AfterViewInit {
+
+  @ViewChild('swiperContainer') swiperContainer!: ElementRef;
 
   protected dynamicWidth = signal<number>(10);
   protected dynamicBg = signal<string>('#000');
+  
+  // Configurações do Swiper
+  protected swiperConfig = {
+    slidesPerView: 1,
+    spaceBetween: 30,
+    loop: true,
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      clickable: true,
+    },
+    navigation: false, // Desabilitamos a navegação padrão
+    breakpoints: {
+      768: {
+        slidesPerView: 1,
+        spaceBetween: 40,
+      },
+      1024: {
+        slidesPerView: 1,
+        spaceBetween: 50,
+      }
+    }
+  };
+
   protected products_blocks = signal<any[]>([
     {
       imgSrc: 'assets/images/home/aglo.avif',
@@ -53,5 +91,45 @@ export class ProductsComponent {
       isLast: true
     },
   ]);
+
+  ngAfterViewInit() {
+    this.setupCustomNavigation();
+  }
+
+  protected slidePrev() {
+    const container = this.swiperContainer.nativeElement;
+    const swiper = container.swiper;
+    if (swiper) {
+      swiper.slidePrev();
+    }
+  }
+
+  protected slideNext() {
+    const container = this.swiperContainer.nativeElement;
+    const swiper = container.swiper;
+    if (swiper) {
+      swiper.slideNext();
+    }
+  }
+
+  private setupCustomNavigation() {
+    const container = this.swiperContainer.nativeElement;
+    const swiper = container.swiper;
+
+    if (swiper) {
+      // Adicionar event listeners para as setas customizadas
+      container.addEventListener('click', (e: MouseEvent) => {
+        const rect = container.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const width = rect.width;
+
+        if (x < 60) { // Área da seta esquerda
+          swiper.slidePrev();
+        } else if (x > width - 60) { // Área da seta direita
+          swiper.slideNext();
+        }
+      });
+    }
+  }
 
 }

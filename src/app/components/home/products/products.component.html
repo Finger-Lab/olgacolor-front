@@ -10,81 +10,59 @@
             <a routerLink="/produtos" class="btn btn-outline-dark rounded-pill">Todos produtos</a>
         </div>
 
-        <div class="parallax_container">
-            @for (block of products_blocks(); track block) {
-            @if (block.isLeft) {
-            <div class="products_block">
-                <div class="row mt-5 align-items-center justify-content-between">
-                    <div class="col-lg-6 products_block_content">
-                        <div class="border-left" [id]="block.isLast ? 'nth-of-type' : ''"></div>
-                        <img class="img-fluid" [src]="block.imgSrc" [alt]="block.altImg">
-                        <ul class="big-informations">
-                            @for (li of block.details; track li) {
-                            <li>
-                                <h3>{{ li.value }}</h3>
-                                <p>{{ li.description }}</p>
-                            </li>
-                            }
-                        </ul>
-                        <p>{{ block.description }}</p>
-                        <ul class="links">
-                            <li>
-                                <a routerLink="/catalogos">
-                                    <h6>SAIBA MAIS</h6>
-                                    <span class="bi bi-arrow-right-short fs-3"></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a routerLink="/produtos">
-                                    <h6>PRODUTOS</h6>
-                                    <span class="bi bi-arrow-right-short fs-3"></span>
-                                </a>
-                            </li>
-                        </ul>
+        <div class="carousel-container">
+            <button class="carousel-arrow carousel-arrow-prev" (click)="slidePrev()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                </svg>
+            </button>
+            
+            <swiper-container #swiperContainer [config]="swiperConfig">
+                @for (block of products_blocks(); track block) {
+                <swiper-slide>
+                    <div class="product-slide">
+                        <div class="row align-items-center justify-content-between">
+                            <div class="col-lg-6 product-content">
+                                <div class="border-left" [id]="block.isLast ? 'nth-of-type' : ''"></div>
+                                <img class="img-fluid" [src]="block.imgSrc" [alt]="block.altImg">
+                                <ul class="big-informations">
+                                    @for (li of block.details; track li) {
+                                    <li>
+                                        <h3>{{ li.value }}</h3>
+                                        <p>{{ li.description }}</p>
+                                    </li>
+                                    }
+                                </ul>
+                                <p>{{ block.description }}</p>
+                                <ul class="links">
+                                    <li>
+                                        <a routerLink="/catalogos">
+                                            <h6>SAIBA MAIS</h6>
+                                            <span class="bi bi-arrow-right-short fs-3"></span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a routerLink="/produtos">
+                                            <h6>PRODUTOS</h6>
+                                            <span class="bi bi-arrow-right-short fs-3"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6 product-image mt-lg-0">
+                                <img [src]="block.productImg" [alt]="block.altProduct" class="img-fluid">
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-6 products_block_img mt-lg-0">
-                        <img [src]="block.productImg" [alt]="block.altProduct" class="img-fluid">
-                    </div>
-                </div>
-            </div>
-            } @else {
-            <div class="products_block">
-                <div class="row mt-5 flex-column-reverse flex-lg-row align-items-center justify-content-between">
-                    <div class="col-lg-6 products_block_img mt-lg-0">
-                        <img [src]="block.productImg" [alt]="block.altProduct" class="img-fluid">
-                    </div>
-                    <div class="col-lg-6 products_block_content">
-                        <div class="border-right"></div>
-
-                        <img class="img-fluid" [src]="block.imgSrc" [alt]="block.altImg">
-                        <ul class="big-informations">
-                            @for (li of block.details; track li) {
-                            <li>
-                                <h2>{{ li.value }}</h2>
-                                <p>{{ li.description }}</p>
-                            </li>
-                            }
-                        </ul>
-                        <p>{{ block.description }}</p>
-                        <ul class="links">
-                            <li>
-                                <a routerLink="/catalogos">
-                                    <h6>SAIBA MAIS</h6>
-                                    <span class="bi bi-arrow-right-short fs-3"></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a routerLink="/produtos">
-                                    <h6>PRODUTOS</h6>
-                                    <span class="bi bi-arrow-right-short fs-3"></span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            }
-            }
+                </swiper-slide>
+                }
+            </swiper-container>
+            
+            <button class="carousel-arrow carousel-arrow-next" (click)="slideNext()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                </svg>
+            </button>
         </div>
     </div>
 </div>

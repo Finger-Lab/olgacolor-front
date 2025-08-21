@@ -74,6 +74,7 @@
                 font-size: .8rem;
                 opacity: .85;
                 transition: all .35s ease-in-out;
+               
 
                 &:hover {
                     opacity: 1;
@@ -193,4 +194,8 @@
 
 .dropdown-item {
     cursor: pointer;
+}
+
+.fale-conosco {
+    padding-right: 5px;
 }
