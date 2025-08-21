@@ -8,7 +8,7 @@ import { environment } from '../../../../../environments/environment.development
 
 @Component({
   selector: 'app-products',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent],
+  imports: [HeaderComponent, FooterComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss'
 })
@@ -24,7 +24,9 @@ export class ProductsComponent {
     private marketsService: MarketsService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   ngOnInit(): void {
     this.marketsService.getMarkets().subscribe((res: any) => {

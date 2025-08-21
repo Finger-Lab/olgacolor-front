@@ -10,5 +10,9 @@ import { FooterComponent } from "../../components/footer/footer.component";
   styleUrl: './profiles.component.scss'
 })
 export class ProfilesComponent {
-  classScrolled: string = 'scrolled position-sticky'
+  classScrolled: string = 'scrolled position-sticky';
+
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

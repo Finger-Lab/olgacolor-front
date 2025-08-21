@@ -6,10 +6,14 @@ import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-glazing',
-  imports: [HeaderComponent, MainComponent, NewsletterComponent, FooterComponent],
+  imports: [HeaderComponent, MainComponent, FooterComponent],
   templateUrl: './glazing.component.html',
   styleUrl: './glazing.component.scss'
 })
 export class GlazingComponent {
   classScrolled: string = 'scrolled position-sticky'
+
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

@@ -6,10 +6,14 @@ import { MainComponent } from "../../components/processes-production/main/main.c
 
 @Component({
   selector: 'app-processes-production',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent, MainComponent],
+  imports: [HeaderComponent, FooterComponent, MainComponent],
   templateUrl: './processes-production.component.html',
   styleUrl: './processes-production.component.scss'
 })
 export class ProcessesProductionComponent {
   classScrolled: string = 'scrolled position-sticky'
+
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

@@ -6,10 +6,14 @@ import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-industrial-line',
-  imports: [HeaderComponent, MainComponent, NewsletterComponent, FooterComponent],
+  imports: [HeaderComponent, MainComponent, FooterComponent],
   templateUrl: './industrial-line.component.html',
   styleUrl: './industrial-line.component.scss'
 })
 export class IndustrialLineComponent {
   classScrolled: string = 'scrolled position-sticky'
+
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

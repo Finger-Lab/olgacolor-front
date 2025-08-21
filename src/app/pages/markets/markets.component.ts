@@ -6,10 +6,14 @@ import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-markets',
-  imports: [MainComponent, HeaderComponent, NewsletterComponent, FooterComponent],
+  imports: [MainComponent, HeaderComponent, FooterComponent],
   templateUrl: './markets.component.html',
   styleUrl: './markets.component.scss'
 })
 export class MarketsComponent {
   classScrolled: string = 'scrolled position-sticky'
+
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

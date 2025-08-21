@@ -6,10 +6,14 @@ import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-informative',
-  imports: [HeaderComponent, MainComponent, NewsletterComponent, FooterComponent],
+  imports: [HeaderComponent, MainComponent, FooterComponent],
   templateUrl: './informative.component.html',
   styleUrl: './informative.component.scss'
 })
 export class InformativeComponent {
   classScrolled: string = 'scrolled position-sticky'
+
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

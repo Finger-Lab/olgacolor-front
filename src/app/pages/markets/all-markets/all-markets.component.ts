@@ -7,7 +7,7 @@ import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-all-markets',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent],
+  imports: [HeaderComponent, FooterComponent],
   templateUrl: './all-markets.component.html',
   styleUrl: './all-markets.component.scss'
 })
@@ -17,7 +17,9 @@ export class AllMarketsComponent {
 
   constructor(
     private marketsService: MarketsService
-  ) { }
+  ) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   allMarkets: any = []
 

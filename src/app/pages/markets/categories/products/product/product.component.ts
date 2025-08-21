@@ -9,7 +9,7 @@ import { environment } from '../../../../../../environments/environment.developm
 
 @Component({
   selector: 'app-product',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent, CommonModule],
+  imports: [HeaderComponent, FooterComponent, CommonModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
@@ -50,7 +50,9 @@ export class ProductComponent {
   constructor(
     private route: ActivatedRoute,
     private marketsService: MarketsService
-  ) { }
+  ) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   ngOnInit(): void {
     this.marketsService.getMarkets().subscribe((res: any) => {

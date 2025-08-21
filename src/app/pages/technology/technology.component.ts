@@ -15,4 +15,8 @@ import { InfrastructureComponent } from "../../components/technology/infrastruct
 })
 export class TechnologyComponent {
   classScrolled: string = 'scrolled position-sticky'
+
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

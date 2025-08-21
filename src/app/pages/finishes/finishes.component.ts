@@ -11,7 +11,6 @@ import { FinishesService } from './services/finishes.service';
   imports: [
     HeaderComponent,
     RouterOutlet,
-    NewsletterComponent,
     FooterComponent,
     MatSidenavModule
   ],
@@ -19,6 +18,9 @@ import { FinishesService } from './services/finishes.service';
   styleUrl: './finishes.component.scss'
 })
 export class FinishesComponent {
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+  }
 
   protected readonly _finishesService = inject(FinishesService);
 
@@ -26,13 +28,7 @@ export class FinishesComponent {
 
   drawer = viewChild(MatDrawer);
 
-  constructor() {
-    effect(() => {
-      if (this._finishesService.selectedProduct()) {
-        this._toggleDrawer();
-      }
-    });
-  }
+  
 
   public _toggleDrawer(): void {
     if (this.drawer())

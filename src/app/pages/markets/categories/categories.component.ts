@@ -8,7 +8,7 @@ import { environment } from '../../../../environments/environment.development';
 
 @Component({
   selector: 'app-categories',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent],
+  imports: [HeaderComponent, FooterComponent],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
@@ -20,7 +20,9 @@ export class CategoriesComponent {
   constructor(
     private marketsService: MarketsService,
     private router: Router
-  ) { }
+  ) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   products: any = []
   categories: any[] = []

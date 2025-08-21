@@ -133,5 +133,9 @@ export const routes: Routes = [
     {
         path: 'login',
         loadComponent: () => import('./pages/login/login.component').then(mod => mod.LoginComponent)
+    },
+    {
+        path: 'responsabilidade-ambiental',
+        loadComponent: () => import('./pages/environmental-responsibility/environmental-responsibility.component').then(mod => mod.EnvironmentalResponsibilityComponent)
     }
 ];
