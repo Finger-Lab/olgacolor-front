@@ -18,8 +18,14 @@ import { FinishesService } from './services/finishes.service';
   styleUrl: './finishes.component.scss'
 })
 export class FinishesComponent {
+
   constructor() {
-    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    effect(() => {
+      if (this._finishesService.selectedProduct()) {
+        this._toggleDrawer();
+      }
+    });
   }
 
   protected readonly _finishesService = inject(FinishesService);
@@ -28,7 +34,7 @@ export class FinishesComponent {
 
   drawer = viewChild(MatDrawer);
 
-  
+
 
   public _toggleDrawer(): void {
     if (this.drawer())

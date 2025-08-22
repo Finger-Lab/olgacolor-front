@@ -54,9 +54,9 @@ export class HeaderComponent {
       this.headerClass.set(this.customClass() || '')
   }
 
-  onPerfilClick(category: string) {
+  onPerfilClick(category: string): void {
+    this.router.navigate(['/perfis', { outlets: { second: 'products' } }], { queryParams: { category: category } })
     this._productsService.categorySelected.set(category);
-    this.router.navigate(['/produtos'], { queryParams: { category: category.toUpperCase() } })
   }
 
   onFinishesClick(category: string): void {

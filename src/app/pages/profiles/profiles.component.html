@@ -1,5 +1,14 @@
 <div id="profiles">
     <app-header [customClass]="classScrolled" />
-    <app-main />
+    <mat-drawer-container [scrollTop]="true">
+        <mat-drawer #drawer position="end" mode="over">
+            <div class="product">
+                <img [src]="profilesService.selectedProduct()?.images?.[0]"
+                    [alt]="profilesService.selectedProduct()?.name" />
+                <h6>{{ profilesService.selectedProduct()?.name }}</h6>
+            </div>
+        </mat-drawer>
+        <router-outlet name="second" />
+    </mat-drawer-container>
     <app-footer />
 </div>

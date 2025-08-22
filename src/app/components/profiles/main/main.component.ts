@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ProductsService } from '../../../services/products.service';
 import { FinishesService } from '../../../pages/finishes/services/finishes.service';
-
 
 @Component({
   selector: 'app-main',
@@ -18,12 +17,12 @@ export class MainComponent {
   protected onTodosClick(): void {
     // Clear any previously selected category so products page shows all products
     this._productsService.categorySelected.set(null);
-    this.router.navigate(['/produtos']);
+    this.router.navigate(['/perfis', { outlets: { second: 'products' } }]);
   }
 
   protected onCategoryClick(category: string): void {
     this._productsService.categorySelected.set(category);
-    this.router.navigate(['/produtos'], { queryParams: { category: category.toUpperCase() } });
+    this.router.navigate(['/perfis', { outlets: { second: 'products' } }], { queryParams: { category: category } });
   }
 
   protected onFinishesClick(category: string): void {

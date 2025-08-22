@@ -95,7 +95,20 @@ export const routes: Routes = [
     },
     {
         path: 'perfis',
-        loadComponent: () => import('./pages/profiles/profiles.component').then(mod => mod.ProfilesComponent)
+        loadComponent: () => import('./pages/profiles/profiles.component').then(mod => mod.ProfilesComponent),
+        children: [
+            {
+                path: '',
+                outlet: 'second',
+                loadComponent: () => import('./components/profiles/main/main.component').then(mod => mod.MainComponent)
+            },
+            {
+                title: 'Perfis - Olgacolor',
+                outlet: 'second',
+                path: 'products',
+                loadComponent: () => import('./pages/products/products.component').then(c => c.ProductsComponent)
+            },
+        ]
     },
     {
         path: 'acabamentos',
@@ -132,10 +145,10 @@ export const routes: Routes = [
         path: 'lme',
         loadComponent: () => import('./pages/lme/lme.component').then(mod => mod.LmeComponent)
     },
-    {
-        path: 'produtos',
-        loadComponent: () => import('./pages/products/products.component').then(mod => mod.ProductsComponent)
-    },
+    // {
+    //     path: 'produtos',
+    //     loadComponent: () => import('./pages/products/products.component').then(mod => mod.ProductsComponent)
+    // },
     {
         path: 'login',
         loadComponent: () => import('./pages/login/login.component').then(mod => mod.LoginComponent)

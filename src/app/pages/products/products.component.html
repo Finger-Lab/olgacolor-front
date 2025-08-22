@@ -1,5 +1,196 @@
-<div id="products">
-    <app-header [customClass]="classScrolled" />
-    <app-main />
-    <app-footer />
+<div class="filters-wrapper">
+    <div class="search-wrapper">
+        <label for="search">Buscar</label>
+        <input [formControl]="searchControl" type="search" id="search" placeholder="Buscar..." />
+    </div>
+
+    <div class="categories-wrapper">
+        <div class="categories-header">
+            <span class="categories-title">Categorias</span>
+            @if (profilesService.categorySelected()) {
+            <button (click)="clearFilters()" class="clear-filters-btn">
+                Limpar filtros
+            </button>
+            }
+        </div>
+        @if (profilesService.categorySelected()) {
+        <div class="selected-category">
+            Categoria selecionada: <strong>{{ profilesService.categorySelected() }}</strong>
+        </div>
+        }
+        <ul class="categories-list">
+            <!-- Construção Civil -->
+            <li>
+                <span (click)="onCategoryClick('Construção Civil')" class="subcategories-title">Construção Civil</span>
+                <ul class="subcategories-list">
+                    <li (click)="onCategoryClick('MUXARABI')" class="category-item">Muxarabi</li>
+                    <li class="category-item">
+                        <span (click)="onCategoryClick('PORTAS E JANELAS')" class="subcategories-title">Portas e
+                            Janelas</span>
+                        <ul class="subcategories-list">
+                            <li (click)="onCategoryClick('Olga Sierra')" class="category-item">Olga Sierra</li>
+                            <li (click)="onCategoryClick('Lock-L')" class="category-item">Lock-L</li>
+                            <li (click)="onCategoryClick('Lock-C')" class="category-item">Lock-C</li>
+                            <li (click)="onCategoryClick('Colato')" class="category-item">Colato</li>
+                            <li (click)="onCategoryClick('Lock-SL Colato')" class="category-item">Lock-SL Colato</li>
+                            <li (click)="onCategoryClick('Lock-SL')" class="category-item">Lock-SL</li>
+                            <li (click)="onCategoryClick('Lock-S')" class="category-item">Lock-S</li>
+                            <li (click)="onCategoryClick('Lock-CL')" class="category-item">Lock-CL</li>
+                            <li (click)="onCategoryClick('Lock-HD')" class="category-item">Lock-HD</li>
+                            <li (click)="onCategoryClick('Aglo 2.0')" class="category-item">Aglo 2.0</li>
+                            <li (click)="onCategoryClick('Aglo 2.5')" class="category-item">Aglo 2.5</li>
+                            <li (click)="onCategoryClick('Aglo 3.2')" class="category-item">Aglo 3.2</li>
+                            <li (click)="onCategoryClick('Integrada')" class="category-item">Integrada</li>
+                            <li (click)="onCategoryClick('Linha 25')" class="category-item">Linha 25</li>
+                            <li (click)="onCategoryClick('Linha 30')" class="category-item">Linha 30</li>
+                            <li (click)="onCategoryClick('Linha 42')" class="category-item">Linha 42</li>
+                            <li (click)="onCategoryClick('Venezianas')" class="category-item">Venezianas</li>
+                        </ul>
+                    </li>
+                    <li class="category-item">
+                        <span (click)="onCategoryClick('FACHADA')" class="subcategories-title">Fachada</span>
+                        <ul class="subcategories-list">
+                            <li (click)="onCategoryClick('Imponenza')" class="category-item">Imponenza</li>
+                            <li (click)="onCategoryClick('Evo Stick')" class="category-item">Evo Stick</li>
+                            <li (click)="onCategoryClick('Stick')" class="category-item">Stick</li>
+                            <li (click)="onCategoryClick('Evo Grid')" class="category-item">Evo Grid</li>
+                            <li (click)="onCategoryClick('Grid')" class="category-item">Grid</li>
+                            <li (click)="onCategoryClick('Unik')" class="category-item">Unik</li>
+                            <li (click)="onCategoryClick('Clarabóia')" class="category-item">Clarabóia</li>
+                        </ul>
+                    </li>
+                    <li class="category-item">
+                        <span (click)="onCategoryClick('MINIMALISTA')" class="subcategories-title">Minimalista</span>
+                        <ul class="subcategories-list">
+                            <li (click)="onCategoryClick('Delicato³')" class="category-item">Delicato³</li>
+                            <li (click)="onCategoryClick('Delicato')" class="category-item">Delicato</li>
+                        </ul>
+                    </li>
+                    <li class="category-item">
+                        <span (click)="onCategoryClick('GUARDA-CORPO')" class="subcategories-title">Guarda-Corpo</span>
+                        <ul class="subcategories-list">
+                            <li (click)="onCategoryClick('Linea Glass')" class="category-item">Linea Glass</li>
+                            <li (click)="onCategoryClick('Neograd')" class="category-item">Neograd</li>
+                        </ul>
+                    </li>
+                    <li (click)="onCategoryClick('BRISE SOLEIL')" class="category-item">Brise Soleil</li>
+                    <li (click)="onCategoryClick('PORTÕES')" class="category-item">Portões</li>
+                    <li (click)="onCategoryClick('PERFIS ESPECIAIS')" class="category-item">Perfis Especiais</li>
+                    <li (click)="onCategoryClick('ARREMATES-CONTRAMARCOS')" class="category-item">Arremates-Contramarcos
+                    </li>
+                    <li (click)="onCategoryClick('LAMBRIS')" class="category-item">Lambris</li>
+                    <li (click)="onCategoryClick('FIXADOR ACM')" class="category-item">Fixador ACM</li>
+                </ul>
+            </li>
+
+            <!-- Vidraçaria -->
+            <li>
+                <span (click)="onCategoryClick('Vidraçaria')" class="subcategories-title">Vidraçaria</span>
+                <ul class="subcategories-list">
+                    <li class="category-item">
+                        <span (click)="onCategoryClick('ENGENHARIA')" class="subcategories-title">Engenharia</span>
+                        <ul class="subcategories-list">
+                            <li (click)="onCategoryClick('Perfis 10mm')" class="category-item">Perfis 10mm</li>
+                            <li (click)="onCategoryClick('Perfis 8mm')" class="category-item">Perfis 8mm</li>
+                        </ul>
+                    </li>
+                    <li class="category-item">
+                        <span (click)="onCategoryClick('ENVIDRAÇAMENTO')"
+                            class="subcategories-title">Envidraçamento</span>
+                        <ul class="subcategories-list">
+                            <li (click)="onCategoryClick('Sistema Slide Glass')" class="category-item">Sistema Slide
+                                Glass</li>
+                            <li (click)="onCategoryClick('Olglass - Sem Roldana')" class="category-item">Olglass - Sem
+                                Roldana</li>
+                            <li (click)="onCategoryClick('Sistema Euro Glass')" class="category-item">Sistema Euro Glass
+                            </li>
+                            <li (click)="onCategoryClick('Sistema Olgacolor')" class="category-item">Sistema Olgacolor
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="category-item">
+                        <span (click)="onCategoryClick('GUARDA CORPO')" class="subcategories-title">Guarda Corpo</span>
+                        <ul class="subcategories-list">
+                            <li (click)="onCategoryClick('Linea Glass')" class="category-item">Linea Glass</li>
+                        </ul>
+                    </li>
+                    <li class="category-item">
+                        <span (click)="onCategoryClick('TMC')" class="subcategories-title">TMC</span>
+                    </li>
+                    <li class="category-item">
+                        <span (click)="onCategoryClick('BOX')" class="subcategories-title">BOX</span>
+                    </li>
+                </ul>
+            </li>
+
+            <!-- Moveleira -->
+            <li>
+                <span (click)="onCategoryClick('Moveleira')" class="subcategories-title">Moveleira</span>
+                <ul class="subcategories-list">
+                    <li (click)="onCategoryClick('Cabideiros')" class="category-item">Cabideiros</li>
+                    <li (click)="onCategoryClick('Montantes porta de abrir')" class="category-item">Montantes porta de
+                        abrir</li>
+                    <li (click)="onCategoryClick('Perfis para acabamento')" class="category-item">Perfis para acabamento
+                    </li>
+                    <li (click)="onCategoryClick('Puxadores')" class="category-item">Puxadores</li>
+                    <li (click)="onCategoryClick('Travessas')" class="category-item">Travessas</li>
+                    <li (click)="onCategoryClick('Trilhos e Guias')" class="category-item">Trilhos e Guias</li>
+                </ul>
+            </li>
+
+            <!-- Industrial -->
+            <li>
+                <span (click)="onCategoryClick('Industrial')" class="subcategories-title">Industrial</span>
+                <ul class="subcategories-list">
+                    <li (click)="onCategoryClick('Implementos Rodoviários')" class="category-item">Implementos
+                        Rodoviários</li>
+                    <li (click)="onCategoryClick('Estandes')" class="category-item">Estandes</li>
+                    <li (click)="onCategoryClick('Cobertura')" class="category-item">Cobertura</li>
+                    <li (click)="onCategoryClick('Automação')" class="category-item">Automação</li>
+                </ul>
+            </li>
+
+            <!-- Tabelados / Padrão -->
+            <li>
+                <span (click)="onCategoryClick('PERFIS TABELADOS')" class="subcategories-title">Tabelados /
+                    Padrão</span>
+                <ul class="subcategories-list">
+                    <li (click)="onCategoryClick('Barra chata')" class="category-item">Barra chata</li>
+                    <li (click)="onCategoryClick('Cantoneira de abas desiguais')" class="category-item">Cantoneira de
+                        abas desiguais</li>
+                    <li (click)="onCategoryClick('Cantoneira de abas iguais')" class="category-item">Cantoneira de abas
+                        iguais</li>
+                    <li (click)="onCategoryClick('Perfil T')" class="category-item">Perfil T</li>
+                    <li (click)="onCategoryClick('Perfil U')" class="category-item">Perfil U</li>
+                    <li (click)="onCategoryClick('Tubo quadrado')" class="category-item">Tubo quadrado</li>
+                    <li (click)="onCategoryClick('Tubo redondo')" class="category-item">Tubo redondo</li>
+                    <li (click)="onCategoryClick('Tubo retangular')" class="category-item">Tubo retangular</li>
+                    <li (click)="onCategoryClick('Vergalhões quadrados')" class="category-item">Vergalhões quadrados
+                    </li>
+                    <li (click)="onCategoryClick('Vergalhões redondos')" class="category-item">Vergalhões redondos</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="products-wrapper">
+    <span class="title">
+        Produtos
+    </span>
+
+    <div class="products-list">
+        @for (profile of profiles(); track profile.id) {
+        <div (click)="setProduct(profile)" class="product-item" [class.loading]="isLoading()">
+            <div class="image-container">
+                <img [src]="profile?.images?.[0]" [alt]="profile?.name">
+            </div>
+            <span class="product-name">{{ profile?.name ? (profile?.name | uppercase) : '-' }}</span>
+        </div>
+        } @empty {
+        <div class="product-item">
+            <span class="product-name">Nenhum produto encontrado</span>
+        </div>
+        }
+    </div>
 </div>
