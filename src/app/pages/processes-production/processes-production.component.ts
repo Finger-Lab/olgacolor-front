@@ -12,4 +12,8 @@ import { MainComponent } from "../../components/processes-production/main/main.c
 })
 export class ProcessesProductionComponent {
   classScrolled: string = 'scrolled position-sticky'
+
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

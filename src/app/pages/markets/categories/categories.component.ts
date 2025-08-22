@@ -20,7 +20,9 @@ export class CategoriesComponent {
   constructor(
     private marketsService: MarketsService,
     private router: Router
-  ) { }
+  ) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   products: any = []
   categories: any[] = []

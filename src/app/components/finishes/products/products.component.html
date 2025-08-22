@@ -53,7 +53,7 @@
             <div class="image-container">
                 <img [src]="color?.imagem" [alt]="color?.titulo">
             </div>
-            <span class="product-name">{{ color?.titulo }}</span>
+            <span class="product-name">{{ color?.titulo?.toUpperCase() }}</span>
         </div>
         } @empty {
         <div class="product-item">

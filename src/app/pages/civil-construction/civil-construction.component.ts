@@ -11,4 +11,8 @@ import { FooterComponent } from "../../components/footer/footer.component";
 })
 export class CivilConstructionComponent {
   classScrolled: string = 'scrolled position-sticky'
+
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

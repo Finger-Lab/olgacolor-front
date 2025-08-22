@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from "../../components/header/header.component";
 import { MainComponent } from '../../components/catalogs/main/main.component';
-import { NewsletterComponent } from "../../components/newsletter/newsletter.component";
+
 import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
@@ -12,4 +12,8 @@ import { FooterComponent } from "../../components/footer/footer.component";
 })
 export class CatalogsComponent {
   classScrolled: string = 'scrolled position-sticky'
+
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

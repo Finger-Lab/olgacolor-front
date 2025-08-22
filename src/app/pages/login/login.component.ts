@@ -22,6 +22,8 @@ export class LoginComponent {
     private snackbar: MatSnackBar
   ) {
     this.createForms()
+
+    window.scrollTo({ top: 0, behavior: 'smooth' }); 
   }
 
   createForms() {

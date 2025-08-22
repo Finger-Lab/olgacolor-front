@@ -24,7 +24,9 @@ export class ProductsComponent {
     private marketsService: MarketsService,
     private route: ActivatedRoute,
     private router: Router
-  ) { }
+  ) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   ngOnInit(): void {
     this.marketsService.getMarkets().subscribe((res: any) => {
