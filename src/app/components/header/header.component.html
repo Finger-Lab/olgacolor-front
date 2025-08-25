@@ -43,7 +43,7 @@
             @for (profile of filteredProfiles | async; track profile.id) {
             <mat-option (click)="onProfileClick(profile)" [value]="profile">
                 <div class="option">
-                    <img [src]="profile.image_small" alt="Profile image" />
+                    <img [src]="profile.images?.[0]" alt="Profile image" />
                     <span>{{ profile.name }}</span>
                 </div>
             </mat-option>

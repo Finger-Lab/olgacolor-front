@@ -36,7 +36,7 @@ export class HeaderComponent {
   protected isDropdownOpen = signal(false);
   protected headerClass = signal('');
   protected searchProfileControl = new FormControl('');
-  protected filteredProfiles: Observable<any[]> = new Observable();
+  protected filteredProfiles: Observable<IProfile[]> = new Observable();
 
   constructor(
     private translate: TranslateService
@@ -117,7 +117,7 @@ export class HeaderComponent {
 
   onProfileClick(profile: IProfile) {
     this._profilesService.selectedProduct.set(profile);
-    this.router.navigate(['/produtos'], { queryParams: { product: profile.id } })
+    this.router.navigate(['/perfis', { outlets: { second: 'products' } }], { queryParams: { product: profile.id } })
   }
 
   // Métodos para controlar o hover dos dropdowns
