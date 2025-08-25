@@ -121,8 +121,8 @@ export const routes: Routes = [
             },
             {
                 title: 'Acabamentos - Olgacolor',
-                path: 'products',
                 outlet: 'second',
+                path: 'products',
                 loadComponent: () => import('./components/finishes/products/products.component').then(mod => mod.FinishesProductsComponent)
             },
         ]

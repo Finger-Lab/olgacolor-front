@@ -8,6 +8,7 @@ import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-products',
+  standalone: true,
   imports: [
     UpperCasePipe,
     ReactiveFormsModule
