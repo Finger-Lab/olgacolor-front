@@ -1,11 +1,36 @@
 .product {
 
     img {
+        padding-inline: 1rem;
         width: 100%;
     }
 
+
+}
+
+.name,
+.weight,
+.equivalence {
+    padding-inline: 1rem;
+
+    small {
+        font-size: 12px;
+        color: gray;
+    }
+
     h6 {
-        text-align: center;
         font-size: 1rem;
     }
+}
+
+.below {
+    display: flex;
+    gap: 1rem;
+}
+
+.button-close {
+    float: inline-end;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    padding: 2px 8px;
 }
