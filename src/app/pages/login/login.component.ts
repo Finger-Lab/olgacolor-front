@@ -75,14 +75,14 @@ export class LoginComponent {
               next: (user) => {
                 console.log(user)
                 this.snackbar.open("Login realizado com sucesso", 'Fechar', { duration: 3000 })
-
-                if (user.role === 'Admin') {
-                  this.router.navigate(['/mercados/adicionar-mercados'])
-                } else if (user.role === 'User') {
-                  this.router.navigate(['/mercados/categorias'])
-                } else {
-                  this.router.navigate(['/login'])
-                }
+                       this.router.navigate(['/catalogos'])
+                // // if (user.role === 'Admin') {
+                //   this.router.navigate(['/mercados/adicionar-mercados'])
+                // } else if (user.role === 'User') {
+                //   this.router.navigate(['/mercados/categorias'])
+                // } else {
+                //   this.router.navigate(['/login'])
+                // }
               },
               error: () => {
                 this.snackbar.open("Erro ao obter dados do usuário", 'Fechar', { duration: 3000 })

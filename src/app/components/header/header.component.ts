@@ -6,9 +6,9 @@ import { AuthService } from '../../services/auth.service';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
-import { ProductsService } from '../../services/products.service';
-import { Profile } from '../../interfaces/profile.interface';
 import { FinishesService } from '../../pages/finishes/services/finishes.service';
+import { ProfilesService } from '../../pages/profiles/profiles.service';
+import { IProfile } from '../../pages/profiles/profile.interface';
 
 @Component({
   selector: 'app-header',
@@ -26,17 +26,17 @@ export class HeaderComponent {
 
   public customClass = input<string>('');
 
-  private _profiles: Profile[] = [];
+  private _profiles: IProfile[] = [];
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
-  private _productsService = inject(ProductsService);
+  private _profilesService = inject(ProfilesService);
   private _finishesService = inject(FinishesService);
 
   protected isDropdownOpen = signal(false);
   protected headerClass = signal('');
   protected searchProfileControl = new FormControl('');
-  protected filteredProfiles: Observable<any[]> = new Observable();
+  protected filteredProfiles: Observable<IProfile[]> = new Observable();
 
   constructor(
     private translate: TranslateService
@@ -54,14 +54,14 @@ export class HeaderComponent {
       this.headerClass.set(this.customClass() || '')
   }
 
-  onPerfilClick(category: string) {
-    this._productsService.categorySelected.set(category);
-    this.router.navigate(['/produtos'], { queryParams: { category: category.toUpperCase() } })
+  onPerfilClick(category: string): void {
+    this.router.navigate(['/perfis', { outlets: { second: 'products' } }], { queryParams: { category: category } })
+    this._profilesService.categorySelected.set(category);
   }
 
   onFinishesClick(category: string): void {
-    this._finishesService.categorySelected.set(category);
     this.router.navigate(['/acabamentos', { outlets: { second: 'products' } }], { queryParams: { category: category.toLowerCase() } })
+    this._finishesService.categorySelected.set(category);
   }
 
   changeLanguage(language: string) {
@@ -87,7 +87,7 @@ export class HeaderComponent {
   }
 
   private _getAllProfiles(): void {
-    this._productsService.getProducts().subscribe(products => {
+    this._profilesService.find().subscribe(products => {
       this._profiles = products;
       this._setProfileObservable();
     });
@@ -100,9 +100,9 @@ export class HeaderComponent {
     );
   }
 
-  private _filter(value: string): Profile[] {
+  private _filter(value: string): IProfile[] {
     const filterValue = this._normalizeValue(value);
-    return this._profiles.filter(profile => this._normalizeValue(profile.name).includes(filterValue));
+    return this._profiles.filter(profile => this._normalizeValue(profile?.name || '').includes(filterValue));
   }
 
   private _normalizeValue(value: string): string {
@@ -111,13 +111,13 @@ export class HeaderComponent {
     return '';
   }
 
-  displayFn(profile: Profile): string {
+  displayFn(profile: IProfile): string {
     return profile && profile.name ? profile.name : '';
   }
 
-  onProfileClick(profile: Profile) {
-    this._productsService.productSelected.set(profile);
-    this.router.navigate(['/produtos'], { queryParams: { product: profile.id } })
+  onProfileClick(profile: IProfile) {
+    this._profilesService.selectedProduct.set(profile);
+    this.router.navigate(['/perfis', { outlets: { second: 'products' } }], { queryParams: { product: profile.id } })
   }
 
   // Métodos para controlar o hover dos dropdowns

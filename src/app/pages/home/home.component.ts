@@ -28,16 +28,16 @@ import { NewsletterComponent } from "../../components/newsletter/newsletter.comp
     PriceComponent,
     MainComponent,
     HeaderComponent,
-    
-],
+
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
   constructor() {
-    window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
- 
+
 
 }

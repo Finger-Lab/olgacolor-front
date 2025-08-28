@@ -7,15 +7,15 @@
     <div class="categories-wrapper">
         <div class="categories-header">
             <span class="categories-title">Categorias</span>
-            @if (selectedCategory()) {
+            @if (finishesService.categorySelected()) {
             <button (click)="clearFilters()" class="clear-filters-btn">
                 Limpar filtros
             </button>
             }
         </div>
-        @if (selectedCategory()) {
+        @if (finishesService.categorySelected()) {
         <div class="selected-category">
-            Categoria selecionada: <strong>{{ selectedCategory() }}</strong>
+            Categoria selecionada: <strong>{{ finishesService.categorySelected() }}</strong>
         </div>
         }
         <ul class="categories-list">
@@ -44,7 +44,7 @@
 
 <div class="products-wrapper">
     <span class="title">
-        Produtos<!--  da categoria -->
+        Produtos
     </span>
 
     <div class="products-list">

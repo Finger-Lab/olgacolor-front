@@ -6,7 +6,7 @@ import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
   selector: 'app-furniture-line',
-  imports: [HeaderComponent, MainComponent, NewsletterComponent, FooterComponent],
+  imports: [HeaderComponent, MainComponent, FooterComponent],
   templateUrl: './furniture-line.component.html',
   styleUrl: './furniture-line.component.scss'
 })

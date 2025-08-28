@@ -35,120 +35,82 @@
             </div>
             <div class="col-lg-6 mt-5 mt-lg-0">
                 <p>
-                    A pintura eletrostática a pó é uma das formas de pintura mais resistentes e efetivas, 
-                    a qual utiliza um processo diferenciado por meio de cargas elétricas para a fixação 
+                    A pintura eletrostática a pó é uma das formas de pintura mais resistentes e efetivas,
+                    a qual utiliza um processo diferenciado por meio de cargas elétricas para a fixação
                     da tinta.
                 </p>
                 <p>
-                    Antes desta pintura é realizado um pré-tratamento, que consiste na remoção de graxas 
-                    e óxidos da superfície, deixando o perfil quimicamente limpo e ativo. Recebe após este 
-                    estágio uma camada de conversão e duas lavagens com água deionizada, importante para 
-                    conferir à tinta resistência à corrosão e perfeita aderência. Para este tipo de pintura, 
-                    a tinta em pó é pulverizada e ionizada positivamente no perfil de alumínio e adere ao 
+                    Antes desta pintura é realizado um pré-tratamento, que consiste na remoção de graxas
+                    e óxidos da superfície, deixando o perfil quimicamente limpo e ativo. Recebe após este
+                    estágio uma camada de conversão e duas lavagens com água deionizada, importante para
+                    conferir à tinta resistência à corrosão e perfeita aderência. Para este tipo de pintura,
+                    a tinta em pó é pulverizada e ionizada positivamente no perfil de alumínio e adere ao
                     mesmo pela ação de cargas opostas.
                 </p>
                 <p>
-                    A tinta é totalmente ecológica, pois não possui solventes e metais pesados, e o resultado 
-                    de aderência é de perfeita qualidade. O processo atende às normas ABNT NBR 14125 e normas 
+                    A tinta é totalmente ecológica, pois não possui solventes e metais pesados, e o resultado
+                    de aderência é de perfeita qualidade. O processo atende às normas ABNT NBR 14125 e normas
                     da QUALICOAT.
                 </p>
             </div>
+            <div class="mt-3 mt-md-0 w-100 d-flex justify-content-end">
+                <svg preserveAspectRatio="xMidYMid meet" data-bbox="25.361 24.252 149.278 159.541"
+                    viewBox="25.361 24.252 149.278 159.541" height="200" width="200" xmlns="http://www.w3.org/2000/svg"
+                    data-type="shape" role="presentation" aria-hidden="true" aria-label="">
+                    <g>
+                        <path
+                            d="M30.259 24.253h134.116c5.669 0 10.264 4.581 10.264 10.232v143.962a3.24 3.24 0 0 1-3.233 3.223h-5.524a3.207 3.207 0 0 1-3.212-3.202V50.332c0-2.131-2.378-3.153-3.726-1.619L34.161 182.77c-1.268 1.364-3.25 1.364-4.44 0l-3.409-3.665c-1.268-1.363-1.268-3.494 0-4.772L151.35 39.916c1.322-1.422.311-3.732-1.634-3.732H30.238a3.207 3.207 0 0 1-3.212-3.202v-5.507a3.237 3.237 0 0 1 3.233-3.223Z">
+                        </path>
+                    </g>
+                </svg>
+            </div>
         </div>
 
-        <div class="row mt-5">
-            <div class="col-lg-6 mt-5">
-                <div class="box-block">
-                    <h2>Qualificação</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 mt-5">
+            @for (block of blocks; track $index) {
+            <div class="col">
+                <div>
+                    <div>
+                        <div [innerHTML]="block.safeImg"></div>
+                        <h5>{{ block.title }}</h5>
+                    </div>
+                    <p>{{ block.description }}</p>
                 </div>
             </div>
+            }
+        </div>
 
-            <div class="col-lg-6 mt-3 mt-lg-5">
-                <div class="box-block">
-                    <img src="assets/images/processes-production/painting/qualification.avif" alt="Imagem de qualificação">
-                </div>
+        <div class="row brands">
+            <div class="brand">
+                <img src="assets/images/processes-production/painting/akzonobel.avif" alt="Logo da akzonobel" />
             </div>
-
-            <div class="col-12 mt-3" id="second-line">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="box-block_">
-                                    <img src="assets/images/processes-production/painting/akzonobel.avif" alt="Logo da akzonobel">
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 mt-3 mt-sm-0">
-                                <div class="box-block_">
-                                    <img src="assets/images/processes-production/painting/epristinta.avif" alt="Logo da epristinta">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6 mt-3 mt-lg-0">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="box-block_">
-                                    <img src="assets/images/processes-production/painting/iscoat.avif" alt="Logo da iscoat">
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6 mt-3 mt-sm-0">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="box-block_">
-                                            <img src="assets/images/processes-production/painting/weg.avif" alt="Logo da weg">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-sm-6 mt-3 mt-sm-0">
-                                        <div class="box-block_">
-                                            <img src="assets/images/processes-production/painting/ft.avif" alt="Logo da ft">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="brand">
+                <img src="assets/images/processes-production/painting/epristinta.avif" alt="Logo da epristinta" />
+            </div>
+            <div class="brand">
+                <img src="assets/images/processes-production/painting/iscoat.avif" alt="Logo da iscoat" />
+            </div>
+            <div class="brand">
+                <img src="assets/images/processes-production/painting/weg.avif" alt="Logo da weg" />
+            </div>
+            <div class="brand">
+                <img src="assets/images/processes-production/painting/ft.avif" alt="Logo da ft" />
             </div>
         </div>
 
         <div class="row align mt-5">
-            <div class="col-lg-6 mt-5">
-                <div>
-                    <p>
-                        A OLGACOLOR oferece ao mercado um padrão de qualidade de até 12 anos de garantia no Interpon D.
-                    </p>
-                    <p>
-                        O investimento constante em pesquisas e desenvolvimento, tem conduzido ao lançamento de novos 
-                        produtos tais como a linha Decoral, capaz de reproduzir com perfeição superfícies de madeira, 
-                        possibilitando a incrementação nos projetos arquitetônicos.
-                    </p>
-                    <p>
-                        Além disso, a nova linha de pintura da OLGACOLOR possui como principais características:
-                    </p>
-                    <div class="d-flex gap-4 mt-4">
-                        <a routerLink="/processos-producao" class="btn btn-outline-dark rounded-pill px-4">Outros processos</a>
-                        <a routerLink="/pagina-inicial" class="btn btn-outline-dark rounded-pill px-4">Cores</a>
-                    </div>
-                </div>
-                <img src="assets/images/processes-production/painting/stamps.avif" alt="Selos da pintura">
-            </div>
-
-            <div class="col-lg-6 mt-5">
-                <ul>
-                    <li>Capacidade: 20 mil toneladas</li>
-                    <li>Tecnologia Italiana</li>
-                    <li>Processo automatizado</li>
-                    <li>Garantia contra desplacamento</li>
-                    <li>Alta resistência contra intempérie</li>
-                    <li>Sistema de pré-tratamento em cascata e spray, que trata o perfil internamente e externamente</li>
-                    <li>Pintura homogênea</li>
-                    <li>Câmara infra-vermelha para aceleramento de pré-cura</li>
-                    <li>Pintura de barras com até 7,2 m de comprimento. <br> Para perfis maiores consultar condições.</li>
-                </ul>
+            <div>
+                <p>
+                    A OLGACOLOR oferece ao mercado um padrão de qualidade de até 12 anos de garantia no Interpon D.
+                </p>
+                <p>
+                    O investimento constante em pesquisas e desenvolvimento, tem conduzido ao lançamento de novos
+                    produtos tais como a linha Decoral, capaz de reproduzir com perfeição superfícies de madeira,
+                    possibilitando a incrementação nos projetos arquitetônicos.
+                </p>
+                <p>
+                    Além disso, a nova linha de pintura da OLGACOLOR possui como principais características:
+                </p>
             </div>
             <img src="assets/images/processes-production/painting/selo.png" class="stamp" alt="Selos da pintura" />
         </div>

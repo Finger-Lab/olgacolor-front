@@ -1,8 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { DividingLineComponent } from "../../dividing-line/dividing-line.component";
-import { PriceService } from '../../../services/price.service';
+import { AluminumService } from '../../../services/aluminum.service';
 import { CommonModule } from '@angular/common';
-import { catchError, filter, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-price',
@@ -18,7 +17,7 @@ export class PriceComponent implements OnInit {
   protected currentMonth = signal<number>(0);
   protected currentYear = signal<number>(0);
 
-  private priceService = inject(PriceService);
+  private aluminumService = inject(AluminumService);
 
   ngOnInit(): void {
     try {
@@ -28,26 +27,93 @@ export class PriceComponent implements OnInit {
       this.currentMonth.set(currentMonth + 1);
       this.currentYear.set(currentYear);
 
-      this.priceService.getCurrencies().pipe(
-        catchError(_ => {
-          console.error('Erro ao buscar cotação LME')
-          return of(null)
-        }),
-        filter(response => !!response?.results?.currencies),
-        map(response => response?.results?.currencies)
-      ).subscribe((res: any) => {
-        if (!res) return
-
-        this.currencies.set([{
-          sigla: 'USD',
-          buy: res?.USD?.buy,
-          name: res?.USD?.name,
-          code: res?.USD?.code,
-          variation: res?.USD?.variation
-        }]);
-      })
+      this.loadVariations();
     } catch (error) {
-      console.log('Erro ao buscar cotação LME', error)
+      console.log('Erro ao buscar variações', error)
+    }
+  }
+
+  private async loadVariations(): Promise<void> {
+    try {
+      // Buscar valores atuais das cotações
+      // const currentRates = await this.aluminumService.getRates();
+      // console.log('Current rates response:', currentRates);
+      
+      // Buscar variações do dólar
+      const dollarVariations = await this.aluminumService.getVariations('USD');
+      
+      // Buscar variações do alumínio
+      const aluminumVariations = await this.aluminumService.getVariations('ALUMINUM');
+
+      // Processar resposta do dólar
+      let dollarDaily = 0;
+      let dollarMonthly = 0;
+      let dollarCurrentValue = 0;
+      let dollarPreviousMonthValue = 0;
+      
+      dollarDaily = dollarVariations.variations.daily?.variation || 0;
+      dollarMonthly = dollarVariations.variations.monthly?.variation || 0;
+      dollarPreviousMonthValue = dollarVariations.variations.monthly?.previous || 0;
+
+      // Processar resposta do alumínio
+      let aluminumDaily = 0;
+      let aluminumMonthly = 0;
+      let aluminumCurrentValue = 0;
+      let aluminumPreviousMonthValue = 0;
+     
+      aluminumDaily = aluminumVariations.variations.daily?.variation || 0;
+      aluminumMonthly = aluminumVariations.variations.monthly?.variation || 0;
+      aluminumPreviousMonthValue = aluminumVariations.variations.monthly?.previous || 0;
+
+      // Extrair valores atuais das cotações
+      dollarCurrentValue = dollarVariations?.variations.daily.current || 0;
+      aluminumCurrentValue = aluminumVariations.variations.daily.current || 0;
+
+      // Definir as currencies com variações separadas como itens individuais
+      const currencies = [
+        // Dólar - Variação Diária
+        {
+          sigla: 'USD',
+          name: 'Dólar - Variação Diária',
+          currentValue: dollarCurrentValue,
+          variation: dollarDaily,
+          type: 'currency',
+          period: 'diário'
+        },
+        // Dólar - Variação Mensal
+        {
+          sigla: 'USD',
+          name: 'Dólar - Variação Mensal',
+          previousValue: dollarPreviousMonthValue,
+          currentValue: dollarCurrentValue,
+          variation: dollarMonthly,
+          type: 'currency',
+          period: 'mensal'
+        },
+        // Alumínio - Variação Diária
+        {
+          sigla: 'ALU',
+          name: 'Alumínio - Variação Diária',
+          currentValue: aluminumCurrentValue,
+          variation: aluminumDaily,
+          type: 'commodity',
+          period: 'diário'
+        },
+        // Alumínio - Variação Mensal
+        {
+          sigla: 'ALU',
+          name: 'Alumínio - Variação Mensal',
+          previousValue:  aluminumPreviousMonthValue,
+          currentValue: aluminumCurrentValue,
+          variation: aluminumMonthly,
+          type: 'commodity',
+          period: 'mensal'
+        }
+      ];
+
+      this.currencies.set(currencies);
+    } catch (error) {
+      console.error('Erro ao buscar variações:', error);
     }
   }
 

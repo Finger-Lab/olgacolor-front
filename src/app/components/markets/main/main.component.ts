@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, Router } from '@angular/router';
 import { ProductsService } from '../../../services/products.service';
+import { ProfilesService } from '../../../pages/profiles/profiles.service';
 
 @Component({
   selector: 'app-main',
@@ -10,10 +11,10 @@ import { ProductsService } from '../../../services/products.service';
 })
 export class MainComponent {
   private router = inject(Router);
-  private _productsService = inject(ProductsService);
+  private _profilesService = inject(ProfilesService);
 
   protected onPerfilClick(category: string) {
-    this._productsService.categorySelected.set(category);
+    this._profilesService.categorySelected.set(category);
     this.router.navigate(['/produtos'], { queryParams: { category: category.toUpperCase() } })
   }
 }

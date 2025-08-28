@@ -16,6 +16,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/technology/technology.component').then(mod => mod.TechnologyComponent)
     },
     {
+        path: 'politica-qualidade',
+        loadComponent: () => import('./pages/quality-policy/quality-policy.component').then(c => c.QualityPolicyComponent)
+    },
+    {
         path: 'processos-producao',
         loadComponent: () => import('./pages/processes-production/processes-production.component').then(mod => mod.ProcessesProductionComponent)
     },
@@ -95,7 +99,20 @@ export const routes: Routes = [
     },
     {
         path: 'perfis',
-        loadComponent: () => import('./pages/profiles/profiles.component').then(mod => mod.ProfilesComponent)
+        loadComponent: () => import('./pages/profiles/profiles.component').then(mod => mod.ProfilesComponent),
+        children: [
+            {
+                path: '',
+                outlet: 'second',
+                loadComponent: () => import('./components/profiles/main/main.component').then(mod => mod.MainComponent)
+            },
+            {
+                title: 'Perfis - Olgacolor',
+                outlet: 'second',
+                path: 'products',
+                loadComponent: () => import('./pages/products/products.component').then(c => c.ProductsComponent)
+            },
+        ]
     },
     {
         path: 'acabamentos',
@@ -108,8 +125,8 @@ export const routes: Routes = [
             },
             {
                 title: 'Acabamentos - Olgacolor',
-                path: 'products',
                 outlet: 'second',
+                path: 'products',
                 loadComponent: () => import('./components/finishes/products/products.component').then(mod => mod.FinishesProductsComponent)
             },
         ]
@@ -124,16 +141,18 @@ export const routes: Routes = [
     },
     {
         path: 'catalogos',
+        canActivate: [AdminGuard],
+        data: { roles: ['Admin', 'User'] },
         loadComponent: () => import('./pages/catalogs/catalogs.component').then(mod => mod.CatalogsComponent)
     },
     {
         path: 'lme',
         loadComponent: () => import('./pages/lme/lme.component').then(mod => mod.LmeComponent)
     },
-    {
-        path: 'produtos',
-        loadComponent: () => import('./pages/products/products.component').then(mod => mod.ProductsComponent)
-    },
+    // {
+    //     path: 'produtos',
+    //     loadComponent: () => import('./pages/products/products.component').then(mod => mod.ProductsComponent)
+    // },
     {
         path: 'login',
         loadComponent: () => import('./pages/login/login.component').then(mod => mod.LoginComponent)

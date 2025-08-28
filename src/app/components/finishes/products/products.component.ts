@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, OnDestroy, effect } from '@angular/core';
+import { Component, inject, OnInit, signal, OnDestroy, effect, computed } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { catchError, of, take, debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { FinishesService } from '../../../pages/finishes/services/finishes.service';
@@ -20,22 +20,18 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class FinishesProductsComponent implements OnInit, OnDestroy {
 
-  private readonly _finishesService = inject(FinishesService);
   private readonly destroy$ = new Subject<void>();
   private readonly _route = inject(ActivatedRoute);
   private readonly _router = inject(Router);
 
+  protected finishesService = inject(FinishesService);
   protected searchControl = new FormControl('');
   protected colors = signal<any[]>([]);
   protected isLoading = signal<boolean>(false);
-  protected selectedCategory = signal<string>('');
 
   constructor() {
     effect(() => {
-      const categoryFromService = this._finishesService.categorySelected();
-      if (categoryFromService && categoryFromService !== this.selectedCategory()) {
-        this.onCategoryClick(categoryFromService);
-      }
+      this.onCategoryClick(this.finishesService.categorySelected() || '');
     });
   }
 
@@ -61,7 +57,7 @@ export class FinishesProductsComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       takeUntil(this.destroy$)
     ).subscribe(searchTerm => {
-      this.loadData(searchTerm || '', this.selectedCategory());
+      this.loadData(searchTerm || '', this.finishesService.categorySelected() || '');
     });
   }
 
@@ -72,7 +68,7 @@ export class FinishesProductsComponent implements OnInit, OnDestroy {
       category: category
     };
 
-    this._finishesService.getAllPortfolio(params).pipe(
+    this.finishesService.getAllPortfolio(params).pipe(
       take(1),
       catchError(_ => {
         this.isLoading.set(false);
@@ -85,17 +81,17 @@ export class FinishesProductsComponent implements OnInit, OnDestroy {
   }
 
   protected setProduct(product: any): void {
-    this._finishesService.selectedProduct.set(product);
+    this.finishesService.selectedProduct.set(product);
   }
 
   protected onCategoryClick(categoryName: string): void {
-    this.selectedCategory.set(categoryName);
+    this.finishesService.categorySelected.set(categoryName);
     this._router.navigate(['/acabamentos', { outlets: { second: 'products' } }], { queryParams: { category: categoryName.toLowerCase() } })
     this.loadData(this.searchControl.value || '', categoryName);
   }
 
   protected clearFilters(): void {
-    this.selectedCategory.set('');
+    this.finishesService.categorySelected.set('');
     this.searchControl.setValue('');
     this.loadData();
   }

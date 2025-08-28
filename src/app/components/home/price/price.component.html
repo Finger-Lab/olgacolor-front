@@ -11,43 +11,98 @@
         <div class="row justify-content-end">
             <div class="col-lg-11">
                 <div class="currencies">
-                    @for (currency of currencies(); track currency) {
-                    <div class="currency">
-                        <div>
-                            @if (currency.variation >= 0) {
-                            <div class="triangulo-para-cima"></div>
-                            } @else {
-                            <div class="triangulo-para-baixo"></div>
-                            }
-                            <h6>
-                                {{ currency.name }}
-                            </h6>
-                        </div>
-                        <div>
+                    <div class="currencies-track">
+                        @for (currency of currencies(); track currency) {
+                        <div class="currency">
                             <div>
-                                <p class="mb-0">
-                                    {{ currentMonth() <= 9 ? 0 : '' }}{{ currentMonth() }}/{{ currentYear() }} </p>
+                                @if (currency.variation >= 0) {
+                                <div class="triangulo-para-cima"></div>
+                                } @else {
+                                <div class="triangulo-para-baixo"></div>
+                                }
+                                <h6>
+                                    {{ currency.name }}
+                                </h6>
                             </div>
-                            <div class="currency_content">
+                            <div>
                                 <div>
-                                    <p class="mb-0">{{ currency.sigla }}</p>
-                                    <p class="mb-0">{{ currency.buy }}</p>
-                                </div>
-                                <div>
-                                    <p class="mb-0">Variação:
-                                        <span [ngStyle]="{color: currency.variation >= 0 ? '#27a527' : 'red'}">
-                                            {{ currency.variation }}
-                                        </span>
+                                    <p class="mb-0">
+                                        {{ currentMonth() <= 9 ? 0 : '' }}{{ currentMonth() }}/{{ currentYear() }}
+                                            <small>({{ currency.period }})</small>
                                     </p>
                                 </div>
+                                <div class="currency_content">
+                                    <div>
+                                        @if (currency.period !== 'mensal') {
+                                        <p class="mb-0">{{ currency.sigla }}</p>
+                                        <p class="mb-0"><strong>{{ currency.currentValue | number:'1.2-2' }}</strong>
+                                        </p>
+                                        }
+                                    </div>
+                                    <div>
+                                        @if (currency.period === 'mensal') {
+                                        <p class="mb-0">Atual: {{ currency.currentValue | number:'1.2-2' }}</p>
+                                        <p class="mb-0">Anterior: {{ currency.previousValue | number:'1.2-2' }}</p>
+                                        }
+                                        <p class="mb-0">Variação:
+                                            <span [ngStyle]="{color: currency.variation >= 0 ? '#27a527' : 'red'}">
+                                                {{ currency.variation | number:'1.2-2' }}%
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        }
+                        <!-- Duplicar os itens para criar loop contínuo -->
+                        @for (currency of currencies(); track currency) {
+                        <div class="currency">
+                            <div>
+                                @if (currency.variation >= 0) {
+                                <div class="triangulo-para-cima"></div>
+                                } @else {
+                                <div class="triangulo-para-baixo"></div>
+                                }
+                                <h6>
+                                    {{ currency.name }}
+                                </h6>
+                            </div>
+                            <div>
+                                <div>
+                                    <p class="mb-0">
+                                        {{ currentMonth() <= 9 ? 0 : '' }}{{ currentMonth() }}/{{ currentYear() }}
+                                            <small>({{ currency.period }})</small>
+                                    </p>
+                                </div>
+                                <div class="currency_content">
+                                    <div>
+                                        @if (currency.period !== 'mensal') {
+                                        <p class="mb-0">{{ currency.sigla }}</p>
+                                        <p class="mb-0"><strong>{{ currency.currentValue | number:'1.2-2' }}</strong>
+                                        </p>
+                                        }
+                                    </div>
+                                    <div>
+                                        @if (currency.period === 'mensal') {
+                                        <p class="mb-0">Atual: {{ currency.currentValue | number:'1.2-2' }}</p>
+                                        <p class="mb-0">Anterior: {{ currency.previousValue | number:'1.2-2' }}</p>
+                                        }
+                                        <p class="mb-0">Variação:
+                                            <span [ngStyle]="{color: currency.variation >= 0 ? '#27a527' : 'red'}">
+                                                {{ currency.variation | number:'1.2-2' }}%
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        @empty {
+                        <div class="currency">
+                            <p>Não foi possível buscar a cotação LME</p>
+                        </div>
+                        }
                     </div>
-                    } @empty {
-                    <div class="currency">
-                        <p>Não foi possível buscar a cotação LME</p>
-                    </div>
-                    }
                 </div>
             </div>
         </div>

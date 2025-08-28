@@ -6,7 +6,7 @@ import { MainComponent } from '../../../components/processes-production/blasting
 
 @Component({
   selector: 'app-blasting',
-  imports: [HeaderComponent, NewsletterComponent, FooterComponent, MainComponent],
+  imports: [HeaderComponent, FooterComponent, MainComponent],
   templateUrl: './blasting.component.html',
   styleUrl: './blasting.component.scss'
 })

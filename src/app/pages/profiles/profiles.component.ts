@@ -1,18 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, effect, inject, viewChild } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
-import { MainComponent } from '../../components/profiles/main/main.component';
 import { FooterComponent } from "../../components/footer/footer.component";
+import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
+import { RouterOutlet } from '@angular/router';
+import { ProfilesService } from './profiles.service';
 
 @Component({
   selector: 'app-profiles',
-  imports: [HeaderComponent, MainComponent, FooterComponent],
+  imports: [
+    HeaderComponent,
+    RouterOutlet,
+    FooterComponent,
+    MatSidenavModule
+  ],
   templateUrl: './profiles.component.html',
   styleUrl: './profiles.component.scss'
 })
 export class ProfilesComponent {
-  classScrolled: string = 'scrolled position-sticky';
 
   constructor() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    effect(() => {
+      if (this.profilesService.selectedProduct())
+        this._toggleDrawer();
+    });
   }
+
+  protected readonly profilesService = inject(ProfilesService);
+
+  classScrolled: string = 'scrolled position-sticky';
+
+  drawer = viewChild(MatDrawer);
+
+  public _toggleDrawer(): void {
+    if (this.drawer())
+      this.drawer()?.toggle();
+  }
+
 }

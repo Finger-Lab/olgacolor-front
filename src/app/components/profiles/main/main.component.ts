@@ -1,30 +1,29 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ProductsService } from '../../../services/products.service';
 import { FinishesService } from '../../../pages/finishes/services/finishes.service';
-
+import { ProfilesService } from '../../../pages/profiles/profiles.service';
 
 @Component({
   selector: 'app-main',
-  imports: [RouterLink],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
 
   private router = inject(Router);
-  private _productsService = inject(ProductsService);
+  private _profilesService = inject(ProfilesService);
   private _finishesService = inject(FinishesService);
 
   protected onTodosClick(): void {
     // Clear any previously selected category so products page shows all products
-    this._productsService.categorySelected.set(null);
-    this.router.navigate(['/produtos']);
+    this._profilesService.categorySelected.set(null);
+    this.router.navigate(['/perfis', { outlets: { second: 'products' } }]);
   }
 
   protected onCategoryClick(category: string): void {
-    this._productsService.categorySelected.set(category);
-    this.router.navigate(['/produtos'], { queryParams: { category: category.toUpperCase() } });
+    this._profilesService.categorySelected.set(category);
+    this.router.navigate(['/perfis', { outlets: { second: 'products' } }], { queryParams: { category: category } });
   }
 
   protected onFinishesClick(category: string): void {

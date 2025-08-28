@@ -32,8 +32,8 @@
                     <mat-form-field>
                         <mat-label>Selecione o mês</mat-label>
                         <mat-select [(value)]="selectedMonth" (selectionChange)="onMonthChange()">
-                            @for (month of months; track month) {
-                                <mat-option [value]="month">{{ month }}</mat-option>
+                            @for (monthOption of months; track monthOption.value) {
+                                <mat-option [value]="monthOption.value">{{ monthOption.label }}</mat-option>
                             }
                         </mat-select>
                     </mat-form-field>
@@ -56,24 +56,27 @@
                         <div class="block">
                             <div>
                                 <div>
-                                    <h6>Variação Diária do Alumínio</h6>
+                                    <h6>Variação Diária {{ selectedOption === 'ALUMINUM' ? 'do Alumínio' : 'do Dólar' }}</h6>
                                 </div>
         
                                 <div class="d-flex justify-content-between">
-                                    <div>
-                                        <h6>Em 21/02/2025</h6>
-                                        <h5>2702,00</h5>
+                                     <div>
+                                        <h6>{{ variations?.variations?.daily?.previous_date ? 'Em ' + formatDateDisplay(variations.variations.daily.previous_date) : 'Anterior' }}</h6>
+                                        <h5>{{ variations?.variations?.daily?.previous ? (variations.variations.daily.previous | number: (selectedOption === 'USD' ? '1.4-4' : '1.2-2')) : '--' }}</h5>
                                     </div>
-        
+
                                     <div>
-                                        <h6>Em 20/02/2025</h6>
-                                        <h5>2702,00</h5>
+                                        <h6>{{ variations?.variations?.daily?.current_date ? 'Em ' + formatDateDisplay(variations.variations.daily.current_date) : 'Atual' }}</h6>
+                                        <h5>{{ variations?.variations?.daily?.current ? (variations.variations.daily.current | number: (selectedOption === 'USD' ? '1.4-4' : '1.2-2')) : '--' }}</h5>
                                     </div>
                                 </div>
                             </div>
         
                             <div>
-                                <h4 [ngStyle]="{ color: 1 < 0 ? 'green' : 'red' }"><i class="bi bi-arrow-down"></i>-0,66%</h4>
+                                <h4 [ngStyle]="{ color: (variations?.variations?.daily?.variation || 0) < 0 ? 'red' : 'green' }">
+                                    <i class="bi" [ngClass]="(variations?.variations?.daily?.variation || 0) < 0 ? 'bi-arrow-down' : 'bi-arrow-up'"></i>
+                                    {{ variations?.variations?.daily?.variation ? ((variations.variations.daily.variation | number: '1.2-2') + '%') : '--' }}
+                                </h4>
                             </div>
                         </div>
                     </div>
@@ -81,24 +84,27 @@
                         <div class="block">
                             <div>
                                 <div>
-                                    <h6>Variação Semanal do Alumínio</h6>
+                                    <h6>Variação Semanal {{ selectedOption === 'ALUMINUM' ? 'do Alumínio' : 'do Dólar' }}</h6>
                                 </div>
         
                                 <div class="d-flex justify-content-between">
                                     <div>
-                                        <h6>Em 21/02/2025</h6>
-                                        <h5>2702,00</h5>
+                                        <h6>{{ variations?.variations?.weekly?.previous_date ? 'Em ' + formatDateDisplay(variations.variations.weekly.previous_date) : 'Anterior' }}</h6>
+                                        <h5>{{ variations?.variations?.weekly?.previous ? (variations.variations.weekly.previous | number: (selectedOption === 'USD' ? '1.4-4' : '1.2-2')) : '--' }}</h5>
                                     </div>
-        
-                                    <div>
-                                        <h6>Em 20/02/2025</h6>
-                                        <h5>2702,00</h5>
+
+                                     <div>
+                                        <h6>{{ variations?.variations?.weekly?.current_date ? 'Em ' + formatDateDisplay(variations.variations.weekly.current_date) : 'Atual' }}</h6>
+                                        <h5>{{ variations?.variations?.weekly?.current ? (variations.variations.weekly.current | number: (selectedOption === 'USD' ? '1.4-4' : '1.2-2')) : '--' }}</h5>
                                     </div>
                                 </div>
                             </div>
         
                             <div>
-                                <h4 [ngStyle]="{ color: 1 > 0 ? 'green' : 'red' }"><i class="bi bi-arrow-up"></i>1,88%</h4>
+                                <h4 [ngStyle]="{ color: (variations?.variations?.weekly?.variation || 0) < 0 ? 'red' : 'green' }">
+                                    <i class="bi" [ngClass]="(variations?.variations?.weekly?.variation || 0) < 0 ? 'bi-arrow-down' : 'bi-arrow-up'"></i>
+                                    {{ variations?.variations?.weekly?.variation ? ((variations.variations.weekly.variation | number: '1.2-2') + '%') : '--' }}
+                                </h4>
                             </div>
                         </div>
                     </div>
@@ -106,24 +112,27 @@
                         <div class="block">
                             <div>
                                 <div>
-                                    <h6>Variação Mensal do Alumínio</h6>
+                                    <h6>Variação Mensal {{ selectedOption === 'ALUMINUM' ? 'do Alumínio' : 'do Dólar' }}</h6>
                                 </div>
         
-                                <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-between"> 
                                     <div>
-                                        <h6>Em 21/02/2025</h6>
-                                        <h5>2702,00</h5>
+                                        <h6>{{ variations?.variations?.monthly?.previous_date ? 'Em ' + formatDateDisplay(variations.variations.monthly.previous_date) : 'Anterior' }}</h6>
+                                        <h5>{{ variations?.variations?.monthly?.previous ? (variations.variations.monthly.previous | number: (selectedOption === 'USD' ? '1.4-4' : '1.2-2')) : '--' }}</h5>
                                     </div>
-        
+
                                     <div>
-                                        <h6>Em 20/02/2025</h6>
-                                        <h5>2702,00</h5>
+                                        <h6>{{ variations?.variations?.monthly?.current_date ? 'Em ' + formatDateDisplay(variations.variations.monthly.current_date) : 'Atual' }}</h6>
+                                        <h5>{{ variations?.variations?.monthly?.current ? (variations.variations.monthly.current | number: (selectedOption === 'USD' ? '1.4-4' : '1.2-2')) : '--' }}</h5>
                                     </div>
                                 </div>
                             </div>
         
                             <div>
-                                <h4 [ngStyle]="{ color: 1 > 0 ? 'green' : 'red' }"><i class="bi bi-arrow-up"></i>2,95%</h4>
+                                <h4 [ngStyle]="{ color: (variations?.variations?.monthly?.variation || 0) < 0 ? 'red' : 'green' }">
+                                    <i class="bi" [ngClass]="(variations?.variations?.monthly?.variation || 0) < 0 ? 'bi-arrow-down' : 'bi-arrow-up'"></i>
+                                    {{ variations?.variations?.monthly?.variation ? ((variations.variations.monthly.variation | number: '1.2-2') + '%') : '--' }}
+                                </h4>
                             </div>
                         </div>
                     </div>  
@@ -136,7 +145,7 @@
                         [options]="lineChartOptions" 
                         [type]="'line'">
                     </canvas>
-        
+         <!--
                     <h4 class="mt-5">Valores Diários</h4>
                     <div class="table-responsive">
                         <table class="table table-striped">
@@ -174,8 +183,8 @@
                                 }
                             </tbody>
                         </table>
-                    </div>
-                </div>
+                    </div>-->
+                </div> 
             </div>
         </div>
         

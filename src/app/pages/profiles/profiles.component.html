@@ -1,5 +1,39 @@
 <div id="profiles">
     <app-header [customClass]="classScrolled" />
-    <app-main />
+    <mat-drawer-container [scrollTop]="true">
+        <mat-drawer (closedStart)="profilesService.selectedProduct.set(null)" #drawer position="end" mode="over">
+            <div class="product">
+                <img [src]="profilesService.selectedProduct()?.images?.[0]"
+                    [alt]="profilesService.selectedProduct()?.name" />
+                <div class="texts">
+                    <div class="name">
+                        <small>Nome</small>
+                        <h6>{{ profilesService.selectedProduct()?.name }}</h6>
+                    </div>
+
+                    <div class="description">
+                        <small>Descrição</small>
+                        <h6>{{ profilesService.selectedProduct()?.description }}</h6>
+                    </div>
+
+                    <div class="below">
+                        <div class="weight">
+                            <small>Peso</small>
+                            <h6>{{ profilesService.selectedProduct()?.weight || '-' }}</h6>
+                        </div>
+                        <div class="equivalence">
+                            <small>Equivalência</small>
+                            <h6>{{ profilesService.selectedProduct()?.equivalence || '-' }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button (click)="drawer.close()" class="btn btn-outline-dark rounded-pill button-close">
+                Fechar
+            </button>
+        </mat-drawer>
+        <router-outlet name="second" />
+    </mat-drawer-container>
     <app-footer />
 </div>
