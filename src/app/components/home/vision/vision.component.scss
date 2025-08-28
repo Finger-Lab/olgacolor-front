@@ -1,5 +1,7 @@
 #vision {
     >div {
+
+        
         &:nth-of-type(1) {
             padding: 5rem 0;
             background-color: #000;
@@ -50,4 +52,9 @@
 
 h2 {
     margin-top: 1rem;
+}
+.img-fluid {
+    max-width:65%;
+    height: auto;
+    margin: 20px;
 }

@@ -1,19 +1,11 @@
 #processes_production_blasting_main {
-    padding: 5rem 0;
+    padding: 3rem 0;
 
-    img {
-        border-radius: 0 0 3rem 3rem;
-        max-width: 90%;
-    }
-
-    h2 {
-        margin: 0;
-        border-left: 1px solid;
-        padding: .25rem 0 .25rem 1.5rem;
-    }
-
-    p {
-        margin: 2rem 0;
+    img.main {
+        width: 100%;
+        height: 340px;
+        object-fit: cover;
+        margin-bottom: 4rem;
     }
 
     .btn {

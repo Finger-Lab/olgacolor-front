@@ -44,6 +44,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/processes-production/machining/machining.component').then(mod => mod.MachiningComponent)
     },
     {
+        path: 'processos-producao/efeito-madeira',
+        loadComponent: () => import('./pages/processes-production/wood-effect/wood-effect.component').then(mod => mod.WoodEffectComponent)
+    },
+    {
         path: 'mercados',
         loadComponent: () => import('./pages/markets/markets.component').then(mod => mod.MarketsComponent)
     },
