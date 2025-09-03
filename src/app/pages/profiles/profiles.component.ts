@@ -37,4 +37,9 @@ export class ProfilesComponent {
       this.drawer()?.toggle();
   }
 
+  openImage(url: string){
+    if(!url) return;
+    window.open(url, '_blank');
+  }
+
 }

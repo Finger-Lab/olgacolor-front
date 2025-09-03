@@ -29,9 +29,16 @@
                 </div>
             </div>
 
-            <button (click)="drawer.close()" class="btn btn-outline-dark rounded-pill button-close">
-                Fechar
-            </button>
+            <div class="buttons-ctn">
+                <button (click)="openImage(profilesService.selectedProduct()?.['tableImageSrc'])" [style]="profilesService.selectedProduct()?.['isTable'] ? 'visibility:visible' : 'visibility:hidden'"  class="btn btn-outline-dark rounded-pill button-close">
+                    Ver tabela
+                </button>
+
+                <button (click)="drawer.close()" class="btn btn-outline-dark rounded-pill button-close">
+                    Fechar
+                </button>
+            </div>
+
         </mat-drawer>
         <router-outlet name="second" />
     </mat-drawer-container>
