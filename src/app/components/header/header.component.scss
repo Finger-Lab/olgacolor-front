@@ -4,12 +4,13 @@
     left: 0;
     width: 100%;
     z-index: 10;
-    background-color: #000;
+    background-color: #192636;
 
     >div {
         &:nth-of-type(1) {
             color: #FFF;
             display: flex;
+
             justify-content: flex-end;
             align-items: center;
             gap: 1rem;
@@ -43,7 +44,7 @@
                                     margin-top: .5rem;
                                 }
 
-                                color: #000;
+                                color: #192636;
                                 cursor: pointer;
                                 font-size: .8rem;
                                 transition: border-bottom .35s ease-in-out;
@@ -98,7 +99,7 @@
                 }
 
                 ul {
-                    background-color: #000;
+                    background-color: #192636;
                     border: 0;
                     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 
@@ -106,7 +107,7 @@
                         a {
                             &:hover {
                                 // background-color: #000;
-                                color: #000 !important;
+                                color: #192636 !important;
                             }
                         }
                     }
@@ -116,13 +117,13 @@
     }
 
     &.scrolled {
-        background-color: #000;
+        background-color: #192636;
 
         ul {
             li {
                 &.dropdown {
                     ul {
-                        background-color: #000;
+                        background-color: #192636;
 
                         @media (max-width: 992px) {
                             box-shadow: none;

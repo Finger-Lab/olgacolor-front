@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <g>
+        <!-- Background -->
+        <rect x="0" y="0" width="1024" height="1024" fill="#FFFFFF"/>
+
+        <!-- Wooden board shape -->
+        <path d="M200 200 L824 200 L824 824 L200 824 Z" fill="#000000"/>
+        <path d="M250 250 L774 250 L774 774 L250 774 Z" fill="#FFFFFF"/>
+
+        <!-- Wood grain lines -->
+        <path d="M300 300 Q400 320 500 300 T700 300" stroke="#000000" fill="none" stroke-width="10"/>
+        <path d="M300 350 Q400 370 500 350 T700 350" stroke="#000000" fill="none" stroke-width="10"/>
+        <path d="M300 400 Q400 420 500 400 T700 400" stroke="#000000" fill="none" stroke-width="10"/>
+        <path d="M300 450 Q400 470 500 450 T700 450" stroke="#000000" fill="none" stroke-width="10"/>
+        <path d="M300 500 Q400 520 500 500 T700 500" stroke="#000000" fill="none" stroke-width="10"/>
+        <path d="M300 550 Q400 570 500 550 T700 550" stroke="#000000" fill="none" stroke-width="10"/>
+        <path d="M300 600 Q400 620 500 600 T700 600" stroke="#000000" fill="none" stroke-width="10"/>
+        <path d="M300 650 Q400 670 500 650 T700 650" stroke="#000000" fill="none" stroke-width="10"/>
+        <path d="M300 700 Q400 720 500 700 T700 700" stroke="#000000" fill="none" stroke-width="10"/>
+    </g>
+</svg>
