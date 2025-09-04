@@ -116,8 +116,18 @@ export class HeaderComponent {
   }
 
   onProfileClick(profile: IProfile) {
+    // Define o produto selecionado no serviço
     this._profilesService.selectedProduct.set(profile);
-    this.router.navigate(['/perfis', { outlets: { second: 'products' } }], { queryParams: { product: profile.id } })
+    
+    // Navega para a página de perfis/products com o perfil filtrado
+    this.router.navigate(['/perfis', { outlets: { second: 'products' } }], { 
+      queryParams: { 
+        search: profile.name
+      }
+    });
+
+    // Limpa o campo de busca
+    this.searchProfileControl.setValue('', { emitEvent: false });
   }
 
   // Métodos para controlar o hover dos dropdowns

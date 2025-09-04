@@ -10,9 +10,7 @@
                 <span class="current-date">{{ currentMonth() <= 9 ? '0' : '' }}{{ currentMonth() }}/{{ currentYear() }}</span>
             </div>
         </div>
-    </div>
-
-    <div class="container-fluid">
+        
         <div class="prices-grid">
             @for (currency of currencies(); track currency) {
             <div class="price-card" [class.positive]="currency.variation >= 0" [class.negative]="currency.variation < 0">

@@ -31,7 +31,13 @@ export class ProfilesService {
       if (params.search && params.search.trim()) {
         const searchTerm = params.search.toLowerCase().trim();
         docs = docs.filter(doc => {
-          return doc.name?.toLowerCase().includes(searchTerm);
+          const docName = (doc.name || '').toLowerCase();
+          // Se o termo de busca for exato, retorna apenas itens com nome exato
+          if (searchTerm.length > 3) {
+            return docName === searchTerm;
+          }
+          // Para termos curtos, usa busca parcial
+          return docName.includes(searchTerm);
         });
       }
 

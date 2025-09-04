@@ -35,12 +35,23 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._setupSearchSubscription();
-    this._loadData();
 
-    // Verificar se há categoria nos query params na inicialização
-    const categoryFromParams = this._route.snapshot.queryParams['category'];
+    // Verificar se há parâmetros na URL
+    const params = this._route.snapshot.queryParams;
+    const searchFromParams = params['search'];
+    const categoryFromParams = params['category'];
+
+    // Se houver termo de busca, atualiza o campo de busca
+    if (searchFromParams) {
+      this.searchControl.setValue(searchFromParams, { emitEvent: false });
+    }
+
+    // Carrega os dados com os filtros da URL
+    this._loadData(searchFromParams || '', categoryFromParams || '');
+
+    // Se houver categoria, atualiza a seleção
     if (categoryFromParams) {
-      this.onCategoryClick(categoryFromParams);
+      this.profilesService.categorySelected.set(categoryFromParams);
     }
   }
 
@@ -61,6 +72,12 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   private _loadData(searchTerm: string = '', category: string = ''): void {
     this.isLoading.set(true);
+    
+    // Se não houver termo de busca, tenta pegar dos query params
+    if (!searchTerm) {
+      searchTerm = this._route.snapshot.queryParams['search'] || '';
+    }
+
     const params = {
       search: searchTerm,
       category: category
@@ -74,7 +91,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
         return of([]);
       })
     ).subscribe((items) => {
+      // Define os perfis filtrados
       this.profiles.set(items);
+      
+      // Se houver apenas um item e vier de uma busca direta, seleciona-o
+      if (items.length === 1 && searchTerm) {
+        this.setProduct(items[0]);
+      }
+      
       this.isLoading.set(false);
     });
   }
