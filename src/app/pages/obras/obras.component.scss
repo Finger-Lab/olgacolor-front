@@ -1,21 +1,38 @@
 .descricao {
     // background-color: wheat;
-    padding: 20px;
-    width: 30%;
-    margin: 50px;   
-    margin-top: 15%;
+    width: 50%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
 }
 
 .ImagemContainer {
     display: inline-block;
     flex-direction: column;
     // background-color: rgb(226, 226, 226);
-    padding: 20px;
-    width: 40%;
-    margin: 10px;
-    margin-left: 50%;
+    width: 50%;
+    max-width: 600px;
     gap: 20px;
-    margin-top: -500px;
+}
+
+.obra-coluna-ctn {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    p {
+        margin: 0;
+    }
+
+    p.obra-regiao {
+        font-size: 14px;
+    }
+
+    p.obra-nome {
+        font-size: 18px;
+    }
+
 }
 
 .Coluna {
@@ -32,16 +49,54 @@
 }
 
 .Coluna img {
-    width: 300px;
-    height: 200px;
-    padding: 20px;
+    width: 50%;
 }
 
 .meiaPagina {
     background-color: black;
-    margin-top: -50px;
-    padding-bottom: 50px;
+    height: 635px;
+    display: flex; 
+    justify-content: center;
+    gap: 100px;
+    padding: 15px;
+    .mapa-texto {
+        width: 50%;
+        max-width: 600px;
+        color: white;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        p {
+            margin: 0;
+        }
+        .white-border {
+            border-bottom: solid 1px white;
+            margin-bottom: 15px!important;
+            padding-bottom: 15px;
+        }
+    }
+    
 }
+
+.bold {
+ font-weight: 700;
+}
+
+.font-size-36 {
+    font-size: 36px;
+}
+.font-size-20 {
+    font-size: 20px;
+
+    
+
+}
+
+.texto-450 {
+        max-width: 450px;
+        line-height: 150%;
+    }
 
 .meioTexto.h2 {
     margin-left: -20px;

@@ -2,8 +2,6 @@
   display: flex;
   gap: 16px;            /* espaço entre os grupos */
   align-items: stretch;  /* mesma altura para os grupos */
-  max-width: 800px;     /* largura máxima */
-  width: 80%;            /* largura relativa à tela */
   padding: 8px;         /* opcional: espaço interno */
   box-sizing: border-box;
   transform: scale(0.8); /* reduz todo o container em 20% */
