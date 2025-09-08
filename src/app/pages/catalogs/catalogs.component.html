@@ -1,5 +1,40 @@
 <div id="catalogs">
     <app-header [customClass]="classScrolled" />
-    <app-main />
+    
+    <div class="catalogs-container">
+        <mat-drawer-container>
+            <mat-drawer #drawer mode="side" opened class="filter-sidebar">
+                <div class="filter-content">
+                    <h3>Filtros</h3>
+                    
+                    <div class="filter-section">
+                        <h4>Categorias</h4>
+                        <mat-selection-list #categories [multiple]="true" (selectionChange)="onCategoryChange($event)">
+                            <mat-list-option *ngFor="let category of catalogsService.categories" [value]="category">
+                                {{category}}
+                            </mat-list-option>
+                        </mat-selection-list>
+                    </div>
+
+                    <div class="filter-section">
+                        <h4>Ordenar por</h4>
+                        <mat-radio-group [(ngModel)]="sortBy" (change)="onSortChange()">
+                            <mat-radio-button value="name">Nome</mat-radio-button>
+                            <mat-radio-button value="date">Data</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+
+                    <button mat-button color="warn" (click)="clearFilters()">Limpar Filtros</button>
+                </div>
+            </mat-drawer>
+
+            <mat-drawer-content>
+                <div class="main-content">
+                    <router-outlet name="second"></router-outlet>
+                </div>
+            </mat-drawer-content>
+        </mat-drawer-container>
+    </div>
+
     <app-footer />
 </div>

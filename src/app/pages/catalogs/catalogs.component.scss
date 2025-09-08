@@ -1,0 +1,100 @@
+#catalogs {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-default);
+}
+
+.catalogs-container {
+    flex: 1;
+    background-color: var(--background-default);
+}
+
+mat-drawer-container {
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+    background-color: var(--background-default);
+
+    mat-drawer {
+        width: 280px;
+        background-color: var(--background-card);
+        border-right: 1px solid var(--border-color);
+        padding: 20px;
+
+        .filter-content {
+            h3 {
+                color: #333;
+                margin-bottom: 16px;
+                font-size: 1rem;
+                font-weight: 500;
+            }
+
+            .filter-section {
+                margin-bottom: 20px;
+
+                h4 {
+                    color: #666;
+                    margin-bottom: 8px;
+                    font-size: 1rem;
+                    font-weight: 500;
+                }
+
+                mat-selection-list {
+                    max-height: 300px;
+                    overflow-y: auto;
+
+                    ::ng-deep .mat-mdc-list-option {
+                        min-height: 36px;
+                        font-size: 0.875rem;
+                        
+                        .mdc-list-item__primary-text {
+                            display: block;
+                            white-space: normal;
+                            line-height: 1.2;
+                            margin: 4px 0;
+                        }
+                    }
+                }
+
+                mat-radio-group {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+
+                    mat-radio-button {
+                        color: #666;
+                        font-size: 0.875rem;
+                    }
+                }
+            }
+
+            button[color="warn"] {
+                width: 100%;
+                margin-top: 16px;
+            }
+        }
+    }
+
+    mat-drawer-content {
+        background-color: var(--background-default);
+        padding: 24px;
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    }
+}
+
+::ng-deep {
+    .mat-mdc-list-option {
+        color: #666 !important;
+    }
+
+    .mdc-list-item__primary-text {
+        color: #666 !important;
+    }
+
+    .mat-mdc-radio-button .mdc-radio {
+        padding: 8px !important;
+    }
+}

@@ -3,6 +3,12 @@ import { AdminGuard } from './auth/admin.guard';
 
 export const routes: Routes = [
     {
+        path: 'admin/usuarios',
+        canActivate: [AdminGuard],
+        data: { roles: ['Admin'] },
+        loadComponent: () => import('./pages/admin/manage-users/manage-users.component').then(mod => mod.ManageUsersComponent)
+    },
+    {
         path: '',
         pathMatch: 'full',
         redirectTo: 'pagina-inicial'
@@ -143,7 +149,20 @@ export const routes: Routes = [
         path: 'catalogos',
         canActivate: [AdminGuard],
         data: { roles: ['Admin', 'User'] },
-        loadComponent: () => import('./pages/catalogs/catalogs.component').then(mod => mod.CatalogsComponent)
+        loadComponent: () => import('./pages/catalogs/catalogs.component').then(mod => mod.CatalogsComponent),
+        children: [
+            {
+                path: '',
+                outlet: 'second',
+                loadComponent: () => import('./pages/catalogs/products/catalog-products.component').then(mod => mod.CatalogProductsComponent)
+            },
+            {
+                title: 'Catálogos - Olgacolor',
+                outlet: 'second',
+                path: 'products',
+                loadComponent: () => import('./pages/catalogs/products/catalog-products.component').then(mod => mod.CatalogProductsComponent)
+            },
+        ]
     },
     {
         path: 'lme',

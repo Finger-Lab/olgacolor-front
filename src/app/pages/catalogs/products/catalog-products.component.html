@@ -1,0 +1,31 @@
+<div class="products-container">
+    <div class="search-bar">
+        <mat-form-field>
+            <mat-label>Buscar catálogos...</mat-label>
+            <input matInput [formControl]="searchControl" placeholder="Pesquisar...">
+            <button *ngIf="searchControl.value" matSuffix mat-icon-button aria-label="Limpar" (click)="clearFilters()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+
+    <div *ngIf="isLoading()" class="loading-container">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="!isLoading()" class="catalogs-grid">
+        <mat-card *ngFor="let catalog of catalogs()" class="catalog-card">
+            <img mat-card-image [src]="catalog.thumbnailUrl" [alt]="catalog.name">
+            <mat-card-content class="catalog-info">
+                <h3>{{ catalog.name }}</h3>
+                <p>{{ catalog.description }}</p>
+            </mat-card-content>
+            <mat-card-actions align="end">
+                <button mat-button color="primary" (click)="openPdf(catalog.pdfUrl)">
+                    <mat-icon>picture_as_pdf</mat-icon>
+                    Ver PDF
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
