@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AdminGuard } from './auth/admin.guard';
+import { ObrasComponent } from './pages/obras/obras.component';
 
 export const routes: Routes = [
     {
@@ -179,5 +180,9 @@ export const routes: Routes = [
     {
         path: 'responsabilidade-ambiental',
         loadComponent: () => import('./pages/environmental-responsibility/environmental-responsibility.component').then(mod => mod.EnvironmentalResponsibilityComponent)
+    },
+    {
+        path: 'obras', loadComponent: () => import('./pages/obras/obras.component').then(mod => mod.ObrasComponent),
+        children: [{path: 'cards', loadComponent: () => import('./pages/obras/cards/cards.component').then(mod => mod.CardsComponent)}]
     }
 ];
