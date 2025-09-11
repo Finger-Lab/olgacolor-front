@@ -1,87 +1,163 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  padding: 8px;
+}
+
 .Container {
   display: flex;
-  gap: 16px;            /* espaço entre os grupos */
-  align-items: stretch;  /* mesma altura para os grupos */
-  padding: 8px;         /* opcional: espaço interno */
+  gap: 16px;
+  justify-content: stretch;
+  align-items: stretch;
+  max-width: 100%;
+  width: 100%;
   box-sizing: border-box;
-  transform: scale(0.8); /* reduz todo o container em 20% */
-  transform-origin: top left; /* define o ponto de origem da escala */
+}
+
+.GrupoEsquerdo,
+.GrupoDireito {
+  flex: 1;
+  display: grid;
+  gap: 16px;
 }
 
 .GrupoEsquerdo {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* duas colunas */
-  gap: 16px;
-}
-
-.Card1E {
-  grid-column: 1 / span 2; /* ocupa as duas colunas */
-}
-
-.descricao {
-    margin-top: -90px;
-    margin-left: 20px;
-    color: white;
-}
-
-.Card2E {
-  grid-column: 1; /* segunda linha, primeira coluna */
-}
-
-.Card3E {
-  grid-column: 2; /* segunda linha, segunda coluna */
-}
-
-.Card4E {
-  grid-column: 1 / span 1; /* ocupa as duas colunas */
-}
-
-.Card5E {
-  grid-column: 2 / span 1; /* ocupa as duas colunas */
+  grid-template-columns: 1fr 1fr;
 }
 
 .GrupoDireito {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* duas colunas */
-  grid-template-rows: auto auto auto; /* 3 linhas */
-  gap: 16px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto auto;
 }
 
-/* Card1 ocupa duas linhas na coluna da esquerda */
+/* Cards do Grupo Esquerdo */
+.Card1E {
+  grid-column: 1 / span 2;
+  position: relative;
+}
+
+.Card2E {
+  grid-column: 1;
+}
+
+.Card3E {
+  grid-column: 2;
+}
+
+.Card4E {
+  grid-column: 1;
+}
+
+.Card5E {
+  grid-column: 2;
+}
+
+/* Cards do Grupo Direito */
 .Card1R {
   grid-column: 1;
-  grid-row: 1 / span 2; /* pega a linha 1 e 2 */
-  border-radius: 8px;
+  grid-row: 1 / span 2;
 }
 
-/* Card2 na primeira linha, direita */
 .Card2R {
   grid-column: 2;
   grid-row: 1;
-  border-radius: 8px;
 }
 
-/* Card3 na segunda linha, direita */
 .Card3R {
   grid-column: 2;
   grid-row: 2;
-  border-radius: 8px;
 }
 
-/* Card4 ocupa as duas colunas na última linha */
 .Card4R {
   grid-column: 1 / span 2;
   grid-row: 3;
-  border-radius: 8px;
 }
 
+/* Estilização das imagens */
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+  display: block;
+}
+
+.descricao {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Media Queries para Responsividade */
 @media (max-width: 768px) {
+  body {
+    padding: 4px;
+  }
+
   .Container {
-    width: 95%;
-    max-width: 500px;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Grupo Esquerdo mantém layout original */
+  .GrupoEsquerdo {
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
-  
+
+  /* Grupo Direito mantém layout original */
+  .GrupoDireito {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 8px;
+  }
+
+  .descricao {
+    font-size: 12px;
+    bottom: 10px;
+    left: 10px;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 4px;
+  }
+
+  .Container {
+    gap: 12px;
+  }
+
+  .GrupoEsquerdo,
+  .GrupoDireito {
+    gap: 6px;
+  }
+
+  .descricao {
+    font-size: 11px;
+    bottom: 8px;
+    left: 8px;
+    padding: 4px;
+  }
+}
+
+@media (max-width: 320px) {
+  .Container {
+    gap: 8px;
+  }
+
   .GrupoEsquerdo,
   .GrupoDireito {
     gap: 4px;
