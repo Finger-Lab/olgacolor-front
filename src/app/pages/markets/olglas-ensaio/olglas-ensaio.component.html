@@ -1,0 +1,136 @@
+<div id="olglas-ensaio">
+    <app-header [customClass]="classScrolled" />
+    <div class="container py-5">
+        <h1 class="text-center mb-5">Especificações Técnicas - Olglas</h1>
+
+        <div class="row mb-5">
+            <div class="col-lg-6">
+                <div class="specifications-card">
+                    <h2 class="mb-4">Especificações Técnicas</h2>
+                    <p>A linha Olglas oferece soluções de alta qualidade para vidraçarias, atendendo aos mais rigorosos padrões de qualidade e desempenho.</p>
+                    
+                    <ul class="specs-list mt-4">
+                        <li><strong>Material:</strong> Alumínio anodizado especial</li>
+                        <li><strong>Espessura:</strong> 2.8mm - 3.5mm</li>
+                        <li><strong>Acabamento:</strong> Polimento especial para vidros</li>
+                        <li><strong>Vedação:</strong> Sistema avançado de borrachas</li>
+                        <li><strong>Vidro compatível:</strong> 6mm a 12mm</li>
+                        <li><strong>Sistema:</strong> Olglas Premium</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mt-4 mt-lg-0">
+                <div class="test-results-card">
+                    <h2 class="mb-4">Resultados de Ensaios</h2>
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Ensaio</th>
+                                <th>Resultado</th>
+                                <th>Classificação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Resistência ao Impacto</td>
+                                <td>Superior</td>
+                                <td>Classe A</td>
+                            </tr>
+                            <tr>
+                                <td>Durabilidade</td>
+                                <td>10.000 ciclos</td>
+                                <td>Premium</td>
+                            </tr>
+                            <tr>
+                                <td>Resistência UV</td>
+                                <td>2.000 horas</td>
+                                <td>Classe 5</td>
+                            </tr>
+                            <tr>
+                                <td>Acabamento</td>
+                                <td>Polimento Especial</td>
+                                <td>Superior</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5 perfis-black">
+            <div class="col-lg-5">
+                <div class="profile-image-container">
+                    <h3 class="mb-3">Perfil Olglas</h3>
+                    <img src="assets/images/perfil.webp" alt="Perfil Olglas" class="img-fluid profile-image">
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <h3 class="mb-3">Simulação 3D Interativa</h3>
+                <div class="iframe-container">
+                    <iframe [src]="iframeUrl | safe:'resourceUrl'" frameborder="0" allowfullscreen class="iframe-content"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a routerLink="/mercados/envidracamento" class="btn btn-outline-dark rounded-pill">Voltar para Vidraçaria</a>
+            <a [href]="iframeUrl" target="_blank" class="btn btn-primary rounded-pill ms-3">Abrir Simulação em Nova Janela</a>
+        </div>
+
+        <div class="applications-section mt-5 pt-5">
+            <h2 class="text-center mb-4">Aplicações do Sistema</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="application-icon">
+                                <i class="bi bi-building"></i>
+                            </div>
+                            <h4 class="card-title">Vitrines Comerciais</h4>
+                            <p class="card-text">Ideal para lojas, shopping centers e estabelecimentos comerciais que necessitam de vidros resistentes e elegantes.</p>
+                            <ul class="application-features">
+                                <li>Alta transparência</li>
+                                <li>Resistência a impactos</li>
+                                <li>Design moderno</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="application-icon">
+                                <i class="bi bi-house"></i>
+                            </div>
+                            <h4 class="card-title">Residencial</h4>
+                            <p class="card-text">Solução premium para residências que buscam elegância e durabilidade em guarda-corpos, boxes e divisórias.</p>
+                            <ul class="application-features">
+                                <li>Acabamento superior</li>
+                                <li>Fácil instalação</li>
+                                <li>Manutenção reduzida</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="application-icon">
+                                <i class="bi bi-bank"></i>
+                            </div>
+                            <h4 class="card-title">Corporativo</h4>
+                            <p class="card-text">Desenvolvido para ambientes corporativos que exigem sofisticação e segurança em suas divisórias e fachadas.</p>
+                            <ul class="application-features">
+                                <li>Isolamento acústico</li>
+                                <li>Versatilidade de aplicações</li>
+                                <li>Alta durabilidade</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer />
+</div>

@@ -1,0 +1,136 @@
+<div id="industrial-ensaio">
+    <app-header [customClass]="classScrolled" />
+    <div class="container py-5">
+        <h1 class="text-center mb-5">Especificações Técnicas - Linha Industrial</h1>
+
+        <div class="row mb-5">
+            <div class="col-lg-6">
+                <div class="specifications-card">
+                    <h2 class="mb-4">Especificações Técnicas</h2>
+                    <p>A linha industrial da Olgacolor é projetada para atender às demandas mais rigorosas do setor industrial, oferecendo resistência e durabilidade superiores.</p>
+                    
+                    <ul class="specs-list mt-4">
+                        <li><strong>Material:</strong> Alumínio industrial reforçado</li>
+                        <li><strong>Espessura:</strong> 3.0mm - 5.0mm</li>
+                        <li><strong>Acabamento:</strong> Alta resistência química</li>
+                        <li><strong>Resistência:</strong> Uso intensivo</li>
+                        <li><strong>Compatibilidade:</strong> Sistemas industriais</li>
+                        <li><strong>Sistema:</strong> Industrial Heavy Duty</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-6 mt-4 mt-lg-0">
+                <div class="test-results-card">
+                    <h2 class="mb-4">Resultados de Ensaios</h2>
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Ensaio</th>
+                                <th>Resultado</th>
+                                <th>Classificação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Resistência à Corrosão</td>
+                                <td>1000h Salt Spray</td>
+                                <td>Superior</td>
+                            </tr>
+                            <tr>
+                                <td>Resistência Mecânica</td>
+                                <td>150kN/m²</td>
+                                <td>Industrial</td>
+                            </tr>
+                            <tr>
+                                <td>Resistência Química</td>
+                                <td>Classe A</td>
+                                <td>Alta</td>
+                            </tr>
+                            <tr>
+                                <td>Resistência ao Impacto</td>
+                                <td>50 Joules</td>
+                                <td>Superior</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-lg-5">
+                <div class="profile-image-container">
+                    <h3 class="mb-3">Perfil Industrial</h3>
+                    <img src="assets/images/perfil.webp" alt="Perfil Industrial" class="img-fluid profile-image">
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <h3 class="mb-3">Simulação 3D Interativa</h3>
+                <div class="iframe-container">
+                    <iframe [src]="iframeUrl | safe:'resourceUrl'" frameborder="0" allowfullscreen class="iframe-content"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-5">
+            <a routerLink="/mercados/linha-industrial" class="btn btn-outline-dark rounded-pill">Voltar para Linha Industrial</a>
+            <a [href]="iframeUrl" target="_blank" class="btn btn-primary rounded-pill simulator ms-3">Abrir Simulação em Nova Janela</a>
+        </div>
+
+        <div class="applications-section mt-5 pt-5">
+            <h2 class="text-center mb-4">Aplicações do Sistema</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="application-icon">
+                                <i class="bi bi-gear"></i>
+                            </div>
+                            <h4 class="card-title">Máquinas e Equipamentos</h4>
+                            <p class="card-text">Ideal para estruturas de máquinas industriais e equipamentos de alta performance.</p>
+                            <ul class="application-features">
+                                <li>Alta resistência mecânica</li>
+                                <li>Proteção contra corrosão</li>
+                                <li>Montagem modular</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="application-icon">
+                                <i class="bi bi-tools"></i>
+                            </div>
+                            <h4 class="card-title">Estruturas Industriais</h4>
+                            <p class="card-text">Solução robusta para estruturas de proteção, suportes e bases industriais.</p>
+                            <ul class="application-features">
+                                <li>Capacidade de carga elevada</li>
+                                <li>Facilidade de montagem</li>
+                                <li>Durabilidade superior</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <div class="application-icon">
+                                <i class="bi bi-box-seam"></i>
+                            </div>
+                            <h4 class="card-title">Sistemas de Transporte</h4>
+                            <p class="card-text">Perfis especializados para sistemas de transporte e movimentação industrial.</p>
+                            <ul class="application-features">
+                                <li>Resistência ao desgaste</li>
+                                <li>Baixa manutenção</li>
+                                <li>Alta performance</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-footer />
+</div>

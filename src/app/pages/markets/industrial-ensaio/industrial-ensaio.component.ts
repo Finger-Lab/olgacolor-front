@@ -1,0 +1,22 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HeaderComponent } from "../../../components/header/header.component";
+import { FooterComponent } from "../../../components/footer/footer.component";
+import { RouterLink } from "@angular/router";
+import { SafePipe } from '../../../shared/safe.pipe';
+
+@Component({
+  selector: 'app-industrial-ensaio',
+  standalone: true,
+  imports: [CommonModule, SafePipe, HeaderComponent, FooterComponent, RouterLink],
+  templateUrl: './industrial-ensaio.component.html',
+  styleUrls: ['./industrial-ensaio.component.scss']
+})
+export class IndustrialEnsaioComponent {
+  iframeUrl = 'https://clientes.metries.com.br/olgacolor/industrial.htm'; // URL para simulação industrial
+  classScrolled: string = 'scrolled position-sticky';
+
+  constructor() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}

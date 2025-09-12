@@ -78,6 +78,22 @@ export const routes: Routes = [
         path: 'mercados/linha-industrial',
         loadComponent: () => import('./pages/industrial-line/industrial-line.component').then(mod => mod.IndustrialLineComponent)
     },
+    {
+        path: 'mercados/olglas-ensaio',
+        loadComponent: () => import('./pages/markets/olglas-ensaio/olglas-ensaio.component').then(mod => mod.OlglasEnsaioComponent)
+    },
+    {
+        path: 'mercados/moveleira-ensaio',
+        loadComponent: () => import('./pages/markets/moveleira-ensaio/moveleira-ensaio.component').then(mod => mod.MoveleiraEnsaioComponent)
+    },
+    {
+        path: 'mercados/industrial-ensaio',
+        loadComponent: () => import('./pages/markets/industrial-ensaio/industrial-ensaio.component').then(mod => mod.IndustrialEnsaioComponent)
+    },
+    {
+        path: 'mercados/janela-ensaio',
+        loadComponent: () => import('./pages/markets/janela-ensaio/janela-ensaio.component').then(mod => mod.JanelaEnsaioComponent)
+    },
     // apenas admin
     {
         path: 'mercados/adicionar-mercados',
