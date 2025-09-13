@@ -13,7 +13,7 @@ import { SafePipe } from '../../../shared/safe.pipe';
   styleUrls: ['./olglas-ensaio.component.scss']
 })
 export class OlglasEnsaioComponent {
-  iframeUrl = 'https://clientes.metries.com.br/olgacolor/janela.htm'; // Substituir pela URL correta do Olglas
+  iframeUrl = 'https://clientes.metries.com.br/olgacolor/janela.htm'; // URL para simulação 3D
   classScrolled: string = 'scrolled position-sticky';
 
   constructor() {

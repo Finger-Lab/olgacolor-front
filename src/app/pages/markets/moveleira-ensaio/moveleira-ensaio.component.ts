@@ -13,7 +13,7 @@ import { SafePipe } from '../../../shared/safe.pipe';
   styleUrls: ['./moveleira-ensaio.component.scss']
 })
 export class MoveleiraEnsaioComponent {
-  iframeUrl = 'https://clientes.metries.com.br/olgacolor/moveleira.htm'; // URL para simulação moveleira
+  iframeUrl = 'https://clientes.metries.com.br/olgacolor/janela.htm'; // URL para simulação 3D
   classScrolled: string = 'scrolled position-sticky';
 
   constructor() {
