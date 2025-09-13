@@ -1,3 +1,9 @@
+body{
+    max-width: 1385px; 
+    max-height: 748px; 
+    display: block;
+}
+
 .descricao {
     // background-color: wheat;
     width: 50%;
@@ -88,9 +94,6 @@
 }
 .font-size-20 {
     font-size: 20px;
-
-    
-
 }
 
 .texto-450 {
@@ -100,4 +103,256 @@
 
 .meioTexto.h2 {
     margin-left: -20px;
+}
+
+/*Carrosel*/
+#products {
+    padding: 5rem 0;
+
+    h5 {
+        margin: 2rem 0;
+    }
+}
+
+.carousel-container {
+    margin-top: 3rem;
+    position: relative;
+    
+    swiper-container {
+        width: 100%;
+        height: auto;
+    }
+    
+    swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+// Setas de navegação customizadas
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: rgba(128, 128, 128, 0.7);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(2px);
+
+    &:hover {
+        background-color: rgba(128, 128, 128, 0.9);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.3);
+    }
+}
+
+.carousel-arrow-prev {
+    left: 15px;
+}
+
+.carousel-arrow-next {
+    right: 15px;
+}
+
+.product-slide {
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.product-content {
+    position: relative;
+    padding: 0 1.5rem;
+}
+
+.product-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// .border-left {
+//     position: absolute;
+//     top: 0;
+//     bottom: 0;
+//     left: 5px;
+//     width: 1px;
+//     height: 100%;
+//     background-color: #dfdfdf;
+
+//     &::before {
+//         content: '';
+//         position: absolute;
+//         width: 100%;
+//         height: 33%;
+//         background-color: #000;
+//     }
+
+//     &#nth-of-type {
+//         &::before {
+//             top: 100%;
+//             transform: translateY(-100%);
+//         }
+//     }
+// }
+
+.border-right {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 5px;
+    width: 1px;
+    height: 100%;
+    background-color: #dfdfdf;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        height: 33%;
+        background-color: #000;
+    }
+}
+
+ul {
+    padding: 0;
+}
+
+.big-informations {
+    li {
+        gap: 2rem;
+        display: flex;
+        align-items: center;
+        padding-block: unset;
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin: 0;
+        }
+
+        p {
+            color: #6e6e6e;
+        }
+
+        &:nth-of-type(1) {
+            border-bottom: 1px solid #6e6e6e6f;
+        }
+    }
+}
+
+.links {
+    li {
+        list-style: none;
+        border-bottom: 1px solid #2f2f2f;
+
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #6e6e6e;
+            text-decoration: none !important;
+            transition: all .2s ease-in-out;
+
+            h6 {
+                margin: 0;
+            }
+
+            span {
+                transition: all .2s ease-in-out;
+            }
+        }
+
+        &:not(:first-of-type) {
+            padding-top: 1rem;
+        }
+
+        &:hover {
+            a {
+                color: #000;
+
+                span {
+                    transform: rotate(45deg);
+                }
+            }
+        }
+    }
+}
+
+// Estilos para navegação do Swiper
+swiper-container {
+    --swiper-navigation-color: transparent;
+    --swiper-pagination-color: #000;
+    --swiper-pagination-bullet-inactive-color: #ccc;
+    --swiper-pagination-bullet-inactive-opacity: 0.5;
+}
+
+// Esconder as setas padrão do Swiper
+swiper-container .swiper-button-next,
+swiper-container .swiper-button-prev {
+    display: none !important;
+}
+
+@media (min-width: 992px) {
+    .product-content {
+        padding: 0 5rem;
+
+        .border-left {
+            left: 0;
+        }
+
+        .border-right {
+            right: 0;
+        }
+
+        ul {
+            &:nth-of-type(2) {
+                li {
+                    width: 50%;
+                }
+            }
+        }
+    }
+}
+
+@media (width >=1024px) {
+    ul.big-informations {
+        li {
+            padding-block: 1rem;
+        }
+    }
+}
+
+// Responsividade para as setas
+@media (max-width: 768px) {
+    .carousel-arrow {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .carousel-arrow-prev {
+        left: 10px;
+    }
+    
+    .carousel-arrow-next {
+        right: 10px;
+    }
 }
