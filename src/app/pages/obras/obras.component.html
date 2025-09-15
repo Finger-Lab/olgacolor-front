@@ -43,11 +43,26 @@
         </div>
     </div>
 
-    <!--Carrosel-->
-    <div style="padding: 30px; justify-items: center; align-items: center; display: flex; flex-direction: column;">
-        <div style="max-width: 1920px; width: 100%;">
-            <h5>Obras por sistema utilizado</h5>
-            <hr>
+    
+<!-- HTML Component Template -->
+<div style="padding: 30px; justify-items: center; align-items: center; display: flex; flex-direction: column;">
+    <div style="max-width: 1920px; width: 100%;">
+        <h5>Obras por sistema utilizado</h5>
+        <hr>
+        
+        <!-- Container que muda comportamento baseado no tamanho da tela -->
+        <div class="logos-container">
+            <!-- Grid para telas grandes - todas as imagens visíveis -->
+            <div class="logos-grid">
+                <img src="assets/images/obras/image25.png" alt="Obra 25" class="obra-image">
+                <img src="assets/images/obras/image26.png" alt="Obra 26" class="obra-image">
+                <img src="assets/images/obras/image27.png" alt="Obra 27" class="obra-image">
+                <img src="assets/images/obras/image28.png" alt="Obra 28" class="obra-image">
+                <img src="assets/images/obras/image29.png" alt="Obra 29" class="obra-image">
+                <img src="assets/images/obras/image30.png" alt="Obra 30" class="obra-image">
+            </div>
+            
+            <!-- Swiper para telas pequenas -->
             <div class="carousel-container">
                 <button class="carousel-arrow carousel-arrow-prev" (click)="slidePrev()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16">
@@ -57,21 +72,24 @@
                 </button>
 
                 <swiper-container #swiperContainer [config]="swiperConfig">
-                    @for (slide of obras_slides(); track slide.id) {
                     <swiper-slide>
-                        <div class="product-slide">
-                            <div class="row align-items-center justify-content-between">
-                                <div style="max-width: 1920px; width: 100%;">
-                                    <div class="images-horizontal">
-                                        @for (image of slide.images; track image.src) {
-                                        <img [src]="image.src" [alt]="image.alt" class="obra-image">
-                                        }
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="swiper-images-group">
+                            <img src="assets/images/obras/image25.png" alt="Obra 25" class="obra-image">
+                            <img src="assets/images/obras/image26.png" alt="Obra 26" class="obra-image">
                         </div>
                     </swiper-slide>
-                    }
+                    <swiper-slide>
+                        <div class="swiper-images-group">
+                            <img src="assets/images/obras/image27.png" alt="Obra 27" class="obra-image">
+                            <img src="assets/images/obras/image28.png" alt="Obra 28" class="obra-image">
+                        </div>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <div class="swiper-images-group">
+                            <img src="assets/images/obras/image29.png" alt="Obra 29" class="obra-image">
+                            <img src="assets/images/obras/image30.png" alt="Obra 30" class="obra-image">
+                        </div>
+                    </swiper-slide>
                 </swiper-container>
 
                 <button class="carousel-arrow carousel-arrow-next" (click)="slideNext()">
@@ -83,19 +101,7 @@
             </div>
         </div>
     </div>
-    <!--Carrosel-->
-
-
 </div>
-<!-- <div style="display: flex;justify-content: center; align-items: center;">
-                <img src="assets/images/obras/image25.png">
-                <img src="assets/images/obras/image26.png">
-                <img src="assets/images/obras/image27.png">
-                <img src="assets/images/obras/image28.png">
-                <img src="assets/images/obras/image29.png">
-                <img src="assets/images/obras/image30.png">
-<<<<<<< HEAD
-            </div> -->
 <div style="max-width: 1920px;width: 100%;">
     <h5>GALERIA DE OBRAS</h5>
     <hr>

@@ -114,9 +114,40 @@ body{
     }
 }
 
-.carousel-container {
-    margin-top: 3rem;
+// Container principal que controla a visibilidade
+.logos-container {
     position: relative;
+    margin-top: 3rem;
+    width: 100%;
+}
+
+// Grid para telas grandes - todas as 6 imagens visíveis
+.logos-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px;
+    width: 100%;
+    align-items: center;
+    justify-items: center;
+    
+    .obra-image {
+        width: 100%;
+        max-width: 150px;
+        height: auto;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}
+
+// Swiper - inicialmente oculto
+.carousel-container {
+    display: none;
+    position: relative;
+    width: 100%;
     
     swiper-container {
         width: 100%;
@@ -130,8 +161,194 @@ body{
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 20px 0;
+    }
+    
+    .swiper-images-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        width: 100%;
+        
+        .obra-image {
+            width: 100%;
+            max-width: 150px;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
     }
 }
+
+// Setas de navegação customizadas
+.carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background-color: rgba(128, 128, 128, 0.7);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(2px);
+
+    &:hover {
+        background-color: rgba(128, 128, 128, 0.9);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.3);
+    }
+}
+
+.carousel-arrow-prev {
+    left: 15px;
+}
+
+.carousel-arrow-next {
+    right: 15px;
+}
+
+// Estilos para navegação do Swiper
+swiper-container {
+    --swiper-navigation-color: transparent;
+    --swiper-pagination-color: #000;
+    --swiper-pagination-bullet-inactive-color: #ccc;
+    --swiper-pagination-bullet-inactive-opacity: 0.5;
+}
+
+// Esconder as setas padrão do Swiper
+swiper-container .swiper-button-next,
+swiper-container .swiper-button-prev {
+    display: none !important;
+}
+
+/* ===== MEDIA QUERIES RESPONSIVAS ===== */
+
+// Telas muito grandes (1400px+) - 6 colunas
+@media (min-width: 1400px) {
+    .logos-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 30px;
+        
+        .obra-image {
+            max-width: 180px;
+        }
+    }
+}
+
+// Telas grandes (1200px - 1399px) - 6 colunas mais juntas
+@media (min-width: 1200px) and (max-width: 1399px) {
+    .logos-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 20px;
+        
+        .obra-image {
+            max-width: 150px;
+        }
+    }
+}
+
+// Telas médias-grandes (992px - 1199px) - 4 colunas, swiper ativo
+@media (min-width: 992px) and (max-width: 1199px) {
+    .logos-grid {
+        display: none;
+    }
+    
+    .carousel-container {
+        display: block;
+    }
+    
+    .swiper-images-group {
+        gap: 40px;
+        
+        .obra-image {
+            max-width: 140px;
+        }
+    }
+}
+
+// Tablets (768px - 991px) - 3 por slide
+@media (min-width: 768px) and (max-width: 991px) {
+    .logos-grid {
+        display: none;
+    }
+    
+    .carousel-container {
+        display: block;
+    }
+    
+    .swiper-images-group {
+        gap: 25px;
+        
+        .obra-image {
+            max-width: 120px;
+        }
+    }
+}
+
+// Tablets pequenos (576px - 767px) - 2 por slide
+@media (min-width: 576px) and (max-width: 767px) {
+    .logos-grid {
+        display: none;
+    }
+    
+    .carousel-container {
+        display: block;
+    }
+    
+    .swiper-images-group {
+        gap: 20px;
+        
+        .obra-image {
+            max-width: 100px;
+        }
+    }
+}
+
+// Mobile (até 575px) - 1 por slide
+@media (max-width: 575px) {
+    .logos-grid {
+        display: none;
+    }
+    
+    .carousel-container {
+        display: block;
+    }
+    
+    .swiper-images-group {
+        .obra-image {
+            max-width: 120px;
+        }
+    }
+    
+    .carousel-arrow {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .carousel-arrow-prev {
+        left: 10px;
+    }
+    
+    .carousel-arrow-next {
+        right: 10px;
+    }
+}
+
 
 // Setas de navegação customizadas
 .carousel-arrow {
