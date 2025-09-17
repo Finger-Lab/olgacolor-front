@@ -1,25 +1,42 @@
 <div id="markets">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <h3>Mercados de <strong>atuação</strong></h3>
-                <a routerLink="/mercados" class="btn btn-outline-dark rounded-pill mt-2">Saiba mais</a>
+    <div class="markets-wrapper">
+        <div class="markets-title">
+            <h2>Mercados de <strong>Atuação</strong></h2>
+            <p>Soluções em alumínio para diversos segmentos do mercado</p>
+            <a routerLink="/mercados" class="btn">Saiba mais</a>
+        </div>
+        
+        <div class="markets-grid">
+            <div class="market-item" data-market="construction">
+                <h3>Construção Civil</h3>
+                <a routerLink="/mercados/construcao-civil">
+                    Explore soluções
+                    <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
-            <div class="col-lg-9 mt-5 mt-lg-0">
-                <div id="blocks" data-aos="fade-left" data-aos-delay="300">
-                    <div>
-                        <p routerLink="/mercados/construcao-civil">Construção Civil</p>
-                    </div>
-                    <div>
-                        <p routerLink="/mercados/envidracamento">Envidraçamento</p>
-                    </div>
-                    <div>
-                        <p routerLink="/mercados/linha-moveleira">Linha moveleira</p>
-                    </div>
-                    <div>
-                        <p routerLink="/mercados/linha-industrial">Indústria</p>
-                    </div>
-                </div>  
+            
+            <div class="market-item" data-market="glazing">
+                <h3>Envidraçamento</h3>
+                <a routerLink="/mercados/envidracamento">
+                    Explore soluções
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="market-item" data-market="furniture">
+                <h3>Linha Moveleira</h3>
+                <a routerLink="/mercados/linha-moveleira">
+                    Explore soluções
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+            
+            <div class="market-item" data-market="industry">
+                <h3>Indústria</h3>
+                <a routerLink="/mercados/linha-industrial">
+                    Explore soluções
+                    <i class="bi bi-arrow-right"></i>
+                </a>
             </div>
         </div>
     </div>

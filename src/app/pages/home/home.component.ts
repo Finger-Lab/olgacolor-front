@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { VisionComponent } from "../../components/home/vision/vision.component";
 import { MarketsComponent } from "../../components/home/markets/markets.component";
 import { ProductsComponent } from "../../components/home/products/products.component";
@@ -15,7 +16,9 @@ import { NewsletterComponent } from "../../components/newsletter/newsletter.comp
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [
+    CommonModule,
     VisionComponent,
     MarketsComponent,
     ProductsComponent,
@@ -27,8 +30,7 @@ import { NewsletterComponent } from "../../components/newsletter/newsletter.comp
     BudgetComponent,
     PriceComponent,
     MainComponent,
-    HeaderComponent,
-
+    HeaderComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { DividingLineComponent } from "../../dividing-line/dividing-line.component";
 
 @Component({
   selector: 'app-olgacolor',
-  imports: [DividingLineComponent],
+  standalone: true,
+  imports: [CommonModule, DividingLineComponent],
   templateUrl: './olgacolor.component.html',
   styleUrl: './olgacolor.component.scss'
 })

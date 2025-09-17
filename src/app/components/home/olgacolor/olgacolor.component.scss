@@ -1,33 +1,143 @@
 #olgacolor {
     padding: 5rem 0;
     background-color: #192636;
-    color: #FFF;
+    width: 100%;
 
-    h5 {
-        margin-top: 2rem;
-        font-weight: 300;
+    .olgacolor-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
     }
 
-    h3 {
+    .olgacolor-header {
+        text-align: center;
         margin-bottom: 4rem;
-        font-weight: 300;
+        color: #ffffff;
+
+        h5 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 4rem;
+        
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+
+            h1 {
+                font-size: 3.5rem;
+                font-weight: 600;
+                color: #ffffff;
+                margin-bottom: 1rem;
+            }
+
+            p {
+                font-size: 1.2rem;
+                color: #ffffff;
+                margin-top: 1rem;
+                line-height: 1.4;
+            }
+
+            &:hover {
+                transform: translateY(-5px);
+            }
+        }
+    }
+}
+
+    h5 {
+        font-size: 1.5rem;
+        margin-top: 2rem;
+        font-weight: 400;
+        letter-spacing: 2px;
+        opacity: 0.9;
     }
 
     h1 {
-        margin: 0;
+        font-size: 3.5rem;
+        margin: 1rem 0;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    h3 {
+        font-size: 1.8rem;
+        margin-bottom: 5rem;
         font-weight: 300;
+        opacity: 0.9;
+        letter-spacing: 1px;
     }
 
     .row {
-        > div {
+        margin-top: 4rem;
+
+        .col {
+            text-align: center;
+            margin-bottom: 3rem;
+
             h1 {
+                font-size: 3.5rem;
                 margin-bottom: 1rem;
+                color: #ffffff;
+                font-weight: 600;
             }
 
             p {
                 margin: 1.5rem 0 0;
                 font-weight: 300;
+                font-size: 1.2rem;
+                color: #ffffff;
+                opacity: 0.9;
+                line-height: 1.5;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .col {
+                margin-bottom: 4rem;
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+
+                h1 {
+                    font-size: 3rem;
+                }
+
+                p {
+                    font-size: 1.1rem;
+                }
             }
         }
     }
-}

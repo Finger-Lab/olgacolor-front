@@ -1,6 +1,7 @@
 import { Component, signal, CUSTOM_ELEMENTS_SCHEMA, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { DividingLineComponent } from "../../dividing-line/dividing-line.component";
 import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -13,7 +14,8 @@ register();
 
 @Component({
   selector: 'app-products',
-  imports: [DividingLineComponent, RouterLink],
+  standalone: true,
+  imports: [DividingLineComponent, RouterLink, CommonModule],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
