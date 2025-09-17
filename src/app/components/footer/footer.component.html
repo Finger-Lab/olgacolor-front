@@ -1,194 +1,57 @@
-<div id="footer">
+    <div id="footer">
     <div class="container">
-        <div class="row justify-content-between">
-            <div class="col-lg-2">
+        <div class="row align-items-start">
+            <!-- Coluna 1 - Logo -->
+            <div class="col-lg-3">
                 <a routerLink="/pagina-inicial">
-                    <img src="assets/images/logo-olgacolor-preto.png" alt="Logo da Olgacolor"
+                    <img src="assets/images/logo_olgacolor_white.avif" alt="Logo da Olgacolor"
                         class="img-fluid d-block mx-auto" />
                 </a>
             </div>
-            <div class="col-lg-9 mt-5 mt-lg-0">
-                <div class="row text-center text-sm-start">
-                    <div class="col-sm-6 col-md-4 col-lg-3">
-                        <h6>EMPRESA</h6>
+            
+            <!-- Coluna 2 - Jurídico -->
+            <div class="col-lg-3">
+                <h6>JURÍDICO</h6>
+                <ul>
+                    <li>
+                        <a routerLink="/pagina-inicial">Política de Cookies</a>
+                    </li>
+                    <li>
+                        <a routerLink="/pagina-inicial">Política de Privacidade</a>
+                    </li>
+                </ul>
+            </div>
 
-                        <ul id="block_links">
-                            <li>
-                                <a routerLink="/pagina-inicial">Home</a>
-                            </li>
-                            <!-- <li>
-                                <a routerLink="/tecnologia">Institucional</a>
-                            </li> -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Institucional
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" routerLink="/tecnologia">Sobre nós</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" routerLink="/processos-producao">
-                                            Processos de produção
-                                        </a>
-                                    </li>
-                                    <!-- <li>
-                                        <a class="dropdown-item" routerLink="/processos-producao/extrusao">Extrusão</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" routerLink="/processos-producao/jateamento">
-                                            Jateamento
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" routerLink="/processos-producao/polimento">
-                                            Polimento
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" routerLink="/processos-producao/usinagem">Usinagem</a>
-                                    </li> -->
-                                </ul>
-                            </li>
+            <!-- Coluna 3 - Contato -->
+            <div class="col-lg-3">
+                <h6>CONTATO</h6>
+                <div class="contact-info">
+                    <a href="mailto:olgacolor@olgacolor.com.br" class="email">olgacolor&#64;olgacolor<wbr>.com.br</a>
+                </div>
+                <div class="contact-phone">
+                    <p>São Bernardo do Campo: (11) 3318.1000</p>
+                    <p>Jacutinga: (11) 3318.1001</p>
+                </div>
+            </div>
 
-                            <!-- Mercados -->
-                            <li class="nav-item dropdown" (mouseenter)="onDropdownMouseEnter($event)"
-                                (mouseleave)="onDropdownMouseLeave($event)">
-                                <a routerLink="/mercados" class="nav-link dropdown-toggle" role="button">
-                                    Mercados
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" routerLink="/mercados/construcao-civil">
-                                            Construção Civil
-                                        </a>
-                                    </li>
-                                    <li><a class="dropdown-item" routerLink="/mercados/linha-moveleira">Moveleiros</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" routerLink="/mercados/linha-industrial">Industriais</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" routerLink="/mercados/envidracamento">Vidraçaria</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <!-- Perfis -->
-                            <li class="nav-item dropdown" (mouseenter)="onDropdownMouseEnter($event)"
-                                (mouseleave)="onDropdownMouseLeave($event)">
-                                <a routerLink="/perfis" class="nav-link dropdown-toggle" role="button">
-                                    Perfis
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" (click)="onPerfilClick('Construção Civil')">
-                                            Construção Civil
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" (click)="onPerfilClick('Vidraçaria')">Vidraçaria</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" (click)="onPerfilClick('Moveleira')">Moveleiros</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" (click)="onPerfilClick('Industrial')">Industriais</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" (click)="onPerfilClick('Tabelados O')">Tabelados</a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <!-- Acabamentos -->
-                            <li class="nav-item dropdown" (mouseenter)="onDropdownMouseEnter($event)"
-                                (mouseleave)="onDropdownMouseLeave($event)">
-                                <a routerLink="/acabamentos" class="nav-link dropdown-toggle" role="button">
-                                    Acabamentos
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" (click)="onFinishesClick('Anodização')">Anodização</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" (click)="onFinishesClick('Pintura')">
-                                            Pintura Eletrostática a Pó
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" (click)="onFinishesClick('Efeito Madeira')">
-                                            Efeito Madeira
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li>
-                                <a routerLink="/pagina-inicial">Obras</a>
-                            </li>
-                            <li>
-                                <a routerLink="/lme">LME</a>
-                            </li>
-                        </ul>
+            <!-- Coluna 4 - Endereços -->
+            <div class="col-lg-3">
+                <h6>ENDEREÇOS</h6>
+                <div class="addresses">
+                    <div class="address-unit">
+                        <p><strong>São Bernardo do Campo</strong></p>
+                        <p>Av. Dr. Rudge Ramos, 1.070. Rudge Ramos - São Bernardo do Campo/SP</p>
+                        
                     </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 mt-3 mt-sm-0">
-                        <h6>JURÍDICO</h6>
-
-                        <ul>
-                            <li>
-                                <a routerLink="/pagina-inicial">Política de Cookies</a>
-                            </li>
-                            <li>
-                                <a routerLink="/pagina-inicial">Política de Privacidade</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 mt-3 mt-md-0">
-                        <h6>REDES SOCIAIS</h6>
-
-                        <ul>
-                            <li>
-                                <a href="https://www.linkedin.com/in/olgacolor-alum%C3%ADnio"
-                                    target="_blank">Linkedin</a>
-                            </li>
-                            <li>
-                                <a href="https://www.instagram.com/olga_aluminio/" target="_blank">Instagram</a>
-                            </li>
-                            <li>
-                                <a href="https://www.youtube.com/@olga_aluminio" target="_blank">Youtube</a>
-                            </li>
-                            <li>
-                                <a href="https://wa.me/551133181030" target="_blank">WhatsApp</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-6 col-md-4 col-lg-3 mt-3 mt-lg-0">
-                        <h6>CONTATO</h6>
-                        <li class="custom">
-                            <a href="mailto:olgacolor@olgacolor.com.br">olgacolor&#64;olgacolor<wbr>.com.br</a>
-                        </li>
-
-                        <div class="units">
-                            <ul>
-                                <span class="mb-0">Unidade São Bernardo do Campo</span>
-                                <p class="mb-0">Tel.: (11) 3318.1000</p>
-                                <p class="mb-0">Av. Dr. Rudge Ramos, 1.070</p>
-                                <p class="mb-0">Rudge Ramos - São Bernardo do Campo/SP.</p>
-                            </ul>
-                            <ul>
-                                <span class="mb-0">Unidade Jacutinga</span>
-                                <p class="mb-0">Tel.: (11) 3318.1001</p>
-                                <p class="mb-0">Rodovia MG 290 s/n Km 80 + 350 metros</p>
-                                <p class="mb-0">Jacutinga/MG.</p>
-                            </ul>
-                        </div>
+                    <div class="address-unit mt-3">
+                        <p><strong>Jacutinga</strong></p>
+                        <p>Rodovia MG 290 s/n Km 80 + 350 metros - Jacutinga/MG</p>
+                       
                     </div>
                 </div>
             </div>
         </div>
 
-        <p class="text-center mt-3 mb-0">&copy; {{ currentYear }} por Olgacolor.</p>
+        <p class="text-center mt-4 mb-0">&copy; {{ currentYear }} por Olgacolor.</p>
     </div>
 </div>
