@@ -10,6 +10,19 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/admin/manage-users/manage-users.component').then(mod => mod.ManageUsersComponent)
     },
     {
+        path: 'admin/obras',
+        loadComponent: () => import('./pages/admin/obras/obras-admin.component').then(mod => mod.ObrasAdminComponent)
+    },
+    {
+        path: 'admin/perfis',
+        loadComponent: () => import('./pages/admin/profiles/profiles-admin.component').then(m => m.ProfilesAdminComponent)
+    },
+    {
+        path: 'admin/perfis/imagens',
+        loadComponent: () => import('./pages/admin/profiles/profile-images.component')
+          .then(mod => mod.ProfileImagesComponent)
+    },
+    {
         path: '',
         pathMatch: 'full',
         redirectTo: 'pagina-inicial'

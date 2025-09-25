@@ -1,0 +1,129 @@
+<div class="obras-admin-container">
+    <div class="container py-5">
+        <h1 class="mb-4">Gerenciamento de Obras</h1>
+
+        <!-- Formulário -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3">{{ isEditing ? 'Editar' : 'Nova' }} Obra</h5>
+                <form [formGroup]="obraForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="title" class="form-label">Título da Obra</label>
+                            <input type="text" class="form-control" id="title" formControlName="title" placeholder="Ex: Edifício Residencial XYZ">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="location" class="form-label">Estado</label>
+                            <select class="form-select" id="location" formControlName="location">
+                                <option value="">Selecione o estado...</option>
+                                @for (state of statesList; track state.uf) {
+                                    <option [value]="state.name">{{ state.name }} ({{ state.uf }})</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <label for="image" class="form-label">Imagem da Obra</label>
+                            <input type="file" 
+                                   class="form-control" 
+                                   id="image" 
+                                   accept="image/*" 
+                                   (change)="onFileSelected($event)">
+                            @if (previewUrl) {
+                            <div class="mt-2">
+                                <img [src]="previewUrl" 
+                                     alt="Preview" 
+                                     class="img-thumbnail" 
+                                     style="max-height: 200px;">
+                            </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="system" class="form-label">Sistema Utilizado</label>
+                            <select class="form-select" id="system" formControlName="system">
+                                <option value="">Selecione o sistema...</option>
+                                @for (system of systemsList; track system) {
+                                    <option [value]="system">{{ system }}</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="constructor" class="form-label">Construtora</label>
+                            <input type="text" class="form-control" id="constructor" formControlName="constructor" placeholder="Ex: Construtora ABC">
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary" [disabled]="!obraForm.valid">
+                            {{ isEditing ? 'Atualizar' : 'Criar' }}
+                        </button>
+                        @if (isEditing) {
+                        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+                            Cancelar
+                        </button>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista de Obras -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Obras Cadastradas</h5>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Imagem</th>
+                                <th>Título da Obra</th>
+                                <th>Estado</th>
+                                <th>Sistema Utilizado</th>
+                                <th>Construtora</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (obra of obras$ | async; track obra.id) {
+                            <tr>
+                                <td>
+                                    @if (obra.imageUrl) {
+                                        <img [src]="obra.imageUrl" 
+                                             alt="Imagem da Obra" 
+                                             class="img-thumbnail" 
+                                             style="max-height: 50px;">
+                                    }
+                                </td>
+                                <td>{{ obra.title }}</td>
+                                <td>{{ obra.location }}</td>
+                                <td>{{ obra.system }}</td>
+                                <td>{{ obra.constructor }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button class="btn btn-sm btn-outline-primary" (click)="editObra(obra)">
+                                            Editar
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" (click)="deleteObra(obra.id!)">
+                                            Excluir
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            } @empty {
+                            <tr>
+                                <td colspan="5" class="text-center">Nenhuma obra cadastrada</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

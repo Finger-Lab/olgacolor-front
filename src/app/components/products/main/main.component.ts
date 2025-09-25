@@ -45,7 +45,10 @@ export class MainComponent implements OnInit {
   }
 
   private _getProducts(): void {
-    this._productsService.getProducts().subscribe((products: any) => {
+    console.log('🚀 Chamando _getProducts() no MainComponent');
+    this._productsService.getProducts().subscribe(async (products: any) => {
+      console.log('📥 Produtos recebidos no componente:', products);
+      
       this._products = products;
       this.productsFiltered.set(products);
 
@@ -66,6 +69,17 @@ export class MainComponent implements OnInit {
 
       if (this.route.snapshot.queryParams['category']) {
         this._productsService.categorySelected.set(this.route.snapshot.queryParams['category']);
+      }
+
+      // Carrega as imagens dos produtos após receber os dados
+      try {
+        console.log('🔄 Iniciando carregamento de imagens no componente...');
+        const productsWithImages = await this._productsService.loadAllProductImages(products);
+        this._products = productsWithImages;
+        this.productsFiltered.set(productsWithImages);
+        console.log('✅ Imagens carregadas e produtos atualizados');
+      } catch (error) {
+        console.error('❌ Erro ao carregar imagens:', error);
       }
     });
   }

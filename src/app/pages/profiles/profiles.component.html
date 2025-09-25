@@ -3,7 +3,7 @@
     <mat-drawer-container [scrollTop]="true">
         <mat-drawer (closedStart)="profilesService.selectedProduct.set(null)" #drawer position="end" mode="over">
             <div class="product">
-                <img [src]="profilesService.selectedProduct()?.images?.[0]"
+                <img [src]="profilesService.selectedProduct()?.images?.[1] || profilesService.selectedProduct()?.images?.[0]"
                     [alt]="profilesService.selectedProduct()?.name" />
                 <div class="texts">
                     <div class="name">

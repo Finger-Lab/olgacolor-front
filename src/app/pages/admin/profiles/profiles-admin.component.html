@@ -1,0 +1,183 @@
+<!-- profiles-admin.component.html -->
+<div class="container mt-4">
+    <div class="row">
+        <!-- Formulário -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ isEditing ? 'Editar' : 'Novo' }} Perfil</h5>
+                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                        <!-- Imagem de Capa -->
+                        <div class="mb-3">
+                            <label class="form-label">Imagem de Capa</label>
+                            @if (coverPreviewUrl) {
+                                <img [src]="coverPreviewUrl" 
+                                     alt="Preview da Capa" 
+                                     class="img-thumbnail mb-2" 
+                                     style="max-height: 200px;">
+                            } @else {
+                                <div class="alert alert-info mb-2">
+                                    <small>Nenhuma imagem de capa válida encontrada. Selecione uma nova imagem.</small>
+                                </div>
+                            }
+                            <input type="file" 
+                                   class="form-control" 
+                                   accept="image/*" 
+                                   (change)="onFileSelected($event, 'cover')">
+                            <small class="form-text text-muted">Esta imagem será exibida na listagem principal dos perfis.</small>
+                        </div>
+
+                        <!-- Imagem do Sidebar -->
+                        <div class="mb-3">
+                            <label class="form-label">Imagem do Sidebar</label>
+                            @if (sidebarPreviewUrl) {
+                                <img [src]="sidebarPreviewUrl" 
+                                     alt="Preview do Sidebar" 
+                                     class="img-thumbnail mb-2" 
+                                     style="max-height: 200px;">
+                            } @else {
+                                <div class="alert alert-info mb-2">
+                                    <small>Nenhuma imagem de sidebar válida encontrada. Selecione uma nova imagem.</small>
+                                </div>
+                            }
+                            <input type="file" 
+                                   class="form-control" 
+                                   accept="image/*" 
+                                   (change)="onFileSelected($event, 'sidebar')">
+                            <small class="form-text text-muted">Esta imagem será exibida no sidebar junto com as informações detalhadas.</small>
+                        </div>
+
+                        <!-- Nome -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nome</label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="name" 
+                                   formControlName="name">
+                        </div>
+
+                        <!-- Descrição -->
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Descrição</label>
+                            <textarea class="form-control" 
+                                      id="description" 
+                                      formControlName="description" 
+                                      rows="3"></textarea>
+                        </div>
+
+                        <!-- Peso -->
+                        <div class="mb-3">
+                            <label for="weight" class="form-label">Peso</label>
+                            <input type="number" 
+                                   class="form-control" 
+                                   id="weight" 
+                                   formControlName="weight" 
+                                   step="0.01">
+                        </div>
+
+                        <!-- Equivalência -->
+                        <div class="mb-3">
+                            <label for="equivalence" class="form-label">Equivalência</label>
+                            <input type="number" 
+                                   class="form-control" 
+                                   id="equivalence" 
+                                   formControlName="equivalence" 
+                                   step="0.01">
+                        </div>
+
+                        <!-- Botões -->
+                        <div class="d-flex gap-2">
+                            <button type="submit" 
+                                    class="btn btn-primary" 
+                                    [disabled]="!profileForm.valid || isUploading">
+                                {{ isEditing ? 'Atualizar' : 'Salvar' }}
+                            </button>
+                            @if (isEditing) {
+                                <button type="button" 
+                                        class="btn btn-secondary" 
+                                        (click)="cancelEdit()">
+                                    Cancelar
+                                </button>
+                            }
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de Perfis -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Perfis Cadastrados</h5>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-warning btn-sm" 
+                                    (click)="cleanInvalidUrls()"
+                                    [disabled]="isUploading">
+                                Limpar URLs Inválidas
+                            </button>
+                            <a class="btn btn-primary btn-sm" routerLink="/admin/perfis/imagens">
+                                Ver Galeria de Imagens
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Imagem</th>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th>Peso</th>
+                                    <th>Equivalência</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (profile of profiles$ | async; track profile.id) {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            @if (profile.images?.[0] || profile.coverImageUrl) {
+                                                <img [src]="profile.images?.[0] || profile.coverImageUrl" 
+                                                     alt="Imagem de Capa" 
+                                                     class="img-thumbnail" 
+                                                     style="max-height: 50px;">
+                                            }
+                                            @if (profile.images?.[1] || profile.sidebarImageUrl) {
+                                                <img [src]="profile.images?.[1] || profile.sidebarImageUrl" 
+                                                     alt="Imagem do Sidebar" 
+                                                     class="img-thumbnail" 
+                                                     style="max-height: 50px;">
+                                            }
+                                        </div>
+                                    </td>
+                                    <td>{{ profile.name }}</td>
+                                    <td>{{ profile.description }}</td>
+                                    <td>{{ profile.weight }}</td>
+                                    <td>{{ profile.equivalence }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-primary" 
+                                                    (click)="editProfile(profile)">
+                                                Editar
+                                            </button>
+                                            <button type="button" 
+                                                    class="btn btn-sm btn-danger" 
+                                                    (click)="deleteProfile(profile)">
+                                                Excluir
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
