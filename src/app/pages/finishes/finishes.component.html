@@ -1,13 +1,41 @@
 <div id="markets">
     <app-header [customClass]="classScrolled" />
-    <mat-drawer-container [scrollTop]="true">
-        <mat-drawer #drawer position="end" mode="over">
+    
+    <!-- Custom drawer instead of mat-drawer to avoid Material scroll behavior -->
+    <div class="custom-drawer-overlay" [class.open]="_finishesService.selectedProduct()" (click)="closeModal()">
+        <div class="custom-drawer" [class.open]="_finishesService.selectedProduct()" (click)="$event.stopPropagation()">
             <div class="product">
-                <img [src]="_finishesService.selectedProduct()?.imagem" alt="" />
-                <h6>{{ _finishesService.selectedProduct()?.titulo }}</h6>
+                <button class="close-btn" (click)="closeModal()">
+                    <span>&times;</span>
+                </button>
+                <div class="product-content">
+                    <div class="product-image">
+                        <img [src]="_finishesService.selectedProduct()?.imagem" 
+                             [alt]="_finishesService.selectedProduct()?.titulo" />
+                    </div>
+                    
+                    <div class="product-info">
+                        <h3>{{ _finishesService.selectedProduct()?.titulo }}</h3>
+                        
+                        @if (_finishesService.selectedProduct()?.codigo) {
+                        <div class="product-code">
+                            <span class="code-label">Código:</span>
+                            <span class="code-value">{{ _finishesService.selectedProduct()?.codigo }}</span>
+                        </div>
+                        }
+                        
+                        @if (_finishesService.selectedProduct()?.descricao) {
+                        <div class="product-description">
+                            <p>{{ _finishesService.selectedProduct()?.descricao }}</p>
+                        </div>
+                        }
+                    </div>
+                </div>
             </div>
-        </mat-drawer>
-        <router-outlet name="second" />
-    </mat-drawer-container>
+        </div>
+    </div>
+    
+    <router-outlet name="second" />
+    
     <app-footer />
 </div>

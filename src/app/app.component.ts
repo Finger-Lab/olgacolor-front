@@ -14,17 +14,29 @@ import { filter } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'olgacolor';
+  private previousUrl: string = '';
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router
   ) {
-    // Escuta mudanças de rota e faz scroll para o topo
+    // Escuta mudanças de rota e faz scroll para o topo apenas em mudanças de página principal
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
-    ).subscribe(_ => {
-      if (isPlatformBrowser(this.platformId))
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    ).subscribe((event: NavigationEnd) => {
+      if (isPlatformBrowser(this.platformId)) {
+        // Não fazer scroll automático na página de acabamentos para preservar posição
+        const isFinishesPage = event.url.includes('/acabamentos');
+        const isFinishesOutletNavigation = event.url.includes('outlets') && event.url.includes('second');
+        const hasDrawerOpen = document.body.classList.contains('drawer-open');
+        
+        // Só fazer scroll se não for navegação relacionada a acabamentos e não houver drawer aberto
+        if (!isFinishesPage && !isFinishesOutletNavigation && !hasDrawerOpen) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        this.previousUrl = event.url;
+      }
     });
   }
 

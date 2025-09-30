@@ -146,7 +146,7 @@ export class CatalogsService {
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'RESIDENCIAL AGLO',
       thumbnailUrl: 'assets/images/catalogs/aglo2.2oc.png',
-      pdfUrl: 'https://firebasestorage.googleapis.com/v0/b/olgacolor-5ed0f.firebasestorage.app/o/catalogs%2Fportas-janelas%2Faglo%2Faglo2.2oc.pdf?alt=media&token=a220431f-7932-4c0a-972f-3e5d619465ec',
+      pdfUrl: 'https://firebasestorage.googleapis.com/v0/b/olgacolor-5ed0f.firebasestorage.app/o/catalogs%2Fportas-janelas%2Faglo%2Faglo2.2oc.pdf?alt=media&token=a548238e-a811-45c5-a6e1-a3f4c1424d3b',
       order: 6,
       createdAt: '2025-09-06'
     },
@@ -307,7 +307,7 @@ export class CatalogsService {
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'GUARDA-CORPO',
       thumbnailUrl: 'assets/images/catalogs/uniconeograd.png',
-      pdfUrl: 'https://firebasestorage.googleapis.com/v0/b/olgacolor-5ed0f.firebasestorage.app/o/catalogs%2Fguarda-corpo%2FCat%C3%A1logo_Neograd_Olgacolor.pdf?alt=media&token=986814ef-53a4-4428-a47c-8b46ff03399d',
+      pdfUrl: 'https://firebasestorage.googleapis.com/v0/b/olgacolor-5ed0f.firebasestorage.app/o/catalogs%2Fguarda-corpo%2FCat%C3%A1logo_Neograd_Olgacolor.pdf?alt=media&token=22147170-6031-4d99-94e3-7bc295390810',
       order: 6,
       createdAt: '2025-09-06'
     },

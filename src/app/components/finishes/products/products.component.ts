@@ -1,10 +1,11 @@
-import { Component, inject, OnInit, signal, OnDestroy, effect, computed } from '@angular/core';
+import { Component, inject, OnInit, signal, OnDestroy, effect, computed, PLATFORM_ID } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { catchError, of, take, debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { FinishesService } from '../../../pages/finishes/services/finishes.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ActivatedRoute, Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 
 
 @Component({
@@ -23,6 +24,7 @@ export class FinishesProductsComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   private readonly _route = inject(ActivatedRoute);
   private readonly _router = inject(Router);
+  private readonly platformId = inject(PLATFORM_ID);
 
   protected finishesService = inject(FinishesService);
   protected searchControl = new FormControl('');
@@ -81,7 +83,13 @@ export class FinishesProductsComponent implements OnInit, OnDestroy {
   }
 
   protected setProduct(product: any): void {
+    // Apenas definir o produto - o controle de scroll é feito no FinishesComponent
     this.finishesService.selectedProduct.set(product);
+  }
+
+  protected isProductSelected(product: any): boolean {
+    const selectedProduct = this.finishesService.selectedProduct();
+    return selectedProduct && selectedProduct.id === product.id;
   }
 
   protected onCategoryClick(categoryName: string): void {

@@ -1,44 +1,164 @@
+// Drawer centralizado na lateral direita
+::ng-deep .centered-drawer {
+    .mat-drawer {
+        width: 450px;
+        max-width: 90vw;
+        height: auto !important;
+        max-height: 85vh;
+        top: 50% !important;
+        transform: translateY(-50%);
+        border-radius: 12px 0 0 12px;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+        animation: slideInRight 0.3s ease-in-out;
+    }
+}
+
 .product {
-
-    img {
-        padding-inline: 1rem;
-        width: 100%;
-    }
-
-
-}
-
-.name,
-.description,
-.weight,
-.equivalence {
-    padding-inline: 1rem;
-
-    small {
-        font-size: 12px;
-        color: gray;
-    }
-
-    h6 {
-        font-size: 1rem;
-    }
-}
-
-.below {
+    position: relative;
+    padding: 24px;
+    height: 100%;
     display: flex;
-    gap: 1rem;
+    flex-direction: column;
+    
+    .close-btn {
+        position: absolute;
+        top: 12px;
+        right: 16px;
+        background: none;
+        border: none;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #666;
+        transition: color 0.2s;
+        z-index: 10;
+        
+        &:hover {
+            color: #000;
+        }
+        
+        span {
+            display: block;
+            line-height: 1;
+        }
+    }
+    
+    .product-content {
+        padding-top: 40px; // Espaço para o botão fechar
+        
+        img {
+            width: 100%;
+            max-height: 40vh;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .product-info {
+            .product-title {
+                margin: 0 0 20px 0;
+                font-size: 1.5rem;
+                color: #333;
+                font-weight: 600;
+                text-align: center;
+            }
+            
+            .product-details {
+                .detail-item {
+                    margin-bottom: 16px;
+                    
+                    small {
+                        font-size: 12px;
+                        color: #666;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+                        display: block;
+                        margin-bottom: 4px;
+                    }
+                    
+                    p {
+                        margin: 0;
+                        font-size: 1rem;
+                        color: #333;
+                        line-height: 1.4;
+                    }
+                }
+                
+                .detail-row {
+                    display: flex;
+                    gap: 20px;
+                    
+                    .detail-item {
+                        flex: 1;
+                    }
+                }
+            }
+            
+            .action-buttons {
+                margin-top: 24px;
+                text-align: center;
+                
+                .btn {
+                    border-radius: 20px;
+                    padding: 8px 20px;
+                    font-size: 0.9rem;
+                    font-weight: 500;
+                    transition: all 0.2s;
+                    
+                    &.btn-primary {
+                        background-color: #007bff;
+                        border-color: #007bff;
+                        
+                        &:hover {
+                            background-color: #0056b3;
+                            border-color: #0056b3;
+                            transform: translateY(-1px);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
-.button-close {
-    float: inline-end;
-    margin-top: 1rem;
-    margin-right: 1rem;
-    padding: 2px 8px;
+// Animação de slide da direita
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%) translateY(-50%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) translateY(-50%);
+        opacity: 1;
+    }
 }
 
-.buttons-ctn{
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 5px 0 5px;
+// Responsivo
+@media (max-width: 768px) {
+    ::ng-deep .centered-drawer {
+        .mat-drawer {
+            width: 100vw;
+            max-height: 80vh;
+            top: 20% !important;
+            border-radius: 12px 12px 0 0;
+        }
+    }
+    
+    .product {
+        padding: 16px;
+        
+        .product-content {
+            .product-info {
+                .product-title {
+                    font-size: 1.25rem;
+                }
+                
+                .product-details {
+                    .detail-row {
+                        flex-direction: column;
+                        gap: 12px;
+                    }
+                }
+            }
+        }
+    }
 }

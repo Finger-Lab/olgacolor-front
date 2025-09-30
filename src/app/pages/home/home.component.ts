@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { VisionComponent } from "../../components/home/vision/vision.component";
 import { MarketsComponent } from "../../components/home/markets/markets.component";
 import { ProductsComponent } from "../../components/home/products/products.component";
@@ -36,10 +36,11 @@ import { NewsletterComponent } from "../../components/newsletter/newsletter.comp
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+  private readonly platformId = inject(PLATFORM_ID);
+  
   constructor() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (isPlatformBrowser(this.platformId)) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
-
-
-
 }

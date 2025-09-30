@@ -25,18 +25,40 @@
 
                     <div class="row">
                         <div class="col-12 mb-3">
-                            <label for="image" class="form-label">Imagem da Obra</label>
+                            <label for="image" class="form-label">
+                                Imagem da Obra
+                                @if (isUploading) {
+                                    <span class="spinner-border spinner-border-sm ms-2" role="status"></span>
+                                    <small class="text-muted ms-1">Enviando...</small>
+                                }
+                            </label>
                             <input type="file" 
                                    class="form-control" 
                                    id="image" 
                                    accept="image/*" 
+                                   [disabled]="isUploading || isSubmitting"
                                    (change)="onFileSelected($event)">
+                            
+                            <!-- Preview da nova imagem selecionada -->
                             @if (previewUrl) {
                             <div class="mt-2">
+                                <small class="text-muted d-block">Nova imagem:</small>
                                 <img [src]="previewUrl" 
                                      alt="Preview" 
                                      class="img-thumbnail" 
                                      style="max-height: 200px;">
+                            </div>
+                            }
+                            
+                            <!-- Imagem atual durante edição -->
+                            @if (isEditing && currentImageUrl && !previewUrl) {
+                            <div class="mt-2">
+                                <small class="text-muted d-block">Imagem atual:</small>
+                                <img [src]="currentImageUrl" 
+                                     alt="Imagem atual" 
+                                     class="img-thumbnail" 
+                                     style="max-height: 200px;">
+                                <small class="text-muted d-block mt-1">Selecione uma nova imagem para substituir</small>
                             </div>
                             }
                         </div>
@@ -59,11 +81,19 @@
                     </div>
 
                     <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary" [disabled]="!obraForm.valid">
-                            {{ isEditing ? 'Atualizar' : 'Criar' }}
+                        <button type="submit" 
+                                class="btn btn-primary" 
+                                [disabled]="!obraForm.valid || isSubmitting || isUploading">
+                            @if (isSubmitting) {
+                                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                            }
+                            {{ isSubmitting ? 'Processando...' : (isEditing ? 'Atualizar' : 'Criar') }}
                         </button>
                         @if (isEditing) {
-                        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+                        <button type="button" 
+                                class="btn btn-secondary" 
+                                [disabled]="isSubmitting"
+                                (click)="cancelEdit()">
                             Cancelar
                         </button>
                         }
@@ -117,7 +147,11 @@
                             </tr>
                             } @empty {
                             <tr>
-                                <td colspan="5" class="text-center">Nenhuma obra cadastrada</td>
+                                <td colspan="6" class="text-center py-4">
+                                    <i class="text-muted">Nenhuma obra cadastrada</i>
+                                    <br>
+                                    <small class="text-muted">Use o formulário acima para adicionar a primeira obra</small>
+                                </td>
                             </tr>
                             }
                         </tbody>

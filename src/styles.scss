@@ -45,6 +45,14 @@ body {
     position: relative;
 }
 
+// Prevenir scroll quando drawer está aberto
+body.drawer-open {
+    overflow: hidden !important;
+    position: fixed !important;
+    width: 100% !important;
+    top: 0 !important;
+}
+
 @media (min-width: 1200px) {
     h1 {
         font-size: max(26px, min(90.11927193531648px, max(0.5px, 0.0664063 * (min((100 * 1cqw), 1600px) - 26px))))

@@ -1,44 +1,47 @@
 <div id="profiles">
     <app-header [customClass]="classScrolled" />
     <mat-drawer-container [scrollTop]="true">
-        <mat-drawer (closedStart)="profilesService.selectedProduct.set(null)" #drawer position="end" mode="over">
+        <mat-drawer (closedStart)="profilesService.selectedProduct.set(null)" #drawer position="end" mode="over" class="centered-drawer">
             <div class="product">
-                <img [src]="profilesService.selectedProduct()?.images?.[1] || profilesService.selectedProduct()?.images?.[0]"
-                    [alt]="profilesService.selectedProduct()?.name" />
-                <div class="texts">
-                    <div class="name">
-                        <small>Nome</small>
-                        <h6>{{ profilesService.selectedProduct()?.name }}</h6>
-                    </div>
+                <button class="close-btn" (click)="closeModal()">
+                    <span>&times;</span>
+                </button>
+                
+                <div class="product-content">
+                    <img [src]="profilesService.selectedProduct()?.images?.[1] || profilesService.selectedProduct()?.images?.[0]"
+                        [alt]="profilesService.selectedProduct()?.name" />
+                    
+                    <div class="product-info">
+                        <h3 class="product-title">{{ profilesService.selectedProduct()?.name }}</h3>
+                        
+                        <div class="product-details">
+                            <div class="detail-item">
+                                <small>Descrição</small>
+                                <p>{{ profilesService.selectedProduct()?.description || '-' }}</p>
+                            </div>
 
-                    <div class="description">
-                        <small>Descrição</small>
-                        <h6>{{ profilesService.selectedProduct()?.description }}</h6>
-                    </div>
-
-                    <div class="below">
-                        <div class="weight">
-                            <small>Peso</small>
-                            <h6>{{ profilesService.selectedProduct()?.weight || '-' }}</h6>
+                            <div class="detail-row">
+                                <div class="detail-item">
+                                    <small>Peso</small>
+                                    <p>{{ profilesService.selectedProduct()?.weight || '-' }}</p>
+                                </div>
+                                <div class="detail-item">
+                                    <small>Equivalência</small>
+                                    <p>{{ profilesService.selectedProduct()?.equivalence || '-' }}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="equivalence">
-                            <small>Equivalência</small>
-                            <h6>{{ profilesService.selectedProduct()?.equivalence || '-' }}</h6>
+
+                        <div class="action-buttons">
+                            <button (click)="openImage(profilesService.selectedProduct()?.['tableImageSrc'])" 
+                                    [style]="profilesService.selectedProduct()?.['isTable'] ? 'visibility:visible' : 'visibility:hidden'"  
+                                    class="btn btn-primary btn-sm">
+                                Ver tabela
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="buttons-ctn">
-                <button (click)="openImage(profilesService.selectedProduct()?.['tableImageSrc'])" [style]="profilesService.selectedProduct()?.['isTable'] ? 'visibility:visible' : 'visibility:hidden'"  class="btn btn-outline-dark rounded-pill button-close">
-                    Ver tabela
-                </button>
-
-                <button (click)="drawer.close()" class="btn btn-outline-dark rounded-pill button-close">
-                    Fechar
-                </button>
-            </div>
-
         </mat-drawer>
         <router-outlet name="second" />
     </mat-drawer-container>

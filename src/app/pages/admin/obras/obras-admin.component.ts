@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FacadeSystemsService, FacadeSystem } from '../../../services/facade-systems.service';
+import { NotificationService } from '../../../services/notification.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -19,7 +20,9 @@ export class ObrasAdminComponent implements OnInit {
   currentObraId: string | null = null;
   selectedFile: File | null = null;
   isUploading = false;
+  isSubmitting = false;
   previewUrl: string | null = null;
+  currentImageUrl: string | null = null; // Para mostrar imagem atual durante edição
 
   // Lista de sistemas disponíveis
   readonly systemsList = [
@@ -73,7 +76,8 @@ export class ObrasAdminComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private facadeSystemsService: FacadeSystemsService
+    private facadeSystemsService: FacadeSystemsService,
+    private notificationService: NotificationService
   ) {
     this.obraForm = this.fb.group({
       title: ['', Validators.required],
@@ -90,7 +94,7 @@ export class ObrasAdminComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.obraForm.valid) {
+    if (this.obraForm.valid && !this.isSubmitting) {
       const obraData = this.obraForm.value;
       
       if (this.isEditing && this.currentObraId) {
@@ -105,6 +109,10 @@ export class ObrasAdminComponent implements OnInit {
     if (obra.id) {
       this.isEditing = true;
       this.currentObraId = obra.id;
+      this.currentImageUrl = obra.imageUrl || null;
+      this.previewUrl = null; // Limpar preview para mostrar imagem atual
+      this.selectedFile = null;
+      
       this.obraForm.patchValue({
         title: obra.title,
         location: obra.location,
@@ -129,43 +137,70 @@ export class ObrasAdminComponent implements OnInit {
 
   async createObra(obraData: Omit<FacadeSystem, 'id'>) {
     try {
-      this.isUploading = true;
+      this.isSubmitting = true;
       
       // Fazer upload da imagem se houver uma selecionada
       if (this.selectedFile) {
+        this.isUploading = true;
         const imageUrl = await this.facadeSystemsService.uploadImage(this.selectedFile);
         obraData = { ...obraData, imageUrl };
+        this.isUploading = false;
       }
 
       await this.facadeSystemsService.createFacadeSystem(obraData);
+      
+      // Sucesso - limpar formulário
       this.obraForm.reset();
       this.selectedFile = null;
       this.previewUrl = null;
+      
+      // Mostrar mensagem de sucesso
+      this.notificationService.success('Obra criada com sucesso!');
+      
     } catch (error) {
       console.error('Erro ao criar obra:', error);
-      // TODO: Adicionar tratamento de erro adequado
+      this.notificationService.error('Erro ao criar obra. Tente novamente.');
     } finally {
+      this.isSubmitting = false;
       this.isUploading = false;
     }
   }
 
   async updateObra(id: string, obraData: Partial<FacadeSystem>) {
     try {
+      this.isSubmitting = true;
+      
+      // Se há uma nova imagem selecionada, fazer upload
+      if (this.selectedFile) {
+        this.isUploading = true;
+        const imageUrl = await this.facadeSystemsService.uploadImage(this.selectedFile);
+        obraData = { ...obraData, imageUrl };
+        this.isUploading = false;
+      }
+      
       await this.facadeSystemsService.updateFacadeSystem(id, obraData);
+      
+      // Sucesso
+      this.notificationService.success('Obra atualizada com sucesso!');
       this.cancelEdit();
+      
     } catch (error) {
       console.error('Erro ao atualizar obra:', error);
-      // TODO: Adicionar tratamento de erro adequado
+      this.notificationService.error('Erro ao atualizar obra. Tente novamente.');
+    } finally {
+      this.isSubmitting = false;
+      this.isUploading = false;
     }
   }
 
   async deleteObra(id: string) {
-    if (confirm('Tem certeza que deseja excluir esta obra?')) {
+    if (this.notificationService.confirm('Tem certeza que deseja excluir esta obra? Esta ação não pode ser desfeita.')) {
       try {
         await this.facadeSystemsService.deleteFacadeSystem(id);
+        this.notificationService.success('Obra excluída com sucesso!');
       } catch (error) {
         console.error('Erro ao excluir obra:', error);
-        // TODO: Adicionar tratamento de erro adequado
+        this.notificationService.error('Erro ao excluir obra. Tente novamente.');
       }
     }
   }
@@ -173,6 +208,9 @@ export class ObrasAdminComponent implements OnInit {
   cancelEdit() {
     this.isEditing = false;
     this.currentObraId = null;
+    this.currentImageUrl = null;
+    this.selectedFile = null;
+    this.previewUrl = null;
     this.obraForm.reset();
   }
 }

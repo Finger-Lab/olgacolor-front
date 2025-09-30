@@ -42,4 +42,12 @@ export class ProfilesComponent {
     window.open(url, '_blank');
   }
 
+  public closeModal(): void {
+    // Primeiro fecha o drawer, depois limpa o produto selecionado
+    if (this.drawer()) {
+      this.drawer()?.close();
+    }
+    // O selectedProduct será limpo automaticamente pelo evento (closedStart) do drawer
+  }
+
 }

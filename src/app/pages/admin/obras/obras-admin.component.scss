@@ -31,4 +31,41 @@
     .form-label {
         font-weight: 500;
     }
+
+    // Melhorar aparência das imagens na tabela
+    .table td img {
+        transition: transform 0.2s ease;
+        cursor: pointer;
+        
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    // Estilo para preview de imagens
+    .img-thumbnail {
+        border: 2px solid #dee2e6;
+        transition: border-color 0.15s ease-in-out;
+        
+        &:hover {
+            border-color: #007bff;
+        }
+    }
+
+    // Loading states
+    .spinner-border-sm {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    // Melhorar spacing do formulário
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    // Estilo para botões desabilitados
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
 }

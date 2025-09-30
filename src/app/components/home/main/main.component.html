@@ -1,6 +1,25 @@
 <div id="home_main">
   <div id="main_video">
-    <video autoplay muted playsinline loop>
+    <!-- Loading placeholder -->
+    <div class="video-placeholder" *ngIf="!isVideoLoaded">
+      <div class="loading-spinner"></div>
+      <p>{{ 'paginaInicial.carregandoVideo' | translate }}</p>
+    </div>
+
+    <!-- Video element with forced autoplay -->
+    <video 
+      #mainVideo
+      [style.opacity]="isVideoLoaded ? 1 : 0"
+      autoplay 
+      muted 
+      playsinline 
+      loop
+      preload="auto"
+      [muted]="true"
+      [volume]="0"
+      (loadeddata)="onVideoLoaded()"
+      (canplay)="onVideoLoaded()"
+      (error)="onVideoError()">
       <source src="assets/videos/home/olga-home.mp4" type="video/mp4">
       Seu navegador não suporta vídeo.
     </video>

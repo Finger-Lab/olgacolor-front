@@ -49,9 +49,17 @@
 
     <div class="products-list">
         @for (color of colors(); track color.id) {
-        <div (click)="setProduct(color)" class="product-item" [class.loading]="isLoading()">
+        <div (click)="setProduct(color)" 
+             class="product-item" 
+             [class.loading]="isLoading()"
+             [class.selected]="isProductSelected(color)">
             <div class="image-container">
                 <img [src]="color?.imagem" [alt]="color?.titulo">
+                @if (isProductSelected(color)) {
+                <div class="selected-indicator">
+                    <span class="checkmark">✓</span>
+                </div>
+                }
             </div>
             <span class="product-name">{{ color?.titulo?.toUpperCase() }}</span>
         </div>
