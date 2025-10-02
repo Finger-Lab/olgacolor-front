@@ -1,0 +1,247 @@
+<div class="manage-users-container">
+  <!-- Header -->
+  <div class="header-section">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="page-title">
+          <i class="bi bi-people"></i>
+          Gerenciamento de Usuários
+        </h1>
+        <p class="page-subtitle">Adicionar e gerenciar usuários do sistema</p>
+      </div>
+      <div class="header-actions">
+        <a routerLink="/admin" class="btn btn-outline-secondary me-2">
+          <i class="bi bi-arrow-left"></i>
+          Voltar ao Dashboard
+        </a>
+        <button 
+          (click)="toggleAddForm()" 
+          class="btn btn-primary"
+          [class.btn-secondary]="showAddForm()">
+          <i class="bi" [class.bi-plus-circle]="!showAddForm()" [class.bi-x-circle]="showAddForm()"></i>
+          {{ showAddForm() ? 'Cancelar' : 'Novo Usuário' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add User Form -->
+  <div class="add-user-section" *ngIf="showAddForm()">
+    <mat-card class="form-card">
+      <mat-card-header>
+        <mat-card-title>
+          <i class="bi bi-person-plus"></i>
+          Adicionar Novo Usuário
+        </mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="user-form">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Nome de Exibição</mat-label>
+                <input matInput formControlName="displayName" placeholder="Digite o nome completo">
+                <mat-icon matSuffix>person</mat-icon>
+                <mat-error *ngIf="userForm.get('displayName')?.hasError('required')">
+                  Nome é obrigatório
+                </mat-error>
+                <mat-error *ngIf="userForm.get('displayName')?.hasError('minlength')">
+                  Nome deve ter pelo menos 2 caracteres
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="usuario@email.com">
+                <mat-icon matSuffix>email</mat-icon>
+                <mat-error *ngIf="userForm.get('email')?.hasError('required')">
+                  Email é obrigatório
+                </mat-error>
+                <mat-error *ngIf="userForm.get('email')?.hasError('email')">
+                  Email deve ter um formato válido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Senha</mat-label>
+                <input matInput type="password" formControlName="password" placeholder="Digite a senha">
+                <mat-icon matSuffix>lock</mat-icon>
+                <mat-error *ngIf="userForm.get('password')?.hasError('required')">
+                  Senha é obrigatória
+                </mat-error>
+                <mat-error *ngIf="userForm.get('password')?.hasError('minlength')">
+                  Senha deve ter pelo menos 6 caracteres
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Tipo de Usuário</mat-label>
+                <mat-select formControlName="role">
+                  <mat-option value="user">Usuário Comum</mat-option>
+                  <mat-option value="admin">Administrador</mat-option>
+                </mat-select>
+                <mat-icon matSuffix>admin_panel_settings</mat-icon>
+              </mat-form-field>
+            </div>
+          </div>
+          
+          <div class="form-actions mt-4">
+            <button 
+              type="submit" 
+              mat-raised-button 
+              color="primary" 
+              [disabled]="!userForm.valid || isLoading()">
+              <mat-spinner *ngIf="isLoading()" diameter="20" class="me-2"></mat-spinner>
+              <i *ngIf="!isLoading()" class="bi bi-check-circle me-2"></i>
+              {{ isLoading() ? 'Criando...' : 'Criar Usuário' }}
+            </button>
+            <button 
+              type="button" 
+              mat-button 
+              (click)="toggleAddForm()" 
+              class="ms-2">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Users Table -->
+  <div class="users-table-section">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <i class="bi bi-table"></i>
+          Lista de Usuários
+          <span class="user-count">({{ users.length }})</span>
+        </mat-card-title>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div *ngIf="isLoading()" class="loading-container">
+          <mat-spinner diameter="50"></mat-spinner>
+          <p>Carregando usuários...</p>
+        </div>
+        
+        <div *ngIf="!isLoading()" class="table-container">
+          <table mat-table [dataSource]="users" class="users-table">
+            
+            <!-- Display Name Column -->
+            <ng-container matColumnDef="displayName">
+              <th mat-header-cell *matHeaderCellDef class="header-cell">
+                <i class="bi bi-person"></i> Nome
+              </th>
+              <td mat-cell *matCellDef="let user" class="data-cell">
+                <div class="user-info">
+                  <strong>{{ user.displayName || 'Sem nome' }}</strong>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Email Column -->
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef class="header-cell">
+                <i class="bi bi-envelope"></i> Email
+              </th>
+              <td mat-cell *matCellDef="let user" class="data-cell">
+                {{ user.email }}
+              </td>
+            </ng-container>
+
+            <!-- Role Column -->
+            <ng-container matColumnDef="role">
+              <th mat-header-cell *matHeaderCellDef class="header-cell">
+                <i class="bi bi-shield"></i> Tipo
+              </th>
+              <td mat-cell *matCellDef="let user" class="data-cell">
+                <mat-chip-set>
+                  <mat-chip [color]="getUserRoleColor(user.role)" selected>
+                    <i class="bi" [class.bi-shield-check]="user.role === 'admin'" [class.bi-person]="user.role === 'user'"></i>
+                    {{ user.role === 'admin' ? 'Admin' : 'Usuário' }}
+                  </mat-chip>
+                </mat-chip-set>
+              </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="isActive">
+              <th mat-header-cell *matHeaderCellDef class="header-cell">
+                <i class="bi bi-activity"></i> Status
+              </th>
+              <td mat-cell *matCellDef="let user" class="data-cell">
+                <mat-chip-set>
+                  <mat-chip [color]="getUserStatusColor(user.isActive)" selected>
+                    <i class="bi" [class.bi-check-circle]="user.isActive" [class.bi-x-circle]="!user.isActive"></i>
+                    {{ user.isActive ? 'Ativo' : 'Inativo' }}
+                  </mat-chip>
+                </mat-chip-set>
+              </td>
+            </ng-container>
+
+            <!-- Created At Column -->
+            <ng-container matColumnDef="createdAt">
+              <th mat-header-cell *matHeaderCellDef class="header-cell">
+                <i class="bi bi-calendar"></i> Criado em
+              </th>
+              <td mat-cell *matCellDef="let user" class="data-cell">
+                {{ user.createdAt | date:'dd/MM/yyyy HH:mm' }}
+              </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef class="header-cell">
+                <i class="bi bi-gear"></i> Ações
+              </th>
+              <td mat-cell *matCellDef="let user" class="data-cell">
+                <div class="action-buttons">
+                  <button 
+                    mat-icon-button 
+                    [matTooltip]="user.role === 'admin' ? 'Tornar usuário comum' : 'Tornar administrador'"
+                    (click)="toggleUserRole(user)"
+                    [color]="user.role === 'admin' ? 'warn' : 'primary'">
+                    <mat-icon>{{ user.role === 'admin' ? 'remove_moderator' : 'admin_panel_settings' }}</mat-icon>
+                  </button>
+                  
+                  <button 
+                    mat-icon-button 
+                    [matTooltip]="user.isActive ? 'Desativar usuário' : 'Ativar usuário'"
+                    (click)="toggleUserStatus(user)"
+                    [color]="user.isActive ? 'warn' : 'primary'">
+                    <mat-icon>{{ user.isActive ? 'block' : 'check_circle' }}</mat-icon>
+                  </button>
+                  
+                  <button 
+                    mat-icon-button 
+                    color="warn" 
+                    matTooltip="Excluir usuário"
+                    (click)="deleteUser(user)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+          
+          <div *ngIf="users.length === 0" class="no-data-container">
+            <mat-icon class="no-data-icon">people_outline</mat-icon>
+            <h3>Nenhum usuário encontrado</h3>
+            <p>Adicione o primeiro usuário clicando no botão "Novo Usuário"</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

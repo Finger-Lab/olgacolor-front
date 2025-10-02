@@ -1,358 +1,931 @@
-body{
-    max-width: 1385px; 
-    max-height: 748px; 
-    display: block;
-}
+#obras_main {
+    padding: 0 0 5rem 0;
 
-.descricao {
-    // background-color: wheat;
-    width: 50%;
-    max-width: 600px;
-    display: flex;
-    align-items: center;
-}
-
-.ImagemContainer {
-    display: inline-block;
-    flex-direction: column;
-    // background-color: rgb(226, 226, 226);
-    width: 50%;
-    max-width: 600px;
-    gap: 20px;
-}
-
-.obra-coluna-ctn {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-
-    p {
-        margin: 0;
-    }
-
-    p.obra-regiao {
-        font-size: 14px;
-    }
-
-    p.obra-nome {
-        font-size: 18px;
-    }
-
-}
-
-.Coluna {
-    display: flex;
-    width: 100%;
-}
-
-.Coluna.direita {
-    justify-content: flex-end;
-}
-
-.Coluna.esquerda {
-    justify-content: flex-start;
-}
-
-.Coluna img {
-    width: 50%;
-}
-
-.meiaPagina {
-    background-color: black;
-    height: 635px;
-    display: flex; 
-    justify-content: center;
-    gap: 100px;
-    padding: 15px;
-    .mapa-texto {
-        width: 50%;
-        max-width: 600px;
-        color: white;
-        font-size: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        p {
-            margin: 0;
-        }
-        .white-border {
-            border-bottom: solid 1px white;
-            margin-bottom: 15px!important;
-            padding-bottom: 15px;
+    h1 {
+        padding-bottom: 3rem;
+        border-bottom: 1px solid #333;
+        font-size: 2.5rem;
+        font-weight: 400;
+        color: #333;
+        
+        .fw-bold {
+            font-weight: 700;
         }
     }
     
-}
-
-.bold {
- font-weight: 700;
-}
-
-.font-size-36 {
-    font-size: 36px;
-}
-.font-size-20 {
-    font-size: 20px;
-}
-
-.texto-450 {
-        max-width: 450px;
-        line-height: 150%;
-    }
-
-.meioTexto.h2 {
-    margin-left: -20px;
-}
-
-/*Carrosel*/
-#products {
-    padding: 5rem 0;
-
-    h5 {
-        margin: 2rem 0;
-    }
-}
-
-.carousel-container {
-    margin-top: 3rem;
-    position: relative;
-    
-    swiper-container {
-        width: 100%;
-        height: auto;
-    }
-    
-    swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        background: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-}
-
-// Setas de navegação customizadas
-.carousel-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 30px;
-    height: 30px;
-    background-color: rgba(128, 128, 128, 0.7);
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 10;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(2px);
-
-    &:hover {
-        background-color: rgba(128, 128, 128, 0.9);
-        transform: translateY(-50%) scale(1.1);
-    }
-
-    &:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.3);
-    }
-}
-
-.carousel-arrow-prev {
-    left: 15px;
-}
-
-.carousel-arrow-next {
-    right: 15px;
-}
-
-.product-slide {
-    width: 100%;
-    padding: 2rem 0;
-}
-
-.product-content {
-    position: relative;
-    padding: 0 1.5rem;
-}
-
-.product-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-// .border-left {
-//     position: absolute;
-//     top: 0;
-//     bottom: 0;
-//     left: 5px;
-//     width: 1px;
-//     height: 100%;
-//     background-color: #dfdfdf;
-
-//     &::before {
-//         content: '';
-//         position: absolute;
-//         width: 100%;
-//         height: 33%;
-//         background-color: #000;
-//     }
-
-//     &#nth-of-type {
-//         &::before {
-//             top: 100%;
-//             transform: translateY(-100%);
-//         }
-//     }
-// }
-
-.border-right {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 5px;
-    width: 1px;
-    height: 100%;
-    background-color: #dfdfdf;
-
-    &::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 100%;
-        height: 33%;
-        background-color: #000;
-    }
-}
-
-ul {
-    padding: 0;
-}
-
-.big-informations {
-    li {
-        gap: 2rem;
-        display: flex;
-        align-items: center;
-        padding-block: unset;
-
-        h1,
-        h2,
-        h3,
-        p {
-            margin: 0;
+    .obra-destaque {
+        position: relative;
+        margin-bottom: 1rem;
+        
+        img {
+            border-radius: 1rem;
+            transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+            
+            &:hover {
+                transform: scale(1.03);
+                box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+                cursor: pointer;
+                opacity: 0.98;
+            }
         }
-
-        p {
-            color: #6e6e6e;
-        }
-
-        &:nth-of-type(1) {
-            border-bottom: 1px solid #6e6e6e6f;
-        }
-    }
-}
-
-.links {
-    li {
-        list-style: none;
-        border-bottom: 1px solid #2f2f2f;
-
-        a {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            color: #6e6e6e;
-            text-decoration: none !important;
-            transition: all .2s ease-in-out;
-
-            h6 {
+        
+        .obra-info {
+            padding: 1rem 0;
+            
+            .obra-regiao {
+                font-size: 14px;
+                color: #666;
                 margin: 0;
             }
-
-            span {
-                transition: all .2s ease-in-out;
-            }
-        }
-
-        &:not(:first-of-type) {
-            padding-top: 1rem;
-        }
-
-        &:hover {
-            a {
-                color: #000;
-
-                span {
-                    transform: rotate(45deg);
-                }
+            
+            .obra-nome {
+                font-size: 18px;
+                font-weight: 600;
+                margin: 0;
+                color: #333;
             }
         }
     }
 }
 
-// Estilos para navegação do Swiper
-swiper-container {
-    --swiper-navigation-color: transparent;
-    --swiper-pagination-color: #000;
-    --swiper-pagination-bullet-inactive-color: #ccc;
-    --swiper-pagination-bullet-inactive-opacity: 0.5;
+
+
+.meiaPagina {
+    background-color: #192636;
+    padding: 3rem 0 5rem 0;
 }
 
-// Esconder as setas padrão do Swiper
-swiper-container .swiper-button-next,
-swiper-container .swiper-button-prev {
-    display: none !important;
+
+
+
+
+// Ajuste para manter consistência com outras páginas
+.sistemas-section {
+    padding: 5rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    
+    h5 {
+        margin: 0 0 2rem 0;
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    hr {
+        margin-bottom: 3rem;
+        border-color: #333;
+    }
 }
 
-@media (min-width: 992px) {
-    .product-content {
-        padding: 0 5rem;
+.sistemas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
 
-        .border-left {
+.sistema-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    &.active {
+        border-color: #007bff;
+        background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+        transform: translateY(-5px);
+    }
+    
+    .sistema-logo {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 1rem auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #f8f9fa;
+        
+        img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+    }
+    
+    .sistema-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #333;
+        margin: 0 0 0.5rem 0;
+    }
+    
+    .sistema-count {
+        font-size: 0.9rem;
+        color: #6e6e6e;
+        margin: 0;
+    }
+}
+
+
+
+.obras-grid-expandida {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Estilos para a Galeria de Obras - mantendo consistência com outras páginas
+.obras-gallery-section {
+    padding: 5rem 0;
+    background: #f8f9fa;
+    
+    .gallery-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    
+    h2 {
+        margin-bottom: 1rem;
+        font-size: 2.5rem;
+        color: #333;
+        font-weight: 700;
+    }
+    
+    h5 {
+        margin: 0 0 2rem 0;
+        font-size: 1.8rem;
+        font-weight: 600;
+        color: #333;
+    }
+    
+    hr {
+        margin-bottom: 3rem;
+        border-color: #333;
+    }
+    
+    .gallery-subtitle {
+        margin-bottom: 3rem;
+        font-size: 1.2rem;
+        color: #6e6e6e;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+.sistema-section {
+    margin-bottom: 4rem;
+    
+    h3 {
+        margin-bottom: 2rem;
+        font-size: 1.8rem;
+        color: #333;
+        text-align: center;
+        position: relative;
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+        }
+    }
+}
+
+.obras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.obra-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .obra-image {
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+        
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        &:hover img {
+            transform: scale(1.05);
+        }
+        
+        &.no-image {
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .image-overlay {
+            position: absolute;
+            top: 0;
             left: 0;
-        }
-
-        .border-right {
             right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                transparent 60%,
+                rgba(0, 0, 0, 0.7) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-
-        ul {
-            &:nth-of-type(2) {
-                li {
-                    width: 50%;
-                }
+        
+        &:hover .image-overlay {
+            opacity: 1;
+        }
+    }
+    
+    .obra-content {
+        padding: 1.5rem;
+        
+        .obra-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.2;
+        }
+        
+        .obra-location {
+            font-size: 1rem;
+            color: #6e6e6e;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            
+            &::before {
+                content: '📍';
+                font-size: 0.9rem;
+            }
+        }
+        
+        .obra-construtora {
+            font-size: 0.9rem;
+            color: #888;
+            margin: 0 0 1rem 0;
+            font-style: italic;
+        }
+        
+        .obra-systems {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            
+            .system-badge {
+                background: linear-gradient(45deg, #007bff, #0056b3);
+                color: white;
+                padding: 0.25rem 0.75rem;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
             }
         }
     }
 }
 
-@media (width >=1024px) {
-    ul.big-informations {
-        li {
-            padding-block: 1rem;
+.no-obras-message {
+    text-align: center;
+    padding: 3rem;
+    color: #6e6e6e;
+    font-size: 1.1rem;
+    background: white;
+    border-radius: 12px;
+    margin: 2rem 0;
+    
+    .icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        opacity: 0.5;
+    }
+}
+
+// Responsividade da galeria
+@media (max-width: 768px) {
+    .sistemas-section {
+        padding: 2rem 0;
+        
+        h5 {
+            font-size: 1.5rem;
+        }
+    }
+    
+    .sistemas-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .sistema-card {
+        padding: 0.3rem;
+        
+        .sistema-logo {
+            width: 60px;
+            height: 60px;
+            
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+    
+    .obras-grid-expandida {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .obras-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .obra-card .obra-image {
+        height: 180px;
+    }
+}
+
+// Estilos para o Mapa do Brasil Interativo
+.mapa-brasil-section {
+    padding: 4rem 1rem;
+    margin: 0 auto;
+    max-width: 1200px;
+    
+    h5 {
+        text-align: center;
+        font-size: 2.5rem;
+        font-weight: 300;
+        margin-bottom: 1rem;
+        color: #333;
+    }
+    
+    hr {
+        width: 80px;
+        height: 3px;
+        background: linear-gradient(90deg, #007bff, #0056b3);
+        border: none;
+        margin: 0 auto 3rem;
+    }
+}
+
+.mapa-container {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+// Layout principal - padrão boxed como profiles
+.mapa-sistemas-section {
+    padding: 3rem 0 5rem 0;
+    background-color: #f8f9fa;
+}
+
+.mapa-sistemas-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: start;
+    @media (max-width: 1200px) { grid-template-columns: 1fr; gap: 2rem; }
+    @media (max-width: 1024px) { grid-template-columns: 1fr; gap: 1.5rem; }
+}
+
+.mapa-brasil-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    h6 { color: #192636; font-weight: 600; margin-bottom: 1rem; text-align: center; }
+}
+
+.estado-info {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-width: 200px;
+    
+    h6 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #192636;
+        margin: 0 0 0.5rem 0;
+    }
+    
+    p {
+        font-size: 0.9rem;
+        color: #666;
+        margin: 0;
+    }
+}
+
+.mapa-brasil {
+    width: 100%;
+    max-width: 650px;
+    height: auto;
+    margin: 0 auto;
+    .brazil-map, object.brazil-map {
+        width: 100%; height: auto; border: none; min-height: 450px;
+        path {
+            fill: #192636; stroke: #ffffff; stroke-width: 2; cursor: pointer; transition: all 0.3s ease;
+            &:hover { fill: #007bff; stroke: #ffffff; stroke-width: 3; }
+            &.has-obras { fill: #4CAF50; &:hover { fill: #45a049; stroke: #ffffff; } }
+            &.selected { fill: #FF6B35; stroke: #ffffff; stroke-width: 4; &:hover { fill: #FF6B35; stroke: #ffffff; } }
         }
     }
 }
 
-// Responsividade para as setas
+.sistemas-wrapper {
+    display: flex; flex-direction: column;
+    h6 { color: #192636; font-weight: 600; margin-bottom: 1rem; text-align: center; font-size: 1.1rem; }
+}
+
+.sistemas-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1rem;
+    @media (max-width: 768px) { grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 0.8rem; }
+}
+
+.sistema-card {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    &:hover { transform: translateY(-3px) scale(1.05); }
+    &.active { transform: translateY(-2px) scale(1.08); }
+    .sistema-logo { width: 80px; height: 80px; margin: 0 auto; display: flex; align-items: center; justify-content: center; img { width: 100%; height: 100%; object-fit: contain; } }
+    .sistema-name { display: none; }
+    .sistema-count { display: none; }
+}
+
+.no-sistemas-message {
+    grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;
+    p { margin: 0; font-style: italic; }
+}
+
+
+
+
+
+
+
+
+
+.no-obras-message {
+    grid-column: 1 / -1; text-align: center; padding: 2rem; color: #666;
+    p { margin: 0; font-style: italic; }
+}
+
+// Força aplicação de estilos em SVG externo
+::ng-deep {
+    .mapa-brasil object, .mapa-brasil svg, svg.brazil-map {
+        width: 100% !important; 
+        height: auto !important; 
+        border: none !important; 
+        min-height: 450px !important;
+        
+        path {
+            fill: #192636 !important; 
+            stroke: #ffffff !important; 
+            stroke-width: 2 !important;
+            cursor: pointer !important; 
+            transition: all 0.3s ease !important;
+            
+            &:hover { 
+                fill: #007bff !important; 
+                stroke: #ffffff !important; 
+                stroke-width: 3 !important; 
+            }
+            
+            &.has-obras { 
+                fill: #4CAF50 !important; 
+                
+                &:hover { 
+                    fill: #45a049 !important; 
+                    stroke: #ffffff !important; 
+                } 
+            }
+            
+            &.selected { 
+                fill: #FF6B35 !important; 
+                stroke: #ffffff !important; 
+                stroke-width: 4 !important;
+                
+                &:hover { 
+                    fill: #FF6B35 !important; 
+                    stroke: #ffffff !important; 
+                } 
+            }
+        }
+    }
+    
+    // Garantir que o object element carregue corretamente
+    .mapa-brasil object {
+        pointer-events: auto !important;
+    }
+}
+
+
+
+
+
+// Responsividade do Mapa do Brasil
 @media (max-width: 768px) {
-    .carousel-arrow {
-        width: 35px;
-        height: 35px;
+    .mapa-brasil-section {
+        padding: 3rem 0;
+        
+        h5 {
+            font-size: 2rem;
+        }
     }
     
-    .carousel-arrow-prev {
-        left: 10px;
+    .mapa-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 0 1rem;
     }
     
-    .carousel-arrow-next {
-        right: 10px;
+    .mapa-brasil {
+        max-width: 400px;
+        margin: 0 auto;
+        
+        .brazil-map, object.brazil-map {
+            min-height: 300px;
+        }
+        
+        .brazil-map path {
+            stroke-width: 1.5;
+            
+            &:hover {
+                stroke-width: 2;
+            }
+            
+            &.selected {
+                stroke-width: 3;
+            }
+        }
+    }
+}
+
+// Estilos para obras expandidas (quando um sistema é selecionado)
+.sistema-obras-expandidas {
+    padding: 3rem 0 5rem 0;
+    background-color: #f8f9fa;
+    
+    h6 {
+        color: #192636;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 1.3rem;
+    }
+}
+
+.obras-grid-expandida {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}
+
+.obra-card-expandida {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #e0e0e0;
+    
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        border-color: #FF6B35;
+    }
+    
+    .obra-image {
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        position: relative;
+        
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        &:hover img {
+            transform: scale(1.05);
+        }
+        
+        &.no-image {
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: 500;
+            
+            span {
+                text-align: center;
+                padding: 1rem;
+            }
+        }
+    }
+    
+    .obra-content {
+        padding: 1.2rem;
+        
+        .obra-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #192636;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.3;
+        }
+        
+        .obra-location {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0 0 0.25rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            
+            &::before {
+                content: '📍';
+                font-size: 0.8rem;
+            }
+        }
+        
+        .obra-construtora {
+            font-size: 0.85rem;
+            color: #FF6B35;
+            font-weight: 500;
+            margin: 0;
+        }
+    }
+}
+
+// Responsividade para obras expandidas
+@media (max-width: 768px) {
+    .sistema-obras-expandidas {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        
+        h6 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+    }
+    
+    .obra-card-expandida {
+        .obra-image {
+            height: 180px;
+        }
+        
+        .obra-content {
+            padding: 1rem;
+            
+            .obra-name {
+                font-size: 1rem;
+            }
+            
+            .obra-location {
+                font-size: 0.85rem;
+            }
+            
+            .obra-construtora {
+                font-size: 0.8rem;
+            }
+        }
+    }
+}
+
+// Modal para exibir imagem em tela cheia
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease-in-out;
+    
+    .modal-content {
+        position: relative;
+        max-width: 90vw;
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        .modal-close {
+            position: absolute;
+            top: -30px;
+            right: 3px;
+            background: #fff;
+            border: none;
+            color: rgb(0, 0, 0);
+            font-size: 16px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            
+            &:hover {
+                background: rgba(255, 255, 255, 0.2);
+                transform: scale(1.1);
+            }
+        }
+        
+        .modal-image {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            animation: zoomIn 0.3s ease-in-out;
+        }
+        
+        .modal-title {
+            margin-top: 20px;
+            color: white;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 500;
+            max-width: 600px;
+        }
+    }
+}
+
+// Overlay para as imagens das obras
+.obra-image {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    
+    &:hover {
+        .image-overlay {
+            opacity: 1;
+        }
+        
+        img {
+            transform: scale(1.05);
+        }
+    }
+    
+    img {
+        transition: transform 0.3s ease;
+    }
+    
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        
+        i {
+            color: white;
+            font-size: 2rem;
+        }
+    }
+}
+
+// Animações
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+// Responsividade do modal
+@media (max-width: 768px) {
+    .image-modal {
+        .modal-content {
+            .modal-close {
+                top: -40px;
+                font-size: 20px;
+                width: 35px;
+                height: 35px;
+            }
+            
+            .modal-image {
+                max-height: 75vh;
+            }
+            
+            .modal-title {
+                font-size: 1rem;
+                margin-top: 15px;
+            }
+        }
+    }
+    
+    .obra-image {
+        .image-overlay {
+            i {
+                font-size: 1.5rem;
+            }
+        }
     }
 }

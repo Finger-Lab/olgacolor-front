@@ -1,13 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -15,119 +11,143 @@ import { AuthService } from '../../../auth/auth.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
     MatSnackBarModule
   ],
   template: `
-    <div class="register-container">
-      <div class="register-card">
-        <h2>Criar Conta</h2>
-        
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
-          <mat-form-field>
-            <mat-label>Nome</mat-label>
-            <input matInput formControlName="displayName">
-            <mat-error *ngIf="registerForm.get('displayName')?.hasError('required')">
-              Nome é obrigatório
-            </mat-error>
-          </mat-form-field>
+    <div id="login">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-11 col-lg-6">
+            <div class="content-bg"></div>
 
-          <mat-form-field>
-            <mat-label>E-mail</mat-label>
-            <input matInput type="email" formControlName="email">
-            <mat-error *ngIf="registerForm.get('email')?.hasError('required')">
-              E-mail é obrigatório
-            </mat-error>
-            <mat-error *ngIf="registerForm.get('email')?.hasError('email')">
-              E-mail inválido
-            </mat-error>
-          </mat-form-field>
+            <div class="content-login">
+              <h3>Cadastre-se</h3>
+              
+              <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                <div class="form-group mt-5">
+                  <label for="displayName">Nome</label>
+                  <input type="text" class="form-control" id="displayName" 
+                         formControlName="displayName" placeholder="Digite seu nome">
+                  <div class="text-danger mt-1" 
+                       *ngIf="registerForm.get('displayName')?.hasError('required') && registerForm.get('displayName')?.touched">
+                    Nome é obrigatório
+                  </div>
+                </div>
 
-          <mat-form-field>
-            <mat-label>Senha</mat-label>
-            <input matInput type="password" formControlName="password">
-            <mat-error *ngIf="registerForm.get('password')?.hasError('required')">
-              Senha é obrigatória
-            </mat-error>
-            <mat-error *ngIf="registerForm.get('password')?.hasError('minlength')">
-              Senha deve ter no mínimo 6 caracteres
-            </mat-error>
-          </mat-form-field>
+                <div class="form-group mt-3">
+                  <label for="email">Email</label>
+                  <input type="email" class="form-control" id="email" 
+                         formControlName="email" placeholder="Digite seu email">
+                  <div class="text-danger mt-1" 
+                       *ngIf="registerForm.get('email')?.hasError('required') && registerForm.get('email')?.touched">
+                    E-mail é obrigatório
+                  </div>
+                  <div class="text-danger mt-1" 
+                       *ngIf="registerForm.get('email')?.hasError('email') && registerForm.get('email')?.touched">
+                    E-mail inválido
+                  </div>
+                </div>
 
-          <mat-form-field>
-            <mat-label>Confirmar Senha</mat-label>
-            <input matInput type="password" formControlName="confirmPassword">
-            <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('required')">
-              Confirmação de senha é obrigatória
-            </mat-error>
-            <mat-error *ngIf="registerForm.get('confirmPassword')?.hasError('passwordMismatch')">
-              Senhas não conferem
-            </mat-error>
-          </mat-form-field>
+                <div class="form-group mt-3 mb-3">
+                  <label for="password">Senha</label>
+                  <input type="password" class="form-control" id="password" 
+                         formControlName="password" placeholder="Digite sua senha">
+                  <div class="text-danger mt-1" 
+                       *ngIf="registerForm.get('password')?.hasError('required') && registerForm.get('password')?.touched">
+                    Senha é obrigatória
+                  </div>
+                  <div class="text-danger mt-1" 
+                       *ngIf="registerForm.get('password')?.hasError('minlength') && registerForm.get('password')?.touched">
+                    Senha deve ter no mínimo 6 caracteres
+                  </div>
+                </div>
 
-          <div class="form-actions">
-            <button mat-button type="button" routerLink="/login">Voltar</button>
-            <button mat-raised-button color="primary" type="submit" 
-                    [disabled]="registerForm.invalid || isSubmitting">
-              <mat-spinner *ngIf="isSubmitting" diameter="20"></mat-spinner>
-              <span *ngIf="!isSubmitting">Criar Conta</span>
-            </button>
+                <div class="form-group mt-3 mb-3">
+                  <label for="confirmPassword">Confirme a senha</label>
+                  <input type="password" class="form-control" id="confirmPassword" 
+                         formControlName="confirmPassword" placeholder="Confirme sua senha">
+                  <div class="text-danger mt-1" 
+                       *ngIf="registerForm.get('confirmPassword')?.hasError('required') && registerForm.get('confirmPassword')?.touched">
+                    Confirmação de senha é obrigatória
+                  </div>
+                  <div class="text-danger mt-1" 
+                       *ngIf="registerForm.get('confirmPassword')?.hasError('passwordMismatch') && registerForm.get('confirmPassword')?.touched">
+                    Senhas não conferem
+                  </div>
+                </div>
+
+                <span (click)="goToLogin()" style="cursor: pointer; font-size: 0.8rem;">
+                  Já possui conta? Fazer login
+                </span>
+              </form>
+
+              <button class="btn btn-outline-dark d-table w-100 mt-5" 
+                      [disabled]="registerForm.invalid || isSubmitting"
+                      (click)="onSubmit()">
+                {{ isSubmitting ? 'Criando conta...' : 'Cadastrar' }}
+              </button>
+            </div>
           </div>
-        </form>
+          
+          <div>
+            <p>Sistema de Autenticação Olgacolor</p>
+          </div>
+        </div>
       </div>
     </div>
   `,
   styles: [`
-    .register-container {
+    #login {
       min-height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
-      padding: 2rem;
-      background: var(--background-default);
-    }
+      justify-content: center; 
+      background-image: url('/assets/images/facades.png');
 
-    .register-card {
-      width: 100%;
-      max-width: 400px;
-      padding: 2rem;
-      background: var(--background-card);
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      .container {
+        .row {
+          > div {
+            padding: 0;
+            display: flex;
+            border-radius: .5rem;
+            overflow: hidden;
 
-      h2 {
-        margin-bottom: 2rem;
-        text-align: center;
-        color: var(--text-primary);
+            .content-login {
+              width: 100%;
+              background-color: #ffffffd2;
+              padding: 2rem;
+              box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+            }
+
+            form {
+              span {
+                cursor: pointer;
+                font-size: .8rem;
+                
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
+            }
+
+            p {
+              font-size: 1rem;
+              margin-top: 1rem;
+              background-color: #ffffffb8;
+              font-weight: 600;
+              padding: 5px;
+              border-radius: 8px;
+            }
+          }
+        }
       }
     }
 
-    .register-form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-
-      mat-form-field {
-        width: 100%;
-      }
-    }
-
-    .form-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 1rem;
-
-      button {
-        min-width: 100px;
-      }
-    }
-
-    mat-spinner {
-      margin: 0 auto;
+    .debug-info {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 4px;
+      border: 1px solid #dee2e6;
     }
   `]
 })
@@ -138,6 +158,7 @@ export class RegisterComponent {
   private readonly _router = inject(Router);
 
   protected isSubmitting = false;
+  
   protected registerForm: FormGroup = this._formBuilder.group({
     displayName: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
@@ -150,32 +171,54 @@ export class RegisterComponent {
       ? null : { passwordMismatch: true };
   }
 
+  protected goToLogin(): void {
+    this._router.navigate(['/login']);
+  }
+
   protected onSubmit(): void {
     if (this.registerForm.valid && !this.isSubmitting) {
+      const { email, password, confirmPassword, displayName } = this.registerForm.value;
+
+      // Verificar se as senhas coincidem
+      if (password !== confirmPassword) {
+        this._snackBar.open('As senhas não coincidem', 'Fechar', { 
+          duration: 3000,
+          horizontalPosition: 'end' 
+        });
+        return;
+      }
+
       this.isSubmitting = true;
-      const { email, password, displayName } = this.registerForm.value;
 
       this._authService.register(email, password, displayName)
-        .subscribe({
-          next: () => {
-            this._snackBar.open('Conta criada com sucesso!', 'Fechar', {
-              duration: 3000,
-              horizontalPosition: 'end'
-            });
+        .then(() => {
+          this._snackBar.open('Conta criada com sucesso! Redirecionando para login...', 'Fechar', {
+            duration: 3000,
+            horizontalPosition: 'end'
+          });
+          // Redirecionar para login após sucesso
+          setTimeout(() => {
             this._router.navigate(['/login']);
-          },
-          error: (error) => {
-            console.error('Erro ao criar conta:', error);
-            this._snackBar.open(
-              error.code === 'auth/email-already-in-use'
-                ? 'Este e-mail já está em uso'
-                : 'Erro ao criar conta. Tente novamente.',
-              'Fechar',
-              { duration: 3000, horizontalPosition: 'end' }
-            );
-            this.isSubmitting = false;
-          }
+          }, 1500);
+        })
+        .catch((error: any) => {
+          console.error('Erro ao criar conta:', error);
+          this._snackBar.open(
+            error.message.includes('email-already-in-use') || error.message.includes('já está em uso')
+              ? 'Este e-mail já está em uso'
+              : error.message || 'Erro ao criar conta. Tente novamente.',
+            'Fechar',
+            { duration: 5000, horizontalPosition: 'end' }
+          );
+        })
+        .finally(() => {
+          this.isSubmitting = false;
         });
+    } else {
+      this._snackBar.open('Preencha todos os campos corretamente', 'Fechar', { 
+        duration: 3000,
+        horizontalPosition: 'end' 
+      });
     }
   }
 }

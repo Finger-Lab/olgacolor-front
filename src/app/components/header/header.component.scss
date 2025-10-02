@@ -200,3 +200,94 @@
 .fale-conosco {
     padding-right: 5px;
 }
+
+// Estilos para seção de autenticação
+.auth-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    .user-info {
+        color: #FFF;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.3rem;
+
+        i {
+            color: #4CAF50;
+        }
+    }
+
+    .area-restrita-link {
+        color: #2196F3;
+        text-decoration: none;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        
+        &:hover {
+            color: #64B5F6;
+        }
+
+        i {
+            font-size: 0.9rem;
+        }
+    }
+
+    .admin-link {
+        color: #FFC107;
+        text-decoration: none;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        
+        &:hover {
+            color: #FFD54F;
+        }
+
+        i {
+            font-size: 0.9rem;
+        }
+    }
+
+    .logout-btn {
+        background: none;
+        border: none;
+        color: #FF5722;
+        cursor: pointer;
+        font-size: 0.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.2rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 3px;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: rgba(255, 87, 34, 0.1);
+            color: #FF7043;
+        }
+
+        i {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+
+        .user-info {
+            font-size: 0.8rem;
+        }
+
+        .area-restrita-link, .admin-link, .logout-btn {
+            font-size: 0.7rem;
+        }
+    }
+}

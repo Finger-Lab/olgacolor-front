@@ -1,0 +1,141 @@
+<div class="dashboard-page">
+  <div class="container-fluid">
+    
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div class="row align-items-center">
+        <div class="col-md-8">
+          <h1 class="page-title">
+            <i class="bi bi-house-door"></i>
+            Dashboard
+          </h1>
+          <p class="page-subtitle" *ngIf="currentUser">
+            Bem-vindo, {{ currentUser.email }}
+            <span class="badge badge-role" [class]="isAdmin ? 'bg-danger' : 'bg-primary'">
+              {{ isAdmin ? 'Admin' : 'Usuário' }}
+            </span>
+          </p>
+        </div>
+        <div class="col-md-4 text-end">
+          <button (click)="logout()" class="btn btn-outline-danger">
+            <i class="bi bi-box-arrow-right"></i>
+            Sair
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="dashboard-content">
+      
+      <!-- Available Actions -->
+      <div class="section">
+        <h2 class="section-title">
+          <i class="bi bi-grid-3x3-gap"></i>
+          Áreas Disponíveis
+        </h2>
+        <p class="section-description">
+          Acesse as funcionalidades disponíveis para seu perfil de usuário
+        </p>
+
+        <div class="row g-4">
+          <div class="col-lg-4 col-md-6" *ngFor="let item of getAvailableItems()">
+            <div class="action-card" [class]="'border-' + item.color">
+              <div class="card-header" [class]="'bg-' + item.color">
+                <i class="card-icon" [class]="item.icon"></i>
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{ item.title }}</h5>
+                <p class="card-description">{{ item.description }}</p>
+                <div class="card-footer">
+                  <a [routerLink]="item.route" 
+                     class="btn btn-action" 
+                     [class]="'btn-' + item.color">
+                    <i class="bi bi-arrow-right"></i>
+                    Acessar
+                  </a>
+                  <span *ngIf="item.adminOnly" class="admin-badge">
+                    <i class="bi bi-shield-check"></i>
+                    Admin
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Access -->
+      <div class="section mt-5">
+        <h2 class="section-title">
+          <i class="bi bi-lightning"></i>
+          Acesso Rápido
+        </h2>
+        <div class="row g-3">
+          <div class="col-md-3">
+            <a routerLink="/perfis" class="quick-link">
+              <i class="bi bi-collection"></i>
+              <span>Perfis</span>
+            </a>
+          </div>
+          <div class="col-md-3">
+            <a routerLink="/acabamentos" class="quick-link">
+              <i class="bi bi-palette"></i>
+              <span>Acabamentos</span>
+            </a>
+          </div>
+          <div class="col-md-3">
+            <a routerLink="/lme" class="quick-link">
+              <i class="bi bi-graph-up"></i>
+              <span>LME</span>
+            </a>
+          </div>
+          <div class="col-md-3">
+            <a routerLink="/obras" class="quick-link">
+              <i class="bi bi-building"></i>
+              <span>Obras</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Info -->
+      <div class="section mt-5" *ngIf="currentUser">
+        <h2 class="section-title">
+          <i class="bi bi-person-circle"></i>
+          Informações da Conta
+        </h2>
+        <div class="user-info-card">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="info-item">
+                <label>Email:</label>
+                <span>{{ currentUser.email }}</span>
+              </div>
+              <div class="info-item">
+                <label>Tipo de Conta:</label>
+                <span class="badge" [class]="isAdmin ? 'bg-danger' : 'bg-primary'">
+                  {{ isAdmin ? 'Administrador' : 'Usuário' }}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-item">
+                <label>Status:</label>
+                <span class="badge bg-success">
+                  <i class="bi bi-check-circle"></i>
+                  Ativo
+                </span>
+              </div>
+              <div class="info-item">
+                <label>Último Acesso:</label>
+                <span>{{ currentDate | date:'dd/MM/yyyy HH:mm' }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

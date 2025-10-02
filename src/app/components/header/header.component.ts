@@ -46,6 +46,35 @@ export class HeaderComponent {
     this.headerClass.set(this.customClass() ? this.customClass() : '');
   }
 
+  // Métodos para autenticação
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn;
+  }
+
+  get currentUser() {
+    return this.authService.currentUser;
+  }
+
+  get isAdmin(): boolean {
+    return this.authService.isAdmin;
+  }
+
+  async logout(): Promise<void> {
+    try {
+      await this.authService.logout();
+    } catch (error) {
+      console.error('Erro ao fazer logout:', error);
+    }
+  }
+
+  goToLogin(): void {
+    this.router.navigate(['/login']);
+  }
+
+  goToAdmin(): void {
+    this.router.navigate(['/admin']);
+  }
+
   @HostListener('window:scroll', [])
   onWindowScroll(): void {
     if (window.scrollY > 50 && !this.customClass())
@@ -72,11 +101,6 @@ export class HeaderComponent {
 
   openDropdown() {
     this.isDropdownOpen.set(!this.isDropdownOpen())
-  }
-
-  logout() {
-    this.authService.logout()
-    this.router.navigate(['/login'])
   }
 
   onFocus(): void {

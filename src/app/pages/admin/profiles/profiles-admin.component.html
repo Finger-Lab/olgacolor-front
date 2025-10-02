@@ -112,6 +112,11 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="card-title mb-0">Perfis Cadastrados</h5>
                         <div class="d-flex gap-2">
+                            <button class="btn btn-info btn-sm" 
+                                    (click)="runDiagnostic()"
+                                    title="Executar diagnóstico do Firebase">
+                                🔧 Diagnóstico
+                            </button>
                             <button class="btn btn-warning btn-sm" 
                                     (click)="cleanInvalidUrls()"
                                     [disabled]="isUploading">

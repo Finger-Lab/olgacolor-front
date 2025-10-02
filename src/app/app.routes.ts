@@ -4,6 +4,22 @@ import { ObrasComponent } from './pages/obras/obras.component';
 
 export const routes: Routes = [
     {
+        path: 'dashboard',
+        canActivate: [AdminGuard],
+        data: { roles: ['Admin', 'User'] },
+        loadComponent: () => import('./pages/dashboard/dashboard.component').then(mod => mod.DashboardComponent)
+    },
+    {
+        path: 'area-restrita',
+        redirectTo: 'catalogos'
+    },
+    {
+        path: 'admin',
+        canActivate: [AdminGuard],
+        data: { roles: ['Admin'] },
+        loadComponent: () => import('./pages/admin/admin-dashboard/admin-dashboard.component').then(mod => mod.AdminDashboardComponent)
+    },
+    {
         path: 'admin/usuarios',
         canActivate: [AdminGuard],
         data: { roles: ['Admin'] },
@@ -11,14 +27,17 @@ export const routes: Routes = [
     },
     {
         path: 'admin/obras',
+        canActivate: [AdminGuard],
         loadComponent: () => import('./pages/admin/obras/obras-admin.component').then(mod => mod.ObrasAdminComponent)
     },
     {
         path: 'admin/perfis',
+        canActivate: [AdminGuard],
         loadComponent: () => import('./pages/admin/profiles/profiles-admin.component').then(m => m.ProfilesAdminComponent)
     },
     {
         path: 'admin/perfis/imagens',
+        canActivate: [AdminGuard],
         loadComponent: () => import('./pages/admin/profiles/profile-images.component')
           .then(mod => mod.ProfileImagesComponent)
     },
@@ -26,6 +45,10 @@ export const routes: Routes = [
         path: '',
         pathMatch: 'full',
         redirectTo: 'pagina-inicial'
+    },
+    {
+        path: 'dashboard-logado',
+        redirectTo: 'dashboard'
     },
     {
         path: 'pagina-inicial',
@@ -205,6 +228,10 @@ export const routes: Routes = [
     {
         path: 'login',
         loadComponent: () => import('./pages/login/login.component').then(mod => mod.LoginComponent)
+    },
+    {
+        path: 'cadastre-se',
+        loadComponent: () => import('./auth/register/register.component').then(mod => mod.RegisterComponent)
     },
     {
         path: 'responsabilidade-ambiental',

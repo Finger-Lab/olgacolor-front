@@ -1,0 +1,261 @@
+.dashboard-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 2rem 0;
+}
+
+.dashboard-header {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid #007bff;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  
+  i {
+    color: #007bff;
+    margin-right: 0.5rem;
+  }
+}
+
+.page-subtitle {
+  font-size: 1.1rem;
+  color: #6c757d;
+  margin-bottom: 0;
+  
+  .badge-role {
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+.dashboard-content {
+  .section {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  }
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  
+  i {
+    color: #007bff;
+    margin-right: 0.5rem;
+  }
+}
+
+.section-description {
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+}
+
+// Action Cards
+.action-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  height: 100%;
+  border: 2px solid transparent;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  }
+  
+  .card-header {
+    padding: 1.5rem;
+    text-align: center;
+    color: white;
+    position: relative;
+    
+    .card-icon {
+      font-size: 2.5rem;
+      display: block;
+    }
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 120px);
+    
+    .card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 0.5rem;
+    }
+    
+    .card-description {
+      color: #6c757d;
+      font-size: 0.9rem;
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+    
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+      
+      .btn-action {
+        flex-grow: 1;
+        margin-right: 0.5rem;
+        font-weight: 500;
+        
+        i {
+          margin-left: 0.5rem;
+        }
+      }
+      
+      .admin-badge {
+        background: #dc3545;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 20px;
+        font-size: 0.7rem;
+        font-weight: 500;
+        white-space: nowrap;
+        
+        i {
+          margin-right: 0.25rem;
+        }
+      }
+    }
+  }
+}
+
+// Border colors for cards
+.border-primary { border-color: #007bff !important; }
+.border-success { border-color: #28a745 !important; }
+.border-info { border-color: #17a2b8 !important; }
+.border-warning { border-color: #ffc107 !important; }
+.border-danger { border-color: #dc3545 !important; }
+
+// Quick Links
+.quick-link {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #2c3e50;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  
+  &:hover {
+    background: #e9ecef;
+    color: #007bff;
+    text-decoration: none;
+    border-color: #007bff;
+    transform: translateY(-2px);
+  }
+  
+  i {
+    font-size: 1.5rem;
+    margin-right: 0.75rem;
+    color: #007bff;
+  }
+  
+  span {
+    font-weight: 500;
+  }
+}
+
+// User Info Card
+.user-info-card {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  
+  .info-item {
+    margin-bottom: 1rem;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    label {
+      font-weight: 600;
+      color: #495057;
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 0.9rem;
+    }
+    
+    span {
+      color: #2c3e50;
+      font-size: 1rem;
+      
+      &.badge {
+        margin-left: 0;
+        
+        i {
+          margin-right: 0.25rem;
+        }
+      }
+    }
+  }
+}
+
+// Button Styles
+.btn-outline-danger {
+  border-radius: 25px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .dashboard-page {
+    padding: 1rem 0;
+  }
+  
+  .dashboard-header {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  .section {
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .action-card {
+    margin-bottom: 1rem;
+  }
+  
+  .quick-link {
+    margin-bottom: 0.5rem;
+  }
+}

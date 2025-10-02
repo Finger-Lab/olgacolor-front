@@ -18,7 +18,27 @@
         </div>
         <span class="d-none d-sm-block">|</span>
         <div>
-            <a routerLink="/login"><i class="bi bi-person-lock"></i>ACESSE A ÁREA DO CLIENTE</a>
+            @if (isLoggedIn) {
+                <div class="auth-section">
+                    <span class="user-info">
+                        <i class="bi bi-person-check"></i>
+                        {{ currentUser?.email }}
+                    </span>
+                    <a routerLink="/area-restrita" class="area-restrita-link">
+                        <i class="bi bi-shield-check"></i>ÁREA RESTRITA
+                    </a>
+                    @if (isAdmin) {
+                        <a routerLink="/admin" class="admin-link">
+                            <i class="bi bi-gear"></i>ADMIN
+                        </a>
+                    }
+                    <button (click)="logout()" class="logout-btn">
+                        <i class="bi bi-box-arrow-right"></i>SAIR
+                    </button>
+                </div>
+            } @else {
+                <a routerLink="/login"><i class="bi bi-person-lock"></i>ACESSE A ÁREA DO CLIENTE</a>
+            }
             <span class="ms-2 d-sm-none">|</span>
         </div>
         <span class="d-none d-sm-block">|</span>

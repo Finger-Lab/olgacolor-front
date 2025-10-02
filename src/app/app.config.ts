@@ -10,6 +10,7 @@ import { HttpClient } from '@angular/common/http';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { CustomMatPaginatorIntl } from './shared/custom-paginator-intl';
 
@@ -44,6 +45,7 @@ export const appConfig: ApplicationConfig = {
       measurementId: "G-2J9VZ9TTEB"
     })),
     provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth()),
     { provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl }
   ]
 };

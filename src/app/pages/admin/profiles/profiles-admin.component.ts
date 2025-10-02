@@ -102,9 +102,23 @@ export class ProfilesAdminComponent implements OnInit {
 
         console.log('Perfil salvo com sucesso');
         this.resetForm();
-      } catch (error) {
+      } catch (error: any) {
         console.error('Erro detalhado ao salvar perfil:', error);
-        alert('Erro ao salvar perfil. Verifique o console para mais detalhes.');
+        
+        // Tratamento de erros específicos
+        let errorMessage = 'Erro ao salvar perfil.';
+        
+        if (error.message && error.message.includes('storage/unauthorized')) {
+          errorMessage = 'Erro de permissão: Você não tem autorização para acessar ou modificar as imagens no Firebase Storage. Verifique suas permissões.';
+        } else if (error.message && error.message.includes('upload')) {
+          errorMessage = 'Erro no upload das imagens. Verifique se os arquivos são válidos e tente novamente.';
+        } else if (error.message && error.message.includes('banco de dados')) {
+          errorMessage = 'Erro ao salvar no banco de dados. Verifique sua conexão e tente novamente.';
+        } else if (error.message) {
+          errorMessage = `Erro: ${error.message}`;
+        }
+        
+        alert(errorMessage);
       } finally {
         this.isUploading = false;
       }
@@ -200,5 +214,11 @@ export class ProfilesAdminComponent implements OnInit {
         this.isUploading = false;
       }
     }
+  }
+
+  async runDiagnostic(): Promise<void> {
+    console.log('🔧 Executando diagnóstico do Firebase...');
+    await this.profilesService.diagnoseFirebaseConfig();
+    alert('Diagnóstico executado! Verifique o console do navegador para os resultados.');
   }
 }

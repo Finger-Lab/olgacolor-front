@@ -1,107 +1,180 @@
-<div class="obras">
+<div id="obras_main">
     <app-header [customClass]="classScrolled"></app-header>
-    <div style="display: flex;justify-content: center;">
-        <div class="descricao">
-            <div style="align-items: center; max-width: 450px; padding: 0px 15px">
-                <p style="font-weight: 400; font-size: 32px; ">Obras <span style="font-weight: 700;">Realizadas</span>
+    
+    <!-- Seção principal boxed -->
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1>Obras <span class="fw-bold">Realizadas</span></h1>
+                <p class="mt-4">
+                    Qorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac
+                    aliquet odio mattis.
                 </p>
-                <hr>
-                <p>Qorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac
-                    aliquet odio mattis. </p>
             </div>
-        </div>
-        <div class="ImagemContainer" style="position: relative; z-index: -1;">
-            <div class="Coluna direita">
-                <div class="obra-coluna-ctn direita" style="padding: 15px; ">
-                    <p class="obra-regiao">São Paulo / SP</p>
-                    <p class="obra-nome">Fachada Grid e Lock SL</p>
-                </div>
-                <img id="Imagem1" src="assets/images/obras/Rectangle91.png">
-            </div>
-            <div class="Coluna esquerda">
-                <img id="Imagem2" src="assets/images/obras/Rectangle89.png">
-                <div class="obra-coluna-ctn esquerda" style="padding: 0px 0px 15px 15px;">
-                    <p class="obra-regiao">São Paulo / SP</p>
-                    <p class="obra-nome">Fachada Grid e Lock SL</p>
-                </div>
-            </div>
-            <div class="Coluna direita">
-                <img id="Imagem3" src="assets/images/obras/Rectangle90.png">
-            </div>
-        </div>
-    </div>
-    <div class="meiaPagina">
-        <img src="assets/images/obras/POLITICAL_BORDERS_x2F_DECOUPES_POLITIQUES.svg"
-            style="width: 50%; max-width: 600px;">
-        <div class="mapa-texto">
-            <div class="mapa-texto-interno">
-                <p class="font-size-36">Confira nossas</p>
-                <p class="bold font-size-36 white-border">obras por estado:</p>
-                <p class="font-size-20 texto-450">Qorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
-                    vulputate libero et velit interdum, ac aliquet odio mattis.</p>
-            </div>
-        </div>
-    </div>
-
-    <!--Carrosel-->
-    <div style="padding: 30px; justify-items: center; align-items: center; display: flex; flex-direction: column;">
-        <div style="max-width: 1920px; width: 100%;">
-            <h5>Obras por sistema utilizado</h5>
-            <hr>
-            <div class="carousel-container">
-                <button class="carousel-arrow carousel-arrow-prev" (click)="slidePrev()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
-                    </svg>
-                </button>
-
-                <swiper-container #swiperContainer [config]="swiperConfig">
-                    @for (slide of obras_slides(); track slide.id) {
-                    <swiper-slide>
-                        <div class="product-slide">
-                            <div class="row align-items-center justify-content-between">
-                                <div style="max-width: 1920px; width: 100%;">
-                                    <div class="images-horizontal">
-                                        @for (image of slide.images; track image.src) {
-                                        <img [src]="image.src" [alt]="image.alt" class="obra-image">
-                                        }
-                                    </div>
-                                </div>
+            <div class="col-lg-6 mt-5 mt-lg-0">
+                <div class="row row-cols-1 row-cols-sm-2 g-3">
+                    <div class="col">
+                        <div class="obra-destaque">
+                            <img src="assets/images/obras/Rectangle91.png" alt="Obra em São Paulo" class="img-fluid rounded">
+                            <div class="obra-info">
+                                <p class="obra-regiao">São Paulo / SP</p>
+                                <p class="obra-nome">Fachada Grid e Lock SL</p>
                             </div>
                         </div>
-                    </swiper-slide>
-                    }
-                </swiper-container>
-
-                <button class="carousel-arrow carousel-arrow-next" (click)="slideNext()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
-                    </svg>
-                </button>
+                    </div>
+                    <div class="col">
+                        <div class="obra-destaque">
+                            <img src="assets/images/obras/Rectangle89.png" alt="Obra em São Paulo" class="img-fluid rounded">
+                            <div class="obra-info">
+                                <p class="obra-regiao">São Paulo / SP</p>
+                                <p class="obra-nome">Fachada Grid e Lock SL</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <!--Carrosel-->
-
-
-</div>
-<!-- <div style="display: flex;justify-content: center; align-items: center;">
-                <img src="assets/images/obras/image25.png">
-                <img src="assets/images/obras/image26.png">
-                <img src="assets/images/obras/image27.png">
-                <img src="assets/images/obras/image28.png">
-                <img src="assets/images/obras/image29.png">
-                <img src="assets/images/obras/image30.png">
-<<<<<<< HEAD
-            </div> -->
-<div style="max-width: 1920px;width: 100%;">
-    <h5>GALERIA DE OBRAS</h5>
-    <hr>
-    <h6>Aglo 2.0</h6>
-    <div class="Cards" style="max-width: 1385px; display: block;">
-        <app-cards style="max-width: 1385px; max-height: 748px; display: block;"></app-cards>
+    <!-- Seção de informações sobre mapa -->
+    <div class="meiaPagina">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <img src="assets/images/obras/POLITICAL_BORDERS_x2F_DECOUPES_POLITIQUES.svg" alt="Mapa político" class="img-fluid">
+                </div>
+                <div class="col-lg-6">
+                    <div class="mapa-texto">
+                        <h2 class="display-5 text-white">Confira nossas</h2>
+                        <h2 class="display-5 fw-bold text-white mb-4">obras por estado:</h2>
+                        <p class="lead text-white">
+                            Em nosso mapa interativo você consegue visualizar as obras realizadas em cada estado do Brasil,
+                            além de filtrar por sistemas de fachada específicos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <!-- Seção Mapa e Sistemas lado a lado -->
+    <div class="mapa-sistemas-section">
+        <div class="container">
+            <h2 class="text-center mb-4">Selecione um Estado ou Sistema de Fachada</h2>
+            <hr class="mx-auto mb-5" style="width: 100px; height: 3px; background: linear-gradient(90deg, #FF6B35, #192636, #FF6B35); border: none;">
+            
+            <div class="mapa-sistemas-container">
+            <!-- Mapa do Brasil -->
+            <div class="mapa-brasil-wrapper">
+                <h6>Filtrar por Estado</h6>
+                <div class="mapa-brasil">
+                    <object data="assets/images/brazil-map.svg" 
+                            type="image/svg+xml" 
+                            class="brazil-map"
+                            #brazilMapSvg
+                            (load)="onMapLoaded()"
+                            style="width: 100%; height: auto; min-height: 450px; border: none;">
+                        <!-- Fallback para navegadores que não suportam SVG -->
+                        <img src="assets/images/brazil-map.svg" alt="Mapa do Brasil" />
+                    </object>
+                </div>
+                
+                <!-- Informações do Estado Selecionado -->
+                @if (estadoSelecionado()) {
+                    <div class="estado-info">
+                        <h6>{{ estadoSelecionado() }}</h6>
+                        <p>{{ getNumeroObrasPorEstado(estadoSelecionado()!) }} obra{{ getNumeroObrasPorEstado(estadoSelecionado()!) !== 1 ? 's' : '' }} encontrada{{ getNumeroObrasPorEstado(estadoSelecionado()!) !== 1 ? 's' : '' }}</p>
+                    </div>
+                }
+            </div>
+
+            <!-- Sistemas de Fachada -->
+            <div class="sistemas-wrapper">
+                <h6>Sistemas de Fachada</h6>
+                <div class="sistemas-grid">
+                    @for (sistema of getSistemasDisponiveisFiltrados(); track sistema) {
+                        <div class="sistema-card" 
+                             [class.active]="sistemaExpandido() === sistema"
+                             (click)="toggleSistema(sistema)">
+                            <div class="sistema-logo">
+                                <img [src]="getSistemaLogo(sistema)" [alt]="sistema" />
+                            </div>
+                            <h6 class="sistema-name">{{ sistema }}</h6>
+                            <div class="sistema-count">
+                                {{ getObrasPorSistema(sistema).length }} obra{{ getObrasPorSistema(sistema).length !== 1 ? 's' : '' }}
+                            </div>
+                        </div>
+                    }
+                    @if (getSistemasDisponiveisFiltrados().length === 0) {
+                        <div class="no-sistemas-message">
+                            <p>Nenhum sistema encontrado para {{ estadoSelecionado() || 'o filtro selecionado' }}</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <!-- Obras Filtradas -->
+    @if (estadoSelecionado() || sistemaExpandido()) {
+        <div class="sistema-obras-expandidas" #obrasSection>
+            <div class="container">
+                <h3 class="text-center mb-4">{{ getTituloFiltro() }}</h3>
+                <div class="obras-grid-expandida">
+                @for (obra of getObrasFiltradas(); track obra.id) {
+                    <div class="obra-card-expandida">
+                        @if (obra.imageUrl) {
+                            <div class="obra-image" (click)="abrirModal(obra.imageUrl, obra.title)">
+                                <img [src]="obra.imageUrl" [alt]="obra.title">
+                                <div class="image-overlay">
+                                    <i class="fas fa-search-plus"></i>
+                                </div>
+                            </div>
+                        } @else {
+                            <div class="obra-image no-image">
+                                <span>{{ obra.title }}</span>
+                            </div>
+                        }
+                        <div class="obra-content">
+                            <p class="obra-name">{{ obra.title }}</p>
+                            <p class="obra-location">{{ obra.location }}</p>
+                            @if (obra.construtora) {
+                                <p class="obra-construtora">{{ obra.construtora }}</p>
+                            }
+                        </div>
+                    </div>
+                }
+                @if (getObrasFiltradas().length === 0) {
+                    <div class="no-obras-message">
+                        <p>Nenhuma obra encontrada{{ estadoSelecionado() ? ' no estado de ' + estadoSelecionado() : '' }}{{ sistemaExpandido() ? ' para o sistema ' + sistemaExpandido() : '' }}</p>
+                    </div>
+                }
+                </div>
+                
+                <div class="text-center mt-4">
+                    <button type="button" class="btn btn-secondary" (click)="limparFiltros()">
+                        Limpar Filtros
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Modal para exibir imagem em tela cheia -->
+    @if (modalAberto()) {
+        <div class="image-modal" (click)="fecharModal()">
+            <div class="modal-content" (click)="$event.stopPropagation()">
+                <button class="modal-close" (click)="fecharModal()">
+                    <i class="fas fa-times">X</i>
+                </button>
+                @if (imagemModal()) {
+                    <img [src]="imagemModal()!" [alt]="tituloModal() || 'Obra'" class="modal-image">
+                }
+                @if (tituloModal()) {
+                    <div class="modal-title">{{ tituloModal() }}</div>
+                }
+            </div>
+        </div>
+    }
+
 </div>
 <app-footer></app-footer>

@@ -1,0 +1,173 @@
+<div class="admin-dashboard">
+  <div class="container-fluid">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <h1 class="dashboard-title">
+            <i class="bi bi-speedometer2"></i>
+            Painel Administrativo
+          </h1>
+          <p class="dashboard-subtitle" *ngIf="currentUser">
+            Bem-vindo, {{ currentUser.email }}
+          </p>
+        </div>
+        <div class="col-md-6 text-end">
+          <button (click)="logout()" class="btn btn-outline-danger">
+            <i class="bi bi-box-arrow-right"></i>
+            Sair
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Actions -->
+    <div class="dashboard-content">
+      <div class="row g-4">
+        
+        <!-- Gestão de Usuários -->
+        <div class="col-lg-6 col-xl-3">
+          <div class="dashboard-card">
+            <div class="card-icon bg-primary">
+              <i class="bi bi-people"></i>
+            </div>
+            <div class="card-content">
+              <h3>Usuários</h3>
+              <p>Gerenciar usuários do sistema</p>
+              <div class="card-actions">
+                <a routerLink="/admin/usuarios" class="btn btn-primary">
+                  <i class="bi bi-list"></i>
+                  Listar Usuários
+                </a>
+                <a routerLink="/admin/usuarios/novo" class="btn btn-outline-primary">
+                  <i class="bi bi-person-plus"></i>
+                  Novo Usuário
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Perfis -->
+        <div class="col-lg-6 col-xl-3">
+          <div class="dashboard-card">
+            <div class="card-icon bg-success">
+              <i class="bi bi-collection"></i>
+            </div>
+            <div class="card-content">
+              <h3>Perfis</h3>
+              <p>Gerenciar perfis de alumínio</p>
+              <div class="card-actions">
+                <a routerLink="/admin/perfis" class="btn btn-success">
+                  <i class="bi bi-gear"></i>
+                  Gerenciar Perfis
+                </a>
+                <a routerLink="/admin/perfis/imagens" class="btn btn-outline-success">
+                  <i class="bi bi-images"></i>
+                  Galeria
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Obras -->
+        <div class="col-lg-6 col-xl-3">
+          <div class="dashboard-card">
+            <div class="card-icon bg-warning">
+              <i class="bi bi-building"></i>
+            </div>
+            <div class="card-content">
+              <h3>Obras</h3>
+              <p>Gerenciar projetos e obras</p>
+              <div class="card-actions">
+                <a routerLink="/admin/obras" class="btn btn-warning">
+                  <i class="bi bi-hammer"></i>
+                  Gerenciar Obras
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Catálogos -->
+        <div class="col-lg-6 col-xl-3">
+          <div class="dashboard-card">
+            <div class="card-icon bg-info">
+              <i class="bi bi-book"></i>
+            </div>
+            <div class="card-content">
+              <h3>Catálogos</h3>
+              <p>Gerenciar catálogos de produtos</p>
+              <div class="card-actions">
+                <a routerLink="/admin/catalogos" class="btn btn-info">
+                  <i class="bi bi-file-text"></i>
+                  Gerenciar Catálogos
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <div class="stats-section">
+            <h2 class="section-title">
+              <i class="bi bi-graph-up"></i>
+              Estatísticas Rápidas
+            </h2>
+            <div class="row g-3">
+              <div class="col-md-3">
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="bi bi-people"></i>
+                  </div>
+                  <div class="stat-info">
+                    <h4>Usuários</h4>
+                    <p class="stat-number">-</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="bi bi-collection"></i>
+                  </div>
+                  <div class="stat-info">
+                    <h4>Perfis</h4>
+                    <p class="stat-number">-</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="bi bi-building"></i>
+                  </div>
+                  <div class="stat-info">
+                    <h4>Obras</h4>
+                    <p class="stat-number">-</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="stat-card">
+                  <div class="stat-icon">
+                    <i class="bi bi-book"></i>
+                  </div>
+                  <div class="stat-info">
+                    <h4>Catálogos</h4>
+                    <p class="stat-number">-</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

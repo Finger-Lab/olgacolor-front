@@ -1,6 +1,15 @@
 <div class="obras-admin-container">
     <div class="container py-5">
-        <h1 class="mb-4">Gerenciamento de Obras</h1>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1 class="mb-0">Gerenciamento de Obras</h1>
+            <button 
+                type="button" 
+                class="btn btn-outline-warning btn-sm"
+                (click)="cleanInvalidSystems()"
+                title="Limpar dados antigos com sistemas inválidos">
+                🧹 Limpar Sistemas Inválidos
+            </button>
+        </div>
 
         <!-- Formulário -->
         <div class="card mb-4">
@@ -66,17 +75,43 @@
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="system" class="form-label">Sistema Utilizado</label>
-                            <select class="form-select" id="system" formControlName="system">
-                                <option value="">Selecione o sistema...</option>
-                                @for (system of systemsList; track system) {
-                                    <option [value]="system">{{ system }}</option>
+                            <label class="form-label">Sistemas Utilizados</label>
+                            <div class="border rounded p-3" style="max-height: 200px; overflow-y: auto;" [class.border-danger]="selectedSystems.length === 0 && obraForm.touched">
+                                @for (system of systemsList; track trackBySystem($index, system)) {
+                                    <div class="form-check">
+                                        <input 
+                                            class="form-check-input" 
+                                            type="checkbox" 
+                                            [id]="'system-' + system" 
+                                            [value]="system"
+                                            [checked]="isSystemSelected(system)"
+                                            (change)="onSystemChange(system, $event)">
+                                        <label class="form-check-label" [for]="'system-' + system">
+                                            {{ system }}
+                                        </label>
+                                    </div>
                                 }
-                            </select>
+                            </div>
+                            <small class="text-muted">Selecione um ou mais sistemas</small>
+                            @if (selectedSystems.length === 0 && obraForm.touched) {
+                                <div class="text-danger small mt-1">
+                                    Pelo menos um sistema deve ser selecionado.
+                                </div>
+                            }
+                            @if (selectedSystems.length > 0) {
+                                <div class="mt-2">
+                                    <small class="text-success">{{ selectedSystems.length }} sistema(s) selecionado(s):</small>
+                                    <div class="mt-1">
+                                        @for (system of selectedSystems; track trackBySelectedSystem($index, system)) {
+                                            <span class="badge bg-primary me-1 mb-1">{{ system }}</span>
+                                        }
+                                    </div>
+                                </div>
+                            }
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="constructor" class="form-label">Construtora</label>
-                            <input type="text" class="form-control" id="constructor" formControlName="constructor" placeholder="Ex: Construtora ABC">
+                            <label for="construtora" class="form-label">Construtora</label>
+                            <input type="text" class="form-control" id="construtora" formControlName="construtora" placeholder="Ex: Construtora ABC">
                         </div>
                     </div>
 
@@ -107,6 +142,65 @@
             <div class="card-body">
                 <h5 class="card-title mb-3">Obras Cadastradas</h5>
                 
+                <!-- Filtros -->
+                <div class="row mb-4">
+                    <div class="col-md-4 mb-3">
+                        <label for="search" class="form-label">Buscar</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="search"
+                            placeholder="Buscar por título ou construtora..."
+                            [(ngModel)]="searchTerm"
+                            (input)="onSearchChange()">
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="filterEstado" class="form-label">Filtrar por Estado</label>
+                        <select 
+                            class="form-select" 
+                            id="filterEstado"
+                            [(ngModel)]="selectedEstado"
+                            (change)="onEstadoChange()">
+                            <option value="">Todos os estados</option>
+                            @for (estado of estadosUnicos; track trackByEstado($index, estado)) {
+                                <option [value]="estado">{{ estado }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="filterSistema" class="form-label">Filtrar por Sistema</label>
+                        <select 
+                            class="form-select" 
+                            id="filterSistema"
+                            [(ngModel)]="selectedSistema"
+                            (change)="onSistemaChange()">
+                            <option value="">Todos os sistemas</option>
+                            @for (sistema of sistemasUnicos; track trackBySistema($index, sistema)) {
+                                <option [value]="sistema">{{ sistema }}</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-3">
+                        <label class="form-label">&nbsp;</label>
+                        <div>
+                            <button 
+                                type="button" 
+                                class="btn btn-outline-secondary w-100"
+                                (click)="clearFilters()">
+                                Limpar Filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Info dos resultados -->
+                <div class="alert alert-info mb-3">
+                    <small>
+                        <strong>Resultados:</strong> 
+                        {{ filteredObrasArray.length }} de {{ obrasArray.length }} obras
+                    </small>
+                </div>
+                
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -120,39 +214,59 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for (obra of obras$ | async; track obra.id) {
-                            <tr>
-                                <td>
-                                    @if (obra.imageUrl) {
-                                        <img [src]="obra.imageUrl" 
-                                             alt="Imagem da Obra" 
-                                             class="img-thumbnail" 
-                                             style="max-height: 50px;">
-                                    }
-                                </td>
-                                <td>{{ obra.title }}</td>
-                                <td>{{ obra.location }}</td>
-                                <td>{{ obra.system }}</td>
-                                <td>{{ obra.constructor }}</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button class="btn btn-sm btn-outline-primary" (click)="editObra(obra)">
-                                            Editar
-                                        </button>
-                                        <button class="btn btn-sm btn-outline-danger" (click)="deleteObra(obra.id!)">
-                                            Excluir
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            } @empty {
-                            <tr>
-                                <td colspan="6" class="text-center py-4">
-                                    <i class="text-muted">Nenhuma obra cadastrada</i>
-                                    <br>
-                                    <small class="text-muted">Use o formulário acima para adicionar a primeira obra</small>
-                                </td>
-                            </tr>
+                            @if (filteredObrasArray.length === 0) {
+                                <tr>
+                                    <td colspan="6" class="text-center py-4">
+                                        @if (obrasArray.length === 0) {
+                                            <div class="alert alert-warning">
+                                                <strong>Carregando obras...</strong>
+                                            </div>
+                                        } @else {
+                                            <div class="alert alert-info">
+                                                <strong>Nenhuma obra encontrada com os filtros aplicados</strong>
+                                                <br>
+                                                <small>Tente ajustar os filtros ou limpar a busca</small>
+                                            </div>
+                                        }
+                                    </td>
+                                </tr>
+                            } @else {
+                                @for (obra of filteredObrasArray; track trackByObra($index, obra)) {
+                                <tr>
+                                    <td>
+                                        @if (obra.imageUrl) {
+                                            <img [src]="obra.imageUrl" 
+                                                 alt="Imagem da Obra" 
+                                                 class="img-thumbnail" 
+                                                 style="max-height: 50px;">
+                                        } @else {
+                                            <span class="text-muted">Sem imagem</span>
+                                        }
+                                    </td>
+                                    <td>{{ obra.title }}</td>
+                                    <td>{{ obra.location }}</td>
+                                    <td>
+                                        @if (obra.system && obra.system.length > 0) {
+                                            @for (sistema of obra.system; track trackByObraSystem($index, sistema)) {
+                                                <span class="badge bg-primary me-1 mb-1">{{ sistema }}</span>
+                                            }
+                                        } @else {
+                                            <span class="text-muted">Nenhum sistema</span>
+                                        }
+                                    </td>
+                                    <td>{{ obra.construtora }}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-outline-primary" (click)="editObra(obra)">
+                                                Editar
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-danger" (click)="deleteObra(obra.id!)">
+                                                Excluir
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                }
                             }
                         </tbody>
                     </table>

@@ -36,6 +36,7 @@ import { NewsletterComponent } from "../../components/newsletter/newsletter.comp
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
+  classScrolled: string = 'scrolled position-sticky';
   private readonly platformId = inject(PLATFORM_ID);
   
   constructor() {
