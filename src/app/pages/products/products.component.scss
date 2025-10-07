@@ -60,6 +60,34 @@ label {
         }
     }
 
+    &.selected {
+        border-color: #007bff;
+        background-color: rgba(0, 123, 255, 0.05);
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.15);
+
+        .product-name {
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        .image-container::after {
+            content: '✓';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #007bff;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+        }
+    }
+
     &.loading {
         opacity: 0.6;
         pointer-events: none;

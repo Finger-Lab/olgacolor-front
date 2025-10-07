@@ -1,15 +1,39 @@
-// Drawer centralizado na lateral direita
-::ng-deep .centered-drawer {
-    .mat-drawer {
-        width: 450px;
-        max-width: 90vw;
-        height: auto !important;
-        max-height: 85vh;
-        top: 50% !important;
-        transform: translateY(-50%);
-        border-radius: 12px 0 0 12px;
-        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-        animation: slideInRight 0.3s ease-in-out;
+// Custom drawer implementation to avoid Angular Material scroll issues
+.custom-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    
+    &.open {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.custom-drawer {
+    position: fixed;
+    top: 50%;
+    right: 0;
+    width: 500px;
+    max-width: 90vw;
+    max-height: 90vh;
+    background: white;
+    transform: translateY(-50%) translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    border-radius: 12px 0 0 12px;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    overflow: hidden;
+    
+    &.open {
+        transform: translateY(-50%) translateX(0);
     }
 }
 
@@ -19,6 +43,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    max-height: 100%;
     
     .close-btn {
         position: absolute;
@@ -120,26 +146,17 @@
     }
 }
 
-// Animação de slide da direita
-@keyframes slideInRight {
-    from {
-        transform: translateX(100%) translateY(-50%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0) translateY(-50%);
-        opacity: 1;
-    }
-}
-
 // Responsivo
 @media (max-width: 768px) {
-    ::ng-deep .centered-drawer {
-        .mat-drawer {
-            width: 100vw;
-            max-height: 80vh;
-            top: 20% !important;
-            border-radius: 12px 12px 0 0;
+    .custom-drawer {
+        width: 100vw;
+        max-height: 80vh;
+        top: 20% !important;
+        border-radius: 12px 12px 0 0;
+        transform: translateY(0) translateX(100%);
+        
+        &.open {
+            transform: translateY(0) translateX(0);
         }
     }
     

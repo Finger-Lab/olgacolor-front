@@ -109,8 +109,27 @@ export class ProductsComponent implements OnInit, OnDestroy {
     this._loadData(this.searchControl.value || '', categoryName);
   }
 
-  protected setProduct(product: any): void {
+  protected setProduct(product: any, event?: Event): void {
     this.profilesService.selectedProduct.set(product);
+    
+    // Se há evento, calcular posição do drawer
+    if (event) {
+      const target = event.currentTarget as HTMLElement;
+      if (target) {
+        const rect = target.getBoundingClientRect();
+        // Buscar o componente pai ProfilesComponent e definir a posição
+        const profilesComponent = this.getProfilesComponent();
+        if (profilesComponent) {
+          profilesComponent.setDrawerPosition(rect.top + window.scrollY);
+        }
+      }
+    }
+  }
+
+  private getProfilesComponent(): any {
+    // Buscar o componente ProfilesComponent através da árvore de componentes
+    // Isso é uma solução temporária - idealmente usaríamos um serviço compartilhado
+    return (window as any)?.profilesComponent;
   }
 
   protected clearFilters(): void {

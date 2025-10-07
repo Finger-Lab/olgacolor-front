@@ -48,17 +48,22 @@ export class FinishesService {
         );
       }
 
-      // Aplicar filtro de categoria
-      if (params.category && params.category.trim()) {
-        const categoryTerm = params.category.toLowerCase().trim();
-        docs = docs.filter(doc =>
-          doc.categorias && doc.categorias.some(cat =>
-            cat.toLowerCase().includes(categoryTerm)
-          )
-        );
-      }
-
-      // Ordenar por slug
+        // Aplicar filtro de categoria
+        if (params.category && params.category.trim()) {
+          const categoryTerm = params.category.toLowerCase().trim();
+          docs = docs.filter(doc =>
+            doc.categorias && doc.categorias.some(cat => {
+              const catLower = cat.toLowerCase();
+              // Verificar se a categoria contém o termo ou se o termo contém a categoria
+              return catLower.includes(categoryTerm) || 
+                     categoryTerm.includes(catLower) ||
+                     // Verificações específicas para variações de nomes
+                     (categoryTerm === 'efeito madeira' && catLower.includes('madeira')) ||
+                     (categoryTerm === 'madeira' && catLower.includes('efeito madeira')) ||
+                     (categoryTerm === 'efeito-madeira' && catLower.includes('madeira'));
+            })
+          );
+        }      // Ordenar por slug
       docs.sort((a, b) => (a.slug || '').localeCompare(b.slug || ''));
 
       return docs;
@@ -88,9 +93,16 @@ export class FinishesService {
         if (params.category && params.category.trim()) {
           const categoryTerm = params.category.toLowerCase().trim();
           docs = docs.filter(doc =>
-            doc.categorias && doc.categorias.some(cat =>
-              cat.toLowerCase().includes(categoryTerm)
-            )
+            doc.categorias && doc.categorias.some(cat => {
+              const catLower = cat.toLowerCase();
+              // Verificar se a categoria contém o termo ou se o termo contém a categoria
+              return catLower.includes(categoryTerm) || 
+                     categoryTerm.includes(catLower) ||
+                     // Verificações específicas para variações de nomes
+                     (categoryTerm === 'efeito madeira' && catLower.includes('madeira')) ||
+                     (categoryTerm === 'madeira' && catLower.includes('efeito madeira')) ||
+                     (categoryTerm === 'efeito-madeira' && catLower.includes('madeira'));
+            })
           );
         }
 
@@ -188,9 +200,16 @@ export class FinishesService {
         if (category && category.trim()) {
           const categoryTerm = category.toLowerCase().trim();
           docs = docs.filter(doc =>
-            doc.categorias && doc.categorias.some(cat =>
-              cat.toLowerCase().includes(categoryTerm)
-            )
+            doc.categorias && doc.categorias.some(cat => {
+              const catLower = cat.toLowerCase();
+              // Verificar se a categoria contém o termo ou se o termo contém a categoria
+              return catLower.includes(categoryTerm) || 
+                     categoryTerm.includes(catLower) ||
+                     // Verificações específicas para variações de nomes
+                     (categoryTerm === 'efeito madeira' && catLower.includes('madeira')) ||
+                     (categoryTerm === 'madeira' && catLower.includes('efeito madeira')) ||
+                     (categoryTerm === 'efeito-madeira' && catLower.includes('madeira'));
+            })
           );
         }
 

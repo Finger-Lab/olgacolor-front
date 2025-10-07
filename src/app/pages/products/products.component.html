@@ -186,7 +186,10 @@
 
     <div class="products-list">
         @for (profile of profiles(); track profile.id) {
-        <div (click)="setProduct(profile)" class="product-item" [class.loading]="isLoading()">
+        <div (click)="setProduct(profile, $event)" 
+             class="product-item" 
+             [class.loading]="isLoading()"
+             [class.selected]="profilesService.selectedProduct()?.id === profile.id">
             <div class="image-container">
                 <img [src]="profile?.images?.[0]" [alt]="profile?.name">
             </div>

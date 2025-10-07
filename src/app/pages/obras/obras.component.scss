@@ -1,5 +1,10 @@
 #obras_main {
-    padding: 0 0 5rem 0;
+    padding: 0 0 rem 0;
+
+    // Container principal com margem do header
+    .container {
+        margin-top: 20px;
+    }
 
     h1 {
         padding-bottom: 3rem;
@@ -146,18 +151,6 @@
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 1.5rem;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Estilos para a Galeria de Obras - mantendo consistência com outras páginas
 .obras-gallery-section {
@@ -589,11 +582,6 @@
         pointer-events: auto !important;
     }
 }
-
-
-
-
-
 // Responsividade do Mapa do Brasil
 @media (max-width: 768px) {
     .mapa-brasil-section {
@@ -926,6 +914,111 @@
             i {
                 font-size: 1.5rem;
             }
+        }
+    }
+}
+
+// Siglas dos Estados sobre o Mapa
+.mapa-brasil {
+    position: relative;
+}
+
+.estado-siglas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    
+    .sigla {
+        position: absolute;
+        font-size: 12px;
+        font-weight: 700;
+        color: #ffffff;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+        pointer-events: none;
+        user-select: none;
+        letter-spacing: 0.5px;
+        z-index: 5;
+        transform: translate(-50%, -50%); // Centraliza a sigla no ponto especificado
+        text-align: center;
+        
+        // Posições centralizadas das siglas dos estados (em % relativos ao mapa)
+        // Região Norte
+        &.acre { top: 35%; left: 12%; } // AC
+        &.amapa { top: 7%; left: 54%; } // AP
+        &.amazonas { top: 24%; left: 21%; } // AM
+        &.para { top: 22%; left: 48%; } // PA
+        &.rondonia { top: 38%; left: 26%; } // RO
+        &.roraima { top: 5%; left: 30%; } // RR
+        &.tocantins { top: 34%; left: 62%; } // TO
+        
+        // Região Nordeste
+        &.alagoas { top: 34%; left: 90%; } // AL
+        &.bahia { top: 40%; left: 80%; } // BA
+        &.ceara { top: 22%; left: 83%; } // CE
+        &.maranhao { top: 23%; left: 70%; } // MA
+        &.paraiba { top: 28%; left: 94%; } // PB
+        &.pernambuco { top: 31%; left: 94%; } // PE
+        &.piaui { top: 29%; left: 75%; } // PI
+        &.rio-grande-do-norte { top: 25%; left: 90%; } // RN
+        &.sergipe { top: 36%; left: 89%; } // SE
+        
+        // Região Centro-Oeste
+        &.distrito-federal { top: 46.5%; left: 63%; } // DF
+        &.goias { top: 50%; left: 56%; } // GO
+        &.mato-grosso { top: 45%; left: 44%; } // MT
+        &.mato-grosso-do-sul { top: 60%; left: 46%; } // MS
+        
+        // Região Sudeste
+        &.espirito-santo { top: 57%; left: 81%; } // ES
+        &.minas-gerais { top: 57%; left: 70%; } // MG
+        &.rio-de-janeiro { top: 64%; left: 76%; } // RJ
+        &.sao-paulo { top: 65%; left: 63%; } // SP
+        
+        // Região Sul
+        &.parana { top: 70%; left: 52%; } // PR
+        &.rio-grande-do-sul { top: 81%; left: 51%; } // RS
+        &.santa-catarina { top: 76%; left: 57%; } // SC
+        
+        // Responsividade das siglas
+        @media (max-width: 768px) {
+            font-size: 10px;
+        }
+        
+        @media (max-width: 480px) {
+            font-size: 8px;
+        }
+        
+        // Estados com ajustes específicos para evitar sobreposição
+        &.rio-grande-do-norte {
+            font-size: 10px; // RN é menor para caber no estado pequeno
+        }
+        
+        &.alagoas {
+            font-size: 10px; // AL é menor para caber no estado pequeno
+        }
+        
+        &.sergipe {
+            font-size: 10px; // SE é menor para caber no estado pequeno
+        }
+        
+        &.distrito-federal {
+            font-size: 10px; // DF é menor para caber no estado pequeno
+        }
+        
+        &.espirito-santo {
+            font-size: 10px; // ES é menor para caber no estado pequeno
+        }
+        
+        // Estados maiores podem ter siglas um pouco maiores
+        &.amazonas,
+        &.para,
+        &.minas-gerais,
+        &.bahia,
+        &.mato-grosso {
+            font-size: 14px;
         }
     }
 }

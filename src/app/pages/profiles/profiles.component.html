@@ -1,49 +1,53 @@
 <div id="profiles">
     <app-header [customClass]="classScrolled" />
-    <mat-drawer-container [scrollTop]="true">
-        <mat-drawer (closedStart)="profilesService.selectedProduct.set(null)" #drawer position="end" mode="over" class="centered-drawer">
-            <div class="product">
-                <button class="close-btn" (click)="closeModal()">
-                    <span>&times;</span>
-                </button>
+    
+    <!-- Custom drawer overlay -->
+    <div class="custom-drawer-overlay" [class.open]="profilesService.selectedProduct()" (click)="closeModal()"></div>
+    
+    <!-- Custom drawer -->
+    <div class="custom-drawer" [class.open]="profilesService.selectedProduct()" [style.top.px]="drawerTopPosition()">
+        <div class="product">
+            <button class="close-btn" (click)="closeModal()">
+                <span>&times;</span>
+            </button>
+            
+            <div class="product-content">
+                <img [src]="profilesService.selectedProduct()?.images?.[1] || profilesService.selectedProduct()?.images?.[0]"
+                    [alt]="profilesService.selectedProduct()?.name" />
                 
-                <div class="product-content">
-                    <img [src]="profilesService.selectedProduct()?.images?.[1] || profilesService.selectedProduct()?.images?.[0]"
-                        [alt]="profilesService.selectedProduct()?.name" />
+                <div class="product-info">
+                    <h3 class="product-title">{{ profilesService.selectedProduct()?.name }}</h3>
                     
-                    <div class="product-info">
-                        <h3 class="product-title">{{ profilesService.selectedProduct()?.name }}</h3>
-                        
-                        <div class="product-details">
+                    <div class="product-details">
+                        <div class="detail-item">
+                            <small>Descrição</small>
+                            <p>{{ profilesService.selectedProduct()?.description || '-' }}</p>
+                        </div>
+
+                        <div class="detail-row">
                             <div class="detail-item">
-                                <small>Descrição</small>
-                                <p>{{ profilesService.selectedProduct()?.description || '-' }}</p>
+                                <small>Peso</small>
+                                <p>{{ profilesService.selectedProduct()?.weight || '-' }}</p>
                             </div>
-
-                            <div class="detail-row">
-                                <div class="detail-item">
-                                    <small>Peso</small>
-                                    <p>{{ profilesService.selectedProduct()?.weight || '-' }}</p>
-                                </div>
-                                <div class="detail-item">
-                                    <small>Equivalência</small>
-                                    <p>{{ profilesService.selectedProduct()?.equivalence || '-' }}</p>
-                                </div>
+                            <div class="detail-item">
+                                <small>Equivalência</small>
+                                <p>{{ profilesService.selectedProduct()?.equivalence || '-' }}</p>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="action-buttons">
-                            <button (click)="openImage(profilesService.selectedProduct()?.['tableImageSrc'])" 
-                                    [style]="profilesService.selectedProduct()?.['isTable'] ? 'visibility:visible' : 'visibility:hidden'"  
-                                    class="btn btn-primary btn-sm">
-                                Ver tabela
-                            </button>
-                        </div>
+                    <div class="action-buttons">
+                        <button (click)="openImage(profilesService.selectedProduct()?.['tableImageSrc'])" 
+                                [style]="profilesService.selectedProduct()?.['isTable'] ? 'visibility:visible' : 'visibility:hidden'"  
+                                class="btn btn-primary btn-sm">
+                            Ver tabela
+                        </button>
                     </div>
                 </div>
             </div>
-        </mat-drawer>
-        <router-outlet name="second" />
-    </mat-drawer-container>
+        </div>
+    </div>
+
+    <router-outlet name="second" />
     <app-footer />
 </div>

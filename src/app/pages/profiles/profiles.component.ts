@@ -1,7 +1,6 @@
-import { Component, effect, inject, viewChild } from '@angular/core';
+import { Component, effect, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from "../../components/footer/footer.component";
-import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 import { RouterOutlet } from '@angular/router';
 import { ProfilesService } from './profiles.service';
 
@@ -10,31 +9,28 @@ import { ProfilesService } from './profiles.service';
   imports: [
     HeaderComponent,
     RouterOutlet,
-    FooterComponent,
-    MatSidenavModule
+    FooterComponent
   ],
   templateUrl: './profiles.component.html',
   styleUrl: './profiles.component.scss'
 })
-export class ProfilesComponent {
+export class ProfilesComponent implements OnInit, OnDestroy {
+  protected readonly profilesService = inject(ProfilesService);
+  classScrolled: string = 'scrolled position-sticky';
+  drawerTopPosition = signal<number>(100);
 
   constructor() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    effect(() => {
-      if (this.profilesService.selectedProduct())
-        this._toggleDrawer();
-    });
   }
 
-  protected readonly profilesService = inject(ProfilesService);
+  ngOnInit() {
+    // Registrar o componente globalmente para comunicação
+    (window as any).profilesComponent = this;
+  }
 
-  classScrolled: string = 'scrolled position-sticky';
-
-  drawer = viewChild(MatDrawer);
-
-  public _toggleDrawer(): void {
-    if (this.drawer())
-      this.drawer()?.toggle();
+  ngOnDestroy() {
+    // Limpar referência global
+    delete (window as any).profilesComponent;
   }
 
   openImage(url: string){
@@ -43,11 +39,21 @@ export class ProfilesComponent {
   }
 
   public closeModal(): void {
-    // Primeiro fecha o drawer, depois limpa o produto selecionado
-    if (this.drawer()) {
-      this.drawer()?.close();
-    }
-    // O selectedProduct será limpo automaticamente pelo evento (closedStart) do drawer
+    this.profilesService.selectedProduct.set(null);
   }
 
+  // Método para definir a posição do drawer baseado no elemento clicado
+  setDrawerPosition(elementTop: number) {
+    // Ajusta a posição considerando o scroll e a altura do header
+    const headerHeight = 100;
+    const scrollY = window.scrollY;
+    const relativeTop = elementTop - scrollY;
+    
+    // Garante que o drawer não apareça muito no topo ou muito embaixo
+    const minTop = headerHeight;
+    const maxTop = window.innerHeight - 400; // 400px é aproximadamente a altura do drawer
+    
+    const finalTop = Math.max(minTop, Math.min(maxTop, relativeTop));
+    this.drawerTopPosition.set(finalTop);
+  }
 }
