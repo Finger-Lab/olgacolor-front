@@ -4,6 +4,15 @@
 
     .card {
         box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        
+        // Destaque quando está sendo editado
+        &.editing-highlight {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25), 
+                        0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            animation: highlightPulse 0.6s ease-in-out;
+        }
     }
 
     .table {
@@ -67,5 +76,225 @@
     .btn:disabled {
         opacity: 0.6;
         cursor: not-allowed;
+    }
+}
+
+// Animação de destaque para o formulário
+@keyframes highlightPulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.01);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+// Estilos para logos dos sistemas
+.systems-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+}
+
+.system-badge-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+// Logos pequenos para checkbox de seleção
+.system-logo-small {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.system-logo-img-small {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 2px;
+}
+
+.system-logo-placeholder-small {
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+// Logos para badges de sistemas selecionados
+.system-logo-badge {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.system-logo-img-badge {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 2px;
+}
+
+.system-logo-placeholder-badge {
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: bold;
+}
+
+// Logos para tabela de obras
+.system-logo {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 6px;
+}
+
+.system-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 3px;
+}
+
+.system-logo-placeholder {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* ============= ESTILOS PARA SELEÇÃO MÚLTIPLA ============= */
+
+// Linha selecionada com destaque visual
+.table tr.table-warning {
+    background-color: rgba(255, 193, 7, 0.2) !important;
+    border-left: 4px solid #ffc107;
+    
+    td {
+        border-color: rgba(255, 193, 7, 0.3);
+    }
+    
+    &:hover {
+        background-color: rgba(255, 193, 7, 0.3) !important;
+    }
+}
+
+// Checkbox personalizado no cabeçalho
+.table thead th {
+    vertical-align: middle;
+    
+    .form-check {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        .form-check-input {
+            margin: 0;
+            cursor: pointer;
+            transform: scale(1.1);
+            
+            &:focus {
+                border-color: #0d6efd;
+                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            }
+            
+            // Estado indeterminado
+            &:indeterminate {
+                background-color: #6c757d;
+                border-color: #6c757d;
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+            }
+        }
+    }
+}
+
+// Checkbox nas linhas da tabela
+.table tbody td {
+    vertical-align: middle;
+    
+    .form-check {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        .form-check-input {
+            margin: 0;
+            cursor: pointer;
+            
+            &:focus {
+                border-color: #0d6efd;
+                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+            }
+        }
+    }
+}
+
+// Animação para destacar seleção
+@keyframes selectPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.table tbody tr {
+    transition: all 0.2s ease;
+    
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+}
+
+// Área de ações em lote
+.alert {
+    &.alert-warning {
+        border-left: 4px solid #ffc107;
+        background: linear-gradient(90deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%);
+        
+        .btn {
+            transition: all 0.2s ease;
+            
+            &:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+        }
     }
 }

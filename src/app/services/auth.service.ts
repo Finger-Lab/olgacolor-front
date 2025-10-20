@@ -18,6 +18,8 @@ export interface AuthUser {
 export class AuthService {
   private currentUserSubject = new BehaviorSubject<AuthUser | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  private authInitialized = new BehaviorSubject<boolean>(false);
+  public authInitialized$ = this.authInitialized.asObservable();
 
   constructor(
     private auth: Auth,
@@ -26,6 +28,8 @@ export class AuthService {
   ) {
     // Monitora mudanças no estado de autenticação
     onAuthStateChanged(this.auth, async (user) => {
+      console.log('🔄 Auth state changed:', user?.email || 'No user');
+      
       if (user) {
         try {
           // Buscar dados do usuário no Firestore
@@ -58,7 +62,14 @@ export class AuthService {
           this.currentUserSubject.next(authUser);
         }
       } else {
+        console.log('❌ Usuário não autenticado');
         this.currentUserSubject.next(null);
+      }
+      
+      // Marcar inicialização como completa
+      if (!this.authInitialized.value) {
+        console.log('✅ Auth inicializado');
+        this.authInitialized.next(true);
       }
     });
   }
@@ -140,6 +151,38 @@ export class AuthService {
   // Verificar se está logado
   get isLoggedIn(): boolean {
     return this.currentUserSubject.value !== null;
+  }
+
+  // Verificar se auth foi inicializado
+  get isAuthInitialized(): boolean {
+    return this.authInitialized.value;
+  }
+
+  // Aguardar inicialização da autenticação
+  async waitForAuthInitialization(): Promise<void> {
+    if (this.isAuthInitialized) {
+      console.log('🚀 Auth já inicializado');
+      return Promise.resolve();
+    }
+
+    console.log('⏳ Aguardando inicialização da autenticação...');
+    
+    return new Promise<void>((resolve, reject) => {
+      // Timeout de 10 segundos para evitar travamento
+      const timeout = setTimeout(() => {
+        console.warn('⚠️ Timeout na inicialização da autenticação');
+        resolve(); // Resolver mesmo com timeout para não travar a aplicação
+      }, 10000);
+
+      const subscription = this.authInitialized$.subscribe((initialized) => {
+        if (initialized) {
+          console.log('✅ Auth inicializado com sucesso');
+          clearTimeout(timeout);
+          subscription.unsubscribe();
+          resolve();
+        }
+      });
+    });
   }
 
   // Obter usuário atual

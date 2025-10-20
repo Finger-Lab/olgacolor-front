@@ -1,0 +1,421 @@
+// Garantir que o header tenha o background correto
+:host ::ng-deep app-header #header {
+  background-color: #192636 !important;
+}
+
+// =============== BANNER DA OBRA ===============
+.obra-banner {
+  background: linear-gradient(135deg, rgba(25, 38, 54, 0.95), rgba(25, 38, 54, 0.8));
+  padding: 100px 0 80px 0;
+  margin-top: 80px; /* Espaço para o header sticky */
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/assets/images/banner-bg.jpg') center/cover;
+    opacity: 0.1;
+    z-index: 0;
+    pointer-events: none;
+  }
+  
+  .banner-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    
+    .banner-text {
+      .breadcrumb {
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.8);
+
+        .breadcrumb-link {
+          color: #FF6B35;
+          cursor: pointer;
+          text-decoration: none;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .breadcrumb-separator {
+          margin: 0 0.5rem;
+          color: rgba(255, 255, 255, 0.6);
+        }
+
+        .breadcrumb-current {
+          font-weight: 500;
+          color: white;
+        }
+      }
+      
+      .banner-title {
+        font-size: 3rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        
+        @media (max-width: 768px) {
+          font-size: 2.5rem;
+        }
+      }
+      
+      .banner-subtitle {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+      
+      .banner-stats {
+        display: flex;
+        gap: 2rem;
+        flex-wrap: wrap;
+        
+        .stat-item {
+          display: flex;
+          flex-direction: column;
+          
+          .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.25rem;
+          }
+          
+          .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+          }
+        }
+      }
+    }
+    
+    .banner-visual {
+      position: relative;
+      
+      .banner-image {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        
+        .main-banner-img {
+          width: 100%;
+          height: 400px;
+          object-fit: cover;
+          transition: transform 0.3s ease;
+          
+          &:hover {
+            transform: scale(1.05);
+          }
+        }
+        
+        .image-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(45deg, rgba(255, 107, 53, 0.1), rgba(25, 38, 54, 0.1));
+          pointer-events: none;
+        }
+      }
+    }
+  }
+}
+
+.obra-detail-container {
+  min-height: calc(100vh - 160px);
+  padding: 8rem 1rem 2rem 1rem; /* Increased top padding further to avoid header overlap */
+  background-color: #f8f9fa;
+
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 300px;
+    color: #666;
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #FF6B35;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .error-container {
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+
+    h2 {
+      color: #dc3545;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      color: #666;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .obra-detail-content {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .breadcrumb {
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: #666;
+
+      .breadcrumb-link {
+        color: #FF6B35;
+        cursor: pointer;
+        text-decoration: none;
+        
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .breadcrumb-separator {
+        margin: 0 0.5rem;
+      }
+
+      .breadcrumb-current {
+        font-weight: 500;
+        color: #333;
+      }
+    }
+
+    .obra-header {
+      margin-bottom: 2rem;
+      
+      .breadcrumb {
+        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        color: #666;
+
+        .breadcrumb-link {
+          color: #FF6B35;
+          cursor: pointer;
+          text-decoration: none;
+          
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .breadcrumb-separator {
+          margin: 0 0.5rem;
+          color: #666;
+        }
+
+        .breadcrumb-current {
+          font-weight: 500;
+          color: #333;
+        }
+      }
+      
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #192636;
+        margin: 0 0 1rem 0;
+        
+        @media (max-width: 768px) {
+          font-size: 2rem;
+        }
+      }
+      
+      .obra-subtitle {
+        color: #666;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        margin: 0;
+      }
+    }
+
+    .obra-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: start;
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+      }
+
+      .obra-image-section {
+        .obra-main-image {
+          width: 100%;
+          height: auto;
+          border-radius: 8px;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease;
+
+          &:hover {
+            transform: scale(1.02);
+          }
+        }
+
+        .placeholder-image {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          height: 300px;
+          background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+          border-radius: 8px;
+          color: #666;
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+          
+          .fallback-logo {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 80px;
+            height: auto;
+            opacity: 0.3;
+          }
+          
+          .placeholder-content {
+            text-align: center;
+            z-index: 1;
+            
+            i {
+              font-size: 2.5rem;
+              margin-bottom: 1rem;
+              color: #FF6B35;
+            }
+            
+            p {
+              margin: 0.5rem 0;
+              font-size: 1.1rem;
+              font-weight: 500;
+              color: #333;
+            }
+            
+            small {
+              font-size: 0.9rem;
+              color: #666;
+              font-style: italic;
+            }
+          }
+        }
+      }
+
+      .obra-info-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        .info-card {
+          background: white;
+          padding: 1.5rem;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          border-left: 4px solid #FF6B35;
+          
+          h3 {
+            color: #192636;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            
+            i {
+              color: #FF6B35;
+            }
+          }
+
+          p {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+          }
+
+          .sistemas-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+
+            .sistema-tag {
+              background: linear-gradient(45deg, #FF6B35, #192636);
+              color: white;
+              padding: 0.25rem 0.75rem;
+              border-radius: 20px;
+              font-size: 0.85rem;
+              font-weight: 500;
+            }
+          }
+
+          &.description-card {
+            p {
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .btn-voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(45deg, #000c47, #192636);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(45deg, #192636, #FF6B35);
+      transform: translateY(-1px);
+    }
+
+    i {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

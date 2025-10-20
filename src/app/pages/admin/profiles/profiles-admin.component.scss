@@ -1,1 +1,36 @@
 /* Estilos específicos para o componente de administração de perfis */
+
+.editing-highlight {
+  animation: highlightEdit 3s ease-in-out;
+  border: 2px solid #007bff !important;
+}
+
+@keyframes highlightEdit {
+  0% {
+    box-shadow: 0 0 0 rgba(0, 123, 255, 0);
+    border-color: #007bff;
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+    border-color: #007bff;
+  }
+  100% {
+    box-shadow: 0 0 0 rgba(0, 123, 255, 0);
+    border-color: #dee2e6;
+  }
+}
+
+// Estilo para a busca
+.input-group {
+  .btn-outline-secondary {
+    border-left: 0;
+  }
+}
+
+// Estilos para paginação
+.pagination-sm {
+  .page-link {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+}

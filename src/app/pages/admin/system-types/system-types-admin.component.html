@@ -1,0 +1,194 @@
+<<div class="admin-container">
+  <!-- Botão Voltar ao Dashboard -->
+  <div class="mb-3">
+    <button type="button" 
+            class="btn btn-outline-primary"
+            routerLink="/admin"
+            title="Voltar ao Dashboard Admin">
+      <i class="fa fa-arrow-left"></i>
+      Voltar ao Dashboard
+    </button>
+  </div>
+  
+  <div class="admin-header">
+    <h1>Gerenciar Tipos de Sistemas</h1>
+    <div class="header-actions">
+      <button type="button" class="btn btn-secondary" (click)="initializeDefaultTypes()">
+        Inicializar Tipos Padrão
+      </button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <!-- Formulário -->
+    <div class="form-section">
+      <h2>{{ isEditing ? 'Editar Tipo de Sistema' : 'Novo Tipo de Sistema' }}</h2>
+      <form [formGroup]="systemTypeForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <!-- Nome -->
+          <div class="form-group">
+            <label for="name">Nome *</label>
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              placeholder="Ex: AGLO 2.0"
+              [class.error]="systemTypeForm.get('name')?.invalid && systemTypeForm.get('name')?.touched"
+            >
+            <div class="error-message" *ngIf="systemTypeForm.get('name')?.invalid && systemTypeForm.get('name')?.touched">
+              Nome é obrigatório (mínimo 2 caracteres)
+            </div>
+          </div>
+
+          <!-- Nome de Exibição -->
+          <div class="form-group">
+            <label for="displayName">Nome de Exibição</label>
+            <input
+              type="text"
+              id="displayName"
+              formControlName="displayName"
+              placeholder="Ex: AGLO 2.0 - Sistema Cortina"
+            >
+          </div>
+
+          <!-- Status -->
+          <div class="form-group">
+            <label class="checkbox-container">
+              <input type="checkbox" formControlName="isActive">
+              <span class="checkmark"></span>
+              Sistema Ativo
+            </label>
+          </div>
+        </div>
+
+        <!-- Descrição -->
+        <div class="form-group">
+          <label for="description">Descrição</label>
+          <textarea
+            id="description"
+            formControlName="description"
+            rows="3"
+            placeholder="Descrição do sistema..."
+          ></textarea>
+        </div>
+
+        <!-- Upload de Logo -->
+        <div class="form-group">
+          <label for="logo">Logo</label>
+          <div class="logo-upload-section">
+            <!-- Preview do logo atual ou novo -->
+            <div class="logo-preview" *ngIf="previewUrl || currentLogoUrl">
+              <img [src]="previewUrl || currentLogoUrl" alt="Logo preview" />
+            </div>
+            
+            <!-- Input de arquivo -->
+            <div class="file-input-container">
+              <input
+                type="file"
+                id="logo"
+                accept="image/*"
+                (change)="onFileSelected($event)"
+                #fileInput
+              >
+              <button type="button" class="btn btn-outline" (click)="fileInput.click()">
+                {{ previewUrl || currentLogoUrl ? 'Alterar Logo' : 'Selecionar Logo' }}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary" [disabled]="!systemTypeForm.valid || isSubmitting || isUploading">
+            <span *ngIf="isSubmitting || isUploading">
+              {{ isUploading ? 'Enviando...' : 'Salvando...' }}
+            </span>
+            <span *ngIf="!isSubmitting && !isUploading">
+              {{ isEditing ? 'Atualizar' : 'Criar' }}
+            </span>
+          </button>
+          
+          <button type="button" 
+                  class="btn btn-outline-secondary ms-2" 
+                  (click)="cancelEdit()" 
+                  *ngIf="isEditing"
+                  title="Cancelar edição e voltar à lista">
+            <i class="fa fa-arrow-left"></i> Voltar
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Lista de Tipos -->
+    <div class="list-section">
+      <div class="list-header">
+        <h3>Tipos de Sistemas ({{ filteredSystemTypes.length }})</h3>
+        
+        <!-- Filtros -->
+        <div class="filters">
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            placeholder="Buscar..."
+            class="search-input"
+          >
+          
+          <label class="checkbox-container">
+            <input type="checkbox" [(ngModel)]="showInactiveOnly">
+            <span class="checkmark"></span>
+            Apenas Inativos
+          </label>
+        </div>
+      </div>
+
+      <div class="system-types-grid" *ngIf="filteredSystemTypes.length > 0">
+        <div
+          class="system-type-card"
+          *ngFor="let systemType of filteredSystemTypes"
+          [class.inactive]="!systemType.isActive"
+        >
+          <!-- Logo -->
+          <div class="card-logo">
+            <img *ngIf="systemType.logoUrl" [src]="systemType.logoUrl" [alt]="systemType.displayName || systemType.name" />
+            <div *ngIf="!systemType.logoUrl" class="no-logo">
+              <span>{{ (systemType.displayName || systemType.name).charAt(0) }}</span>
+            </div>
+          </div>
+
+          <!-- Informações -->
+          <div class="card-info">
+            <h4>{{ systemType.displayName || systemType.name }}</h4>
+            <p class="system-name" *ngIf="systemType.displayName">{{ systemType.name }}</p>
+            <p class="description" *ngIf="systemType.description">{{ systemType.description }}</p>
+            
+            <div class="card-meta">
+              <span class="status" [class.active]="systemType.isActive" [class.inactive]="!systemType.isActive">
+                {{ systemType.isActive ? 'Ativo' : 'Inativo' }}
+              </span>
+              <small *ngIf="systemType.createdAt">
+                Criado em {{ formatTimestamp(systemType.createdAt) | date:'dd/MM/yyyy' }}
+              </small>
+            </div>
+          </div>
+
+          <!-- Ações -->
+          <div class="card-actions">
+            <button type="button" class="btn btn-sm btn-outline" (click)="editSystemType(systemType)">
+              Editar
+            </button>
+            <button type="button" class="btn btn-sm btn-danger" (click)="deleteSystemType(systemType)">
+              Excluir
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="filteredSystemTypes.length === 0">
+        <p>{{ searchTerm ? 'Nenhum tipo encontrado para "' + searchTerm + '"' : 'Nenhum tipo de sistema encontrado' }}</p>
+        <button type="button" class="btn btn-primary" (click)="initializeDefaultTypes()" *ngIf="systemTypesArray.length === 0">
+          Inicializar Tipos Padrão
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

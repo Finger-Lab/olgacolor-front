@@ -42,6 +42,12 @@ export const routes: Routes = [
           .then(mod => mod.ProfileImagesComponent)
     },
     {
+        path: 'admin/tipos-sistemas',
+        canActivate: [AdminGuard],
+        data: { roles: ['Admin'] },
+        loadComponent: () => import('./pages/admin/system-types/system-types-admin.component').then(mod => mod.SystemTypesAdminComponent)
+    },
+    {
         path: '',
         pathMatch: 'full',
         redirectTo: 'pagina-inicial'
@@ -238,7 +244,17 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/environmental-responsibility/environmental-responsibility.component').then(mod => mod.EnvironmentalResponsibilityComponent)
     },
     {
-        path: 'obras', loadComponent: () => import('./pages/obras/obras.component').then(mod => mod.ObrasComponent),
-        children: [{path: 'cards', loadComponent: () => import('./pages/obras/cards/cards.component').then(mod => mod.CardsComponent)}]
+        path: 'obras', 
+        loadComponent: () => import('./pages/obras/obras.component').then(mod => mod.ObrasComponent),
+        children: [
+            {
+                path: 'cards', 
+                loadComponent: () => import('./pages/obras/cards/cards.component').then(mod => mod.CardsComponent)
+            }
+        ]
+    },
+    {
+        path: 'obra/:id',
+        loadComponent: () => import('./pages/obras/obra-detail/obra-detail.component').then(mod => mod.ObraDetailComponent)
     }
 ];

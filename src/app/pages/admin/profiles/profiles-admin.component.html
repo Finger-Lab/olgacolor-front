@@ -1,12 +1,23 @@
 <!-- profiles-admin.component.html -->
 <div class="container mt-4">
+    <!-- Botão Voltar ao Dashboard -->
+    <div class="mb-3">
+        <button type="button" 
+                class="btn btn-outline-primary"
+                routerLink="/admin"
+                title="Voltar ao Dashboard Admin">
+            <i class="fa fa-arrow-left"></i>
+            Voltar ao Dashboard
+        </button>
+    </div>
+    
     <div class="row">
         <!-- Formulário -->
         <div class="col-md-4">
-            <div class="card">
+            <div class="card" [class.editing-highlight]="showEditingHighlight">
                 <div class="card-body">
                     <h5 class="card-title">{{ isEditing ? 'Editar' : 'Novo' }} Perfil</h5>
-                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" id="profile-form">
                         <!-- Imagem de Capa -->
                         <div class="mb-3">
                             <label class="form-label">Imagem de Capa</label>
@@ -94,9 +105,10 @@
                             </button>
                             @if (isEditing) {
                                 <button type="button" 
-                                        class="btn btn-secondary" 
-                                        (click)="cancelEdit()">
-                                    Cancelar
+                                        class="btn btn-outline-secondary ms-2"
+                                        (click)="cancelEdit()"
+                                        title="Cancelar edição e voltar à lista">
+                                    <i class="fa fa-arrow-left"></i> Voltar
                                 </button>
                             }
                         </div>
@@ -127,6 +139,34 @@
                             </a>
                         </div>
                     </div>
+
+                    <!-- Controles de Busca -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" 
+                                       class="form-control" 
+                                       placeholder="Buscar por nome ou descrição..."
+                                       [(ngModel)]="searchTerm"
+                                       (ngModelChange)="onSearchChange()">
+                                @if (searchTerm) {
+                                    <button class="btn btn-outline-secondary" 
+                                            type="button"
+                                            (click)="clearSearch()"
+                                            title="Limpar busca">
+                                        ✕
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <small class="text-muted">
+                                Mostrando {{ (currentPage - 1) * itemsPerPage + 1 }} - 
+                                {{ Math.min(currentPage * itemsPerPage, totalItems) }} de {{ totalItems }} perfis
+                            </small>
+                        </div>
+                    </div>
+
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -140,7 +180,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @for (profile of profiles$ | async; track profile.id) {
+                                @for (profile of paginatedProfiles; track profile.id) {
                                 <tr>
                                     <td>
                                         <div class="d-flex gap-2">
@@ -181,6 +221,45 @@
                             </tbody>
                         </table>
                     </div>
+
+                    <!-- Controles de Paginação -->
+                    @if (totalPages > 1) {
+                        <nav aria-label="Navegação de páginas" class="mt-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-muted">
+                                        Página {{ currentPage }} de {{ totalPages }}
+                                    </small>
+                                </div>
+                                <ul class="pagination pagination-sm mb-0">
+                                    <li class="page-item" [class.disabled]="currentPage === 1">
+                                        <button class="page-link" 
+                                                (click)="changePage(currentPage - 1)"
+                                                [disabled]="currentPage === 1">
+                                            Anterior
+                                        </button>
+                                    </li>
+                                    
+                                    @for (page of getPaginationArray(); track page) {
+                                        <li class="page-item" [class.active]="page === currentPage">
+                                            <button class="page-link" 
+                                                    (click)="changePage(page)">
+                                                {{ page }}
+                                            </button>
+                                        </li>
+                                    }
+                                    
+                                    <li class="page-item" [class.disabled]="currentPage === totalPages">
+                                        <button class="page-link" 
+                                                (click)="changePage(currentPage + 1)"
+                                                [disabled]="currentPage === totalPages">
+                                            Próxima
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    }
                 </div>
             </div>
         </div>

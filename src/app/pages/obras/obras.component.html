@@ -1,54 +1,22 @@
 <div id="obras_main">
     <app-header [customClass]="classScrolled"></app-header>
     
-    <!-- Seção principal boxed -->
+    <!-- Banner Principal Boxed -->
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1>Obras <span class="fw-bold">Realizadas</span></h1>
-                <p class="mt-4">
-                    Qorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc vulputate libero et velit interdum, ac
-                    aliquet odio mattis.
-                </p>
-            </div>
-            <div class="col-lg-6 mt-5 mt-lg-0">
-                <div class="row row-cols-1 row-cols-sm-2 g-3">
-                    <div class="col">
-                        <div class="obra-destaque">
-                            <img src="assets/images/obras/Rectangle91.png" alt="Obra em São Paulo" class="img-fluid rounded">
-                            <div class="obra-info">
-                                <p class="obra-regiao">São Paulo / SP</p>
-                                <p class="obra-nome">Fachada Grid e Lock SL</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="obra-destaque">
-                            <img src="assets/images/obras/Rectangle89.png" alt="Obra em São Paulo" class="img-fluid rounded">
-                            <div class="obra-info">
-                                <p class="obra-regiao">São Paulo / SP</p>
-                                <p class="obra-nome">Fachada Grid e Lock SL</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="obras-banner-img">
+            <img src="assets\images\markets\glazing\banner.png" alt="Obras Realizadas" class="banner-main-image">
         </div>
     </div>
-    <!-- Seção de informações sobre mapa -->
+    <!-- Seção de informações sobre obras -->
     <div class="meiaPagina">
         <div class="container">
             <div class="row align-items-center">
-                <!-- <div class="col-lg-6">
-                    <img src="assets/images/obras/POLITICAL_BORDERS_x2F_DECOUPES_POLITIQUES.svg" alt="Mapa político" class="img-fluid">
-                </div> -->
-                <div class="col-lg-6">
-                    <div class="mapa-texto">
-                        <h2 class="display-5 text-white">Confira nossas</h2>
-                        <h2 class="display-5 fw-bold text-white mb-4">obras por estado:</h2>
-                        <p class="lead text-white">
-                            Em nosso mapa interativo você consegue visualizar as obras realizadas em cada estado do Brasil,
-                            além de filtrar por sistemas de fachada específicos.
+                <div class="col-lg-12 text-center">
+                    <div class="obras-texto">
+                        <h1><span>OBRAS</span> REALIZADAS</h1>
+                        <p class="lead text-white mt-4">
+                            Conheça nossa trajetória através de projetos únicos e inovadores em todo o Brasil. 
+                            Cada obra representa nossa excelência e compromisso com a qualidade.
                         </p>
                     </div>
                 </div>
@@ -59,7 +27,15 @@
     <!-- Seção Mapa e Sistemas lado a lado -->
     <div class="mapa-sistemas-section">
         <div class="container">
-            <h2 class="text-center mb-4">Selecione um Estado ou Sistema de Fachada</h2>
+            <div class="mb-5">
+                <h2 class="display-6 mb-3">Confira nossas</h2>
+                <h2 class="display-6 fw-bold mb-4">obras por estado:</h2>
+                <p class="lead">
+                    Em nosso mapa interativo você consegue visualizar as obras realizadas em cada estado do Brasil,
+                    além de filtrar por sistemas de fachada específicos.
+                </p>
+            </div>
+            <!-- <h2 class="text-center mb-4">Selecione um Estado ou Sistema de Fachada</h2> -->
             <hr class="mx-auto mb-5" style="width: 100px; height: 3px; background: linear-gradient(90deg, #FF6B35, #192636, #FF6B35); border: none;">
             
             <div class="mapa-sistemas-container">
@@ -136,7 +112,13 @@
                              [class.active]="sistemaExpandido() === sistema"
                              (click)="toggleSistema(sistema)">
                             <div class="sistema-logo">
-                                <img [src]="getSistemaLogo(sistema)" [alt]="sistema" />
+                                @if (getSystemLogo(sistema)) {
+                                    <img [src]="getSystemLogo(sistema)" [alt]="sistema" class="sistema-logo-img" />
+                                } @else {
+                                    <div class="sistema-logo-placeholder">
+                                        {{ getSystemInitial(sistema) }}
+                                    </div>
+                                }
                             </div>
                             <h6 class="sistema-name">{{ sistema }}</h6>
                             <div class="sistema-count">
@@ -161,12 +143,12 @@
                 <h3 class="text-center mb-4">{{ getTituloFiltro() }}</h3>
                 <div class="obras-grid-expandida">
                 @for (obra of getObrasFiltradas(); track obra.id) {
-                    <div class="obra-card-expandida">
+                    <div class="obra-card-expandida" (click)="navegarParaObra(obra)">
                         @if (obra.imageUrl) {
-                            <div class="obra-image" (click)="abrirModal(obra.imageUrl, obra.title)">
+                            <div class="obra-image" (click)="navegarParaObra(obra)">
                                 <img [src]="obra.imageUrl" [alt]="obra.title">
                                 <div class="image-overlay">
-                                    <i class="fas fa-search-plus"></i>
+                                    <i class="fas fa-eye"></i>
                                 </div>
                             </div>
                         } @else {

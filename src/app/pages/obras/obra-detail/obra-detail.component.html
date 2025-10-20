@@ -1,0 +1,96 @@
+<app-header></app-header>
+
+<main class="obra-detail-container">
+  @if (loading()) {
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Carregando detalhes da obra...</p>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="error-container">
+      <h2>Erro</h2>
+      <p>{{ error() }}</p>
+      <button class="btn-voltar" (click)="voltarParaObras()">
+        <i class="fas fa-arrow-left"></i>
+        Voltar para Obras
+      </button>
+    </div>
+  }
+
+  @if (obra() && !loading() && !error()) {
+    <div class="obra-detail-content">
+      <div class="obra-header">
+        <div class="breadcrumb">
+          <span (click)="voltarParaObras()" class="breadcrumb-link">Obras</span>
+          <span class="breadcrumb-separator">></span>
+          <span class="breadcrumb-current">{{ obra()!.title }}</span>
+        </div>
+        <h1>{{ obra()!.title }}</h1>
+        <p class="obra-subtitle">
+          Obra realizada em {{ obra()!.location }}, executada pela {{ obra()!.construtora }}, 
+          utilizando nossos sistemas de alta qualidade para garantir excelência e durabilidade.
+        </p>
+      </div>
+
+      <div class="obra-content">
+        <div class="obra-image-section">
+          @if (obra()!.imageUrl && !imageError()) {
+            <img 
+              [src]="obra()!.imageUrl" 
+              [alt]="obra()!.title" 
+              class="obra-main-image"
+              (load)="onImageLoad()"
+              (error)="onImageError()">
+          } @else {
+            <div class="placeholder-image">
+              <img 
+                src="assets/images/logo_olgacolor_color.avif" 
+                alt="Logo Olgacolor"
+                class="fallback-logo">
+              <div class="placeholder-content">
+                <i class="fas fa-image"></i>
+                <p>Imagem da obra em breve</p>
+                <small>{{ obra()!.title }}</small>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="obra-info-section">
+          <div class="info-card">
+            <h3><i class="fas fa-cogs"></i> Sistemas Utilizados</h3>
+            <div class="sistemas-list">
+              @for (sistema of obra()!.system; track sistema) {
+                <span class="sistema-tag">{{ sistema }}</span>
+              }
+            </div>
+          </div>
+
+          <div class="info-card description-card">
+            <h3><i class="fas fa-info-circle"></i> Detalhes Técnicos</h3>
+            <p>
+              Esta obra foi executada utilizando os sistemas de fachada da Olgacolor, 
+              proporcionando alta qualidade estética e performance técnica. 
+              Os sistemas aplicados garantem durabilidade, resistência e excelente 
+              acabamento arquitetônico, representando nossa excelência em soluções inovadoras.
+            </p>
+          </div>
+
+          <div class="info-card">
+            <h3><i class="fas fa-award"></i> Qualidade Olgacolor</h3>
+            <p>
+              Todos os nossos projetos seguem rigorosos padrões de qualidade, 
+              utilizando tecnologia de ponta e materiais de primeira linha. 
+              Esta obra é mais um exemplo do nosso compromisso com a excelência 
+              e inovação no setor de sistemas de fachada.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</main>
+
+<app-footer></app-footer>

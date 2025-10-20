@@ -1,5 +1,16 @@
 <div class="obras-admin-container">
     <div class="container py-5">
+        <!-- Botão Voltar ao Dashboard -->
+        <div class="mb-3">
+            <button type="button" 
+                    class="btn btn-outline-primary"
+                    routerLink="/admin"
+                    title="Voltar ao Dashboard Admin">
+                <i class="fa fa-arrow-left"></i>
+                Voltar ao Dashboard
+            </button>
+        </div>
+        
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="mb-0">Gerenciamento de Obras</h1>
             <button 
@@ -12,7 +23,7 @@
         </div>
 
         <!-- Formulário -->
-        <div class="card mb-4">
+        <div class="card mb-4" id="obra-form" [class.editing-highlight]="showEditingHighlight">
             <div class="card-body">
                 <h5 class="card-title mb-3">{{ isEditing ? 'Editar' : 'Nova' }} Obra</h5>
                 <form [formGroup]="obraForm" (ngSubmit)="onSubmit()">
@@ -78,14 +89,23 @@
                             <label class="form-label">Sistemas Utilizados</label>
                             <div class="border rounded p-3" style="max-height: 200px; overflow-y: auto;" [class.border-danger]="selectedSystems.length === 0 && obraForm.touched">
                                 @for (system of systemsList; track trackBySystem($index, system)) {
-                                    <div class="form-check">
+                                    <div class="form-check d-flex align-items-center">
                                         <input 
-                                            class="form-check-input" 
+                                            class="form-check-input me-2" 
                                             type="checkbox" 
                                             [id]="'system-' + system" 
                                             [value]="system"
                                             [checked]="isSystemSelected(system)"
                                             (change)="onSystemChange(system, $event)">
+                                        <div class="system-logo-small me-2">
+                                            @if (getSystemLogo(system)) {
+                                                <img [src]="getSystemLogo(system)" [alt]="system" class="system-logo-img-small">
+                                            } @else {
+                                                <div class="system-logo-placeholder-small">
+                                                    {{ getSystemInitial(system) }}
+                                                </div>
+                                            }
+                                        </div>
                                         <label class="form-check-label" [for]="'system-' + system">
                                             {{ system }}
                                         </label>
@@ -103,7 +123,18 @@
                                     <small class="text-success">{{ selectedSystems.length }} sistema(s) selecionado(s):</small>
                                     <div class="mt-1">
                                         @for (system of selectedSystems; track trackBySelectedSystem($index, system)) {
-                                            <span class="badge bg-primary me-1 mb-1">{{ system }}</span>
+                                            <div class="d-inline-flex align-items-center me-2 mb-1">
+                                                <div class="system-logo-badge me-1">
+                                                    @if (getSystemLogo(system)) {
+                                                        <img [src]="getSystemLogo(system)" [alt]="system" class="system-logo-img-badge">
+                                                    } @else {
+                                                        <div class="system-logo-placeholder-badge">
+                                                            {{ getSystemInitial(system) }}
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <span class="badge bg-primary">{{ system }}</span>
+                                            </div>
                                         }
                                     </div>
                                 </div>
@@ -126,10 +157,11 @@
                         </button>
                         @if (isEditing) {
                         <button type="button" 
-                                class="btn btn-secondary" 
+                                class="btn btn-outline-secondary ms-2" 
                                 [disabled]="isSubmitting"
-                                (click)="cancelEdit()">
-                            Cancelar
+                                (click)="cancelEdit()"
+                                title="Cancelar edição e voltar à lista">
+                            <i class="fa fa-arrow-left"></i> Voltar
                         </button>
                         }
                     </div>
@@ -200,11 +232,51 @@
                         {{ filteredObrasArray.length }} de {{ obrasArray.length }} obras
                     </small>
                 </div>
+
+                <!-- Ações em lote -->
+                @if (selectedObrasCount > 0) {
+                    <div class="alert alert-warning mb-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ selectedObrasCount }} obra(s) selecionada(s)</strong>
+                        </div>
+                        <div>
+                            <button 
+                                type="button" 
+                                class="btn btn-outline-secondary btn-sm me-2"
+                                (click)="clearSelection()">
+                                <i class="fa fa-times"></i> Limpar Seleção
+                            </button>
+                            <button 
+                                type="button" 
+                                class="btn btn-danger btn-sm"
+                                [disabled]="isDeleting"
+                                (click)="deleteSelectedObras()">
+                                @if (isDeleting) {
+                                    <span class="spinner-border spinner-border-sm me-1"></span>
+                                }
+                                <i class="fa fa-trash"></i> Excluir Selecionadas
+                            </button>
+                        </div>
+                    </div>
+                }
                 
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
                             <tr>
+                                <th width="50">
+                                    <div class="form-check">
+                                        <input 
+                                            class="form-check-input" 
+                                            type="checkbox" 
+                                            id="selectAll"
+                                            [checked]="selectAll"
+                                            [indeterminate]="selectedObrasCount > 0 && !selectAll"
+                                            (change)="toggleSelectAll($event)">
+                                        <label class="form-check-label" for="selectAll" title="Selecionar/Desselecionar todos">
+                                        </label>
+                                    </div>
+                                </th>
                                 <th>Imagem</th>
                                 <th>Título da Obra</th>
                                 <th>Estado</th>
@@ -216,7 +288,7 @@
                         <tbody>
                             @if (filteredObrasArray.length === 0) {
                                 <tr>
-                                    <td colspan="6" class="text-center py-4">
+                                    <td colspan="7" class="text-center py-4">
                                         @if (obrasArray.length === 0) {
                                             <div class="alert alert-warning">
                                                 <strong>Carregando obras...</strong>
@@ -232,7 +304,19 @@
                                 </tr>
                             } @else {
                                 @for (obra of filteredObrasArray; track trackByObra($index, obra)) {
-                                <tr>
+                                <tr [class.table-warning]="isObraSelected(obra.id!)">
+                                    <td>
+                                        <div class="form-check">
+                                            <input 
+                                                class="form-check-input" 
+                                                type="checkbox" 
+                                                [id]="'obra-' + obra.id"
+                                                [checked]="isObraSelected(obra.id!)"
+                                                (change)="toggleObraSelection(obra.id!, $event)">
+                                            <label class="form-check-label" [for]="'obra-' + obra.id">
+                                            </label>
+                                        </div>
+                                    </td>
                                     <td>
                                         @if (obra.imageUrl) {
                                             <img [src]="obra.imageUrl" 
@@ -247,9 +331,22 @@
                                     <td>{{ obra.location }}</td>
                                     <td>
                                         @if (obra.system && obra.system.length > 0) {
-                                            @for (sistema of obra.system; track trackByObraSystem($index, sistema)) {
-                                                <span class="badge bg-primary me-1 mb-1">{{ sistema }}</span>
-                                            }
+                                            <div class="systems-list">
+                                                @for (sistema of obra.system; track trackByObraSystem($index, sistema)) {
+                                                    <div class="system-badge-container">
+                                                        <div class="system-logo">
+                                                            @if (getSystemLogo(sistema)) {
+                                                                <img [src]="getSystemLogo(sistema)" [alt]="sistema" class="system-logo-img">
+                                                            } @else {
+                                                                <div class="system-logo-placeholder">
+                                                                    {{ getSystemInitial(sistema) }}
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                        <span class="badge bg-primary">{{ sistema }}</span>
+                                                    </div>
+                                                }
+                                            </div>
                                         } @else {
                                             <span class="text-muted">Nenhum sistema</span>
                                         }

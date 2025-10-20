@@ -112,18 +112,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   protected setProduct(product: any, event?: Event): void {
     this.profilesService.selectedProduct.set(product);
     
-    // Se há evento, calcular posição do drawer
-    if (event) {
-      const target = event.currentTarget as HTMLElement;
-      if (target) {
-        const rect = target.getBoundingClientRect();
-        // Buscar o componente pai ProfilesComponent e definir a posição
-        const profilesComponent = this.getProfilesComponent();
-        if (profilesComponent) {
-          profilesComponent.setDrawerPosition(rect.top + window.scrollY);
-        }
-      }
-    }
+    // Posicionamento fixo - drawer sempre aparece na mesma posição abaixo do header
   }
 
   private getProfilesComponent(): any {

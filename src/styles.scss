@@ -74,3 +74,60 @@ body.drawer-open {
         font-size: max(12.942322877392678px, min(112px, max(0.5px, 0.0101112 * (min((100 * 1cqw), 1600px) - 19px))));
     }
 }
+
+/* ============= ESTILOS GLOBAIS PARA ADMIN ============= */
+
+// Botões de voltar/cancelar nos painéis admin
+.btn-back, .btn-outline-secondary {
+    transition: all 0.2s ease;
+    
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    i {
+        margin-right: 0.5rem;
+        transition: transform 0.2s ease;
+    }
+    
+    &:hover i {
+        transform: translateX(-2px);
+    }
+}
+
+// Animação suave para formulários de edição
+.editing-highlight {
+    animation: highlightPulse 0.6s ease-in-out;
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+@keyframes highlightPulse {
+    0% { 
+        transform: scale(1); 
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.25);
+    }
+    50% { 
+        transform: scale(1.01); 
+        box-shadow: 0 0 0 0.5rem rgba(13, 110, 253, 0.15);
+    }
+    100% { 
+        transform: scale(1); 
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+}
+
+// Estilo para scroll suave em listas
+.table-responsive {
+    scroll-margin-top: 2rem;
+    
+    &:target {
+        animation: highlightSection 1s ease-in-out;
+    }
+}
+
+@keyframes highlightSection {
+    0% { background-color: rgba(255, 193, 7, 0.1); }
+    100% { background-color: transparent; }
+}

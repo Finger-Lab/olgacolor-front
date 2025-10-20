@@ -2,15 +2,26 @@
     <div class="container">
         <div class="container-carousel">
             <div class="list-carousel">
-                @for (img of imgCarouselSlider; track img) {
-                    <div class="item-carousel">
-                      <img [src]="img.src" alt="Imagem do carousel slider">
-
-                      <div>
-                        <p>{{ img.title }}</p>
-                        <span>{{ img.subtitle }}</span>
-                      </div>
+                @if (loading()) {
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                        <p>Carregando obras...</p>
                     </div>
+                }
+                @else {
+                    @for (item of displayItems(); track $index) {
+                        <div class="item-carousel" (click)="navigateToObra(item)" [class.clickable]="!!item.id">
+                            <img 
+                                [src]="item.src" 
+                                [alt]="item.title || 'Obra da Olgacolor'"
+                                (error)="onCarouselImageError($event)">
+
+                            <div>
+                                <p>{{ item.title }}</p>
+                                <span>{{ item.subtitle }}</span>
+                            </div>
+                        </div>
+                    }
                 }                
             </div>            
         </div>

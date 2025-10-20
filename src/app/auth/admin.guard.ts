@@ -12,10 +12,15 @@ export class AdminGuard implements CanActivate {
     private router: Router
   ) {}
 
-  canActivate(
+  async canActivate(
     route: ActivatedRouteSnapshot, 
     state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
+  ): Promise<boolean> {
+    console.log('🔒 AdminGuard verificando acesso para:', state.url);
+    
+    // Aguardar inicialização da autenticação
+    await this.authService.waitForAuthInitialization();
+    
     // Verificar se o usuário está logado
     if (!this.authService.isLoggedIn) {
       console.log('🚫 Acesso negado: usuário não autenticado');

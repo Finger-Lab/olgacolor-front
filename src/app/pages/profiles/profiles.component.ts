@@ -17,7 +17,6 @@ import { ProfilesService } from './profiles.service';
 export class ProfilesComponent implements OnInit, OnDestroy {
   protected readonly profilesService = inject(ProfilesService);
   classScrolled: string = 'scrolled position-sticky';
-  drawerTopPosition = signal<number>(100);
 
   constructor() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -40,20 +39,5 @@ export class ProfilesComponent implements OnInit, OnDestroy {
 
   public closeModal(): void {
     this.profilesService.selectedProduct.set(null);
-  }
-
-  // Método para definir a posição do drawer baseado no elemento clicado
-  setDrawerPosition(elementTop: number) {
-    // Ajusta a posição considerando o scroll e a altura do header
-    const headerHeight = 100;
-    const scrollY = window.scrollY;
-    const relativeTop = elementTop - scrollY;
-    
-    // Garante que o drawer não apareça muito no topo ou muito embaixo
-    const minTop = headerHeight;
-    const maxTop = window.innerHeight - 400; // 400px é aproximadamente a altura do drawer
-    
-    const finalTop = Math.max(minTop, Math.min(maxTop, relativeTop));
-    this.drawerTopPosition.set(finalTop);
   }
 }

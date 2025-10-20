@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 
@@ -11,22 +11,34 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   formAuth: FormGroup
   isLoading: boolean = false
+  returnUrl: string = '/';
   
   constructor(
     private authService: AuthService, 
     private fb: FormBuilder, 
     private router: Router, 
+    private route: ActivatedRoute,
     private snackbar: MatSnackBar
   ) {
     this.createForms()
     window.scrollTo({ top: 0, behavior: 'smooth' }); 
+  }
+
+  async ngOnInit() {
+    // Aguardar inicialização da autenticação
+    await this.authService.waitForAuthInitialization();
+    
+    // Obter URL de retorno dos query params
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    console.log('🔄 URL de retorno:', this.returnUrl);
     
     // Se já estiver logado, redirecionar
     if (this.authService.isLoggedIn) {
-      this.router.navigate(['/dashboard']);
+      console.log('✅ Usuário já logado, redirecionando para:', this.returnUrl);
+      this.router.navigate([this.returnUrl]);
     }
   }
 
@@ -50,7 +62,10 @@ export class LoginComponent {
       try {
         const user = await this.authService.login(email, password);
         this.snackbar.open('Login realizado com sucesso!', 'Fechar', { duration: 3000 });
-        this.router.navigate(['/']);
+        
+        // Redirecionar para a URL de retorno
+        console.log('✅ Login bem-sucedido, redirecionando para:', this.returnUrl);
+        this.router.navigate([this.returnUrl]);
       } catch (error: any) {
         this.snackbar.open(
           error.message.includes('invalid-credential') || error.message.includes('user-not-found') 

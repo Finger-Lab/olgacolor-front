@@ -5,7 +5,7 @@
     <div class="custom-drawer-overlay" [class.open]="profilesService.selectedProduct()" (click)="closeModal()"></div>
     
     <!-- Custom drawer -->
-    <div class="custom-drawer" [class.open]="profilesService.selectedProduct()" [style.top.px]="drawerTopPosition()">
+    <div class="custom-drawer" [class.open]="profilesService.selectedProduct()">
         <div class="product">
             <button class="close-btn" (click)="closeModal()">
                 <span>&times;</span>

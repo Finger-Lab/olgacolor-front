@@ -1,14 +1,27 @@
 <div id="home">
+    <!-- 1. HEADER (fixo) -->
     <app-header [customClass]="classScrolled" />
+    
+    <!-- 2. HERO PRINCIPAL (vídeo + call-to-action) -->
     <app-main />
-    <app-price />
-    <app-vision />
+    
+    <!-- 3. SEÇÃO EMPRESA (visão + sobre) -->
+    <!-- <app-vision /> -->
+    <app-olgacolor />
+    
+    <!-- 4. SEÇÃO PRODUTOS & SERVIÇOS -->
     <app-markets />
     <app-products />
-    <app-olgacolor />
-    <app-slider-carousel />
     <app-finishes />
+    
+    <!-- 5. SEÇÃO SOCIAL & PROCESSOS -->
     <app-responsibility />
+    <app-slider-carousel />
+    
+    <!-- 6. SEÇÃO COMERCIAL (orçamento + preços) -->
+    <app-price />
     <app-budget />
+    
+    <!-- 7. FOOTER -->
     <app-footer />
 </div>

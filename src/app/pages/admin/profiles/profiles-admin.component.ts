@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -12,15 +12,22 @@ import { Observable } from 'rxjs';
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './profiles-admin.component.html',
   styleUrls: ['./profiles-admin.component.scss']
 })
 export class ProfilesAdminComponent implements OnInit {
+  Math = Math; // Para usar Math.min no template
+  
   profileForm: FormGroup;
   profiles$: Observable<Profile[]>;
+  profilesArray: Profile[] = []; // Array para usar com paginação
+  filteredProfilesArray: Profile[] = []; // Array filtrado para exibição
+  paginatedProfiles: Profile[] = []; // Array para página atual
   isEditing = false;
+  showEditingHighlight = false; // Para controlar o destaque visual temporário
   currentProfileId: string | null = null;
   selectedCoverFile: File | null = null;
   selectedSidebarFile: File | null = null;
@@ -28,9 +35,19 @@ export class ProfilesAdminComponent implements OnInit {
   coverPreviewUrl: string | null = null;
   sidebarPreviewUrl: string | null = null;
 
+  // Paginação
+  currentPage = 1;
+  itemsPerPage = 10;
+  totalItems = 0;
+  totalPages = 0;
+
+  // Busca
+  searchTerm = '';
+
   constructor(
     private formBuilder: FormBuilder,
-    private profilesService: ProfilesService
+    private profilesService: ProfilesService,
+    private cdr: ChangeDetectorRef
   ) {
     this.profileForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -42,7 +59,78 @@ export class ProfilesAdminComponent implements OnInit {
     this.profiles$ = this.profilesService.getProfiles();
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.loadProfiles();
+  }
+
+  private loadProfiles(): void {
+    this.profiles$.subscribe(profiles => {
+      this.profilesArray = profiles;
+      this.applyFilters();
+    });
+  }
+
+  // Métodos de busca e filtros
+  onSearchChange(): void {
+    this.currentPage = 1; // Reset para primeira página ao buscar
+    this.applyFilters();
+  }
+
+  applyFilters(): void {
+    let filtered = [...this.profilesArray];
+
+    // Aplicar filtro de busca
+    if (this.searchTerm.trim()) {
+      const searchLower = this.searchTerm.toLowerCase().trim();
+      filtered = filtered.filter(profile =>
+        profile.name?.toLowerCase().includes(searchLower) ||
+        profile.description?.toLowerCase().includes(searchLower)
+      );
+    }
+
+    this.filteredProfilesArray = filtered;
+    this.totalItems = filtered.length;
+    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    this.updatePaginatedProfiles();
+  }
+
+  // Métodos de paginação
+  updatePaginatedProfiles(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedProfiles = this.filteredProfilesArray.slice(startIndex, endIndex);
+  }
+
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePaginatedProfiles();
+    }
+  }
+
+  getPaginationArray(): number[] {
+    const maxVisible = 5;
+    const half = Math.floor(maxVisible / 2);
+    let start = Math.max(1, this.currentPage - half);
+    let end = Math.min(this.totalPages, start + maxVisible - 1);
+    
+    // Ajustar o início se estivermos próximos ao final
+    if (end - start + 1 < maxVisible) {
+      start = Math.max(1, end - maxVisible + 1);
+    }
+    
+    const pages = [];
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  clearSearch(): void {
+    this.searchTerm = '';
+    this.currentPage = 1;
+    this.applyFilters();
+  }
 
   onFileSelected(event: any, type: 'cover' | 'sidebar'): void {
     const file = event.target.files[0];
@@ -157,6 +245,24 @@ export class ProfilesAdminComponent implements OnInit {
     if (sidebarUrl && !this.isValidImageUrl(sidebarUrl)) {
       console.warn('URL inválida encontrada para sidebar:', sidebarUrl);
     }
+
+    // Scroll para o formulário
+    setTimeout(() => {
+      const formElement = document.getElementById('profile-form');
+      if (formElement) {
+        formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Destacar o formulário
+        this.showEditingHighlight = true;
+        this.cdr.detectChanges();
+        
+        // Remover o destaque após alguns segundos
+        setTimeout(() => {
+          this.showEditingHighlight = false;
+          this.cdr.detectChanges();
+        }, 3000);
+      }
+    }, 100);
   }
 
   private isValidImageUrl(url: string | null): boolean {
@@ -196,7 +302,23 @@ export class ProfilesAdminComponent implements OnInit {
   }
 
   cancelEdit(): void {
+    console.log('📝 Cancelando edição...');
+    
     this.resetForm();
+    
+    // Scroll suave para a lista de perfis
+    setTimeout(() => {
+      const profilesListElement = document.querySelector('.table-responsive');
+      if (profilesListElement) {
+        profilesListElement.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start' 
+        });
+      }
+    }, 100);
+    
+    // Feedback visual através de notificação
+    console.log('ℹ️ Edição cancelada');
   }
 
   async cleanInvalidUrls(): Promise<void> {

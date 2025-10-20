@@ -2,7 +2,10 @@
 import { HeaderComponent } from "../../components/header/header.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 import { FacadeSystemsService, FacadeSystem } from '../../services/facade-systems.service';
+import { FacadeSystemTypesService } from '../../services/facade-system-types.service';
+import { FacadeSystemType } from '../../interfaces/facade-system-type.interface';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-obras',
@@ -20,6 +23,7 @@ export class ObrasComponent implements OnInit {
   protected obrasPorSistema = signal<{[key: string]: FacadeSystem[]}>({});
   protected sistemasDisponiveis = signal<string[]>([]);
   protected sistemaExpandido = signal<string | null>(null);
+  protected systemTypesArray = signal<FacadeSystemType[]>([]);
   
   protected estadoSelecionado = signal<string | null>(null);
   protected estadosDisponiveis = signal<string[]>([]);
@@ -30,12 +34,29 @@ export class ObrasComponent implements OnInit {
   protected imagemModal = signal<string | null>(null);
   protected tituloModal = signal<string | null>(null);
 
-  constructor(private facadeSystemsService: FacadeSystemsService) {
+  constructor(
+    private facadeSystemsService: FacadeSystemsService,
+    private systemTypesService: FacadeSystemTypesService,
+    private router: Router
+  ) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   ngOnInit() {
+    this.loadSystemTypes();
     this.loadObras();
+  }
+
+  private loadSystemTypes() {
+    this.systemTypesService.getFacadeSystemTypes().subscribe({
+      next: (systemTypes) => {
+        console.log('✅ Tipos de sistemas carregados para obras:', systemTypes?.length);
+        this.systemTypesArray.set(systemTypes || []);
+      },
+      error: (error) => {
+        console.error('❌ Erro ao carregar tipos de sistemas:', error);
+      }
+    });
   }
 
   private loadObras() {
@@ -464,12 +485,22 @@ export class ObrasComponent implements OnInit {
   }
 
   getSistemaLogo(sistema: string): string {
+    // Primeiro tenta buscar no Firestore
+    const logoFromFirestore = this.getSystemLogo(sistema);
+    if (logoFromFirestore) {
+      return logoFromFirestore;
+    }
+
+    // Fallback para o mapeamento estático (mantido para compatibilidade)
     const logoMap: {[key: string]: string} = {
       'AGLO': 'assets/images/sistemas/Aglo 2.0 NOVO.png',
       'AGLO 2.0': 'assets/images/sistemas/Aglo 2.0 NOVO.png',
       'AGLO 2.2': 'assets/images/sistemas/Aglo 2.2OC NOVO.png',
+      'AGLO 2.2 OC': 'assets/images/sistemas/Aglo 2.2OC NOVO.png',
       'AGLO 2.5': 'assets/images/sistemas/Aglo 2.5 NOVO.png',
+      'AGLO 2.5 OC': 'assets/images/sistemas/Aglo 2.5 NOVO.png',
       'AGLO 3.2': 'assets/images/sistemas/Aglo 3.2OC NOVO.png',
+      'AGLO 3.2 OC': 'assets/images/sistemas/Aglo 3.2OC NOVO.png',
       'LOCK': 'assets/images/sistemas/LOCK SL NOVO.png',
       'Lock': 'assets/images/sistemas/LOCK SL NOVO.png',
       'LOCK SL': 'assets/images/sistemas/LOCK SL NOVO.png',
@@ -480,6 +511,7 @@ export class ObrasComponent implements OnInit {
       'lock sl': 'assets/images/sistemas/LOCK SL NOVO.png',
       'Lock / SL': 'assets/images/sistemas/LOCK SL NOVO.png',
       'LOCK / SL': 'assets/images/sistemas/LOCK SL NOVO.png',
+      'Lock/ SL Colato': 'assets/images/sistemas/LOCK SL COLATO.png',
       'LOCK COLATO': 'assets/images/sistemas/LOCK SL COLATO.png',
       'Lock Colato': 'assets/images/sistemas/LOCK SL COLATO.png',
       'GRID': 'assets/images/sistemas/GRID NOVO.png',
@@ -487,6 +519,8 @@ export class ObrasComponent implements OnInit {
       'GRID COLATO': 'assets/images/sistemas/GRID COLATO.png',
       'Grid Colato': 'assets/images/sistemas/GRID COLATO.png',
       'Delicato': 'assets/images/sistemas/Delicato Due NOVO.png',
+      'Delicato 2': 'assets/images/sistemas/Delicato Due NOVO.png',
+      'Delicato 3': 'assets/images/sistemas/Delicato Due NOVO.png',
       'Imponenza': 'assets/images/sistemas/Imponenza NOVO.png',
       'Neograd': 'assets/images/sistemas/Neograd.png',
       'Colato': 'assets/images/sistemas/LOCK SL COLATO.png',
@@ -496,7 +530,17 @@ export class ObrasComponent implements OnInit {
       'Linha Industrial': 'assets/images/sistemas/Linha Industrial.png',
       'Sistema Olga': 'assets/images/sistemas/SISTEMA OLGA NOVO.png',
       'Levitare': 'assets/images/sistemas/Logotipo Levitare.png',
-      'Implementos Rodoviários': 'assets/images/sistemas/Logo Implementos Rodoviários_2023.png'
+      'Implementos Rodoviários': 'assets/images/sistemas/Logo Implementos Rodoviários_2023.png',
+      'Lock/s': 'assets/images/sistemas/LOCK SL NOVO.png',
+      'Lock/HD': 'assets/images/sistemas/LOCK SL NOVO.png',
+      'Lock/CL': 'assets/images/sistemas/LOCK SL NOVO.png',
+      'Lock/L': 'assets/images/sistemas/LOCK SL NOVO.png',
+      'UniK': 'assets/images/sistemas/LOCK SL NOVO.png',
+      'Stick': 'assets/images/sistemas/LOCK SL NOVO.png',
+      'Evo Stick': 'assets/images/sistemas/LOCK SL NOVO.png',
+      'LineaGlass': 'assets/images/sistemas/Olglass NOVO.png',
+      'Slide Glass': 'assets/images/sistemas/Olglass NOVO.png',
+      'Gradiluk': 'assets/images/sistemas/GRID NOVO.png'
     };
     
     // Primeiro tenta buscar exatamente como está
@@ -559,6 +603,23 @@ export class ObrasComponent implements OnInit {
     return 'Obras realizadas';
   }
 
+  // Navegar para página de detalhes da obra
+  navegarParaObra(obra: FacadeSystem) {
+    console.log('🚀 Navegando para obra:', obra);
+    console.log('🆔 ID da obra:', obra.id);
+    console.log('🖼️ URL da imagem na lista:', obra.imageUrl);
+    console.log('📍 Localização:', obra.location);
+    console.log('🏢 Construtora:', obra.construtora);
+    console.log('🔧 Sistema:', obra.system);
+    
+    if (obra.id) {
+      this.router.navigate(['/obra', obra.id]);
+    } else {
+      console.error('❌ Obra não possui ID:', obra);
+    }
+  }
+
+  // Manter o método abrirModal para casos onde ainda seja necessário (se houver)
   abrirModal(imageUrl: string, titulo: string) {
     this.imagemModal.set(imageUrl);
     this.tituloModal.set(titulo);
@@ -600,5 +661,17 @@ export class ObrasComponent implements OnInit {
       }
       path.style.setProperty('stroke-width', '2', 'important');
     });
+  }
+
+  // Métodos para obter logos dos sistemas
+  protected getSystemLogo(systemName: string): string | null {
+    const systemType = this.systemTypesArray().find(type => 
+      type.displayName === systemName || type.name === systemName
+    );
+    return systemType?.logoUrl || null;
+  }
+
+  protected getSystemInitial(systemName: string): string {
+    return systemName ? systemName.charAt(0).toUpperCase() : '?';
   }
 }

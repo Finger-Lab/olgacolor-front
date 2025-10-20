@@ -1,0 +1,30 @@
+rules_version = '2';
+
+// Firebase Storage Security Rules
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Regra para uploads de obras - apenas usuários autenticados
+    match /obras/{fileName} {
+      allow read: if true; // Leitura pública para exibir as imagens
+      allow write: if request.auth != null; // Upload apenas para usuários autenticados
+    }
+    
+    // Regra para uploads de perfis - apenas usuários autenticados
+    match /profiles/{fileName} {
+      allow read: if true; // Leitura pública para exibir as imagens
+      allow write: if request.auth != null; // Upload apenas para usuários autenticados
+    }
+    
+    // Regra para catálogos - leitura pública, upload apenas para autenticados
+    match /catalogs/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+    
+    // Regra para outras pastas - apenas usuários autenticados
+    match /{allPaths=**} {
+      allow read: if true; // Leitura pública para compatibilidade
+      allow write: if request.auth != null; // Upload apenas para usuários autenticados
+    }
+  }
+}

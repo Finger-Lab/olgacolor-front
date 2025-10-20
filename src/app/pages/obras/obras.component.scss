@@ -7,16 +7,35 @@
     }
 
     h1 {
-        padding-bottom: 3rem;
-        border-bottom: 1px solid #333;
-        font-size: 2.5rem;
-        font-weight: 400;
-        color: #333;
-        
-        .fw-bold {
-            font-weight: 700;
+        border-left: 1px solid;
+        padding-left: 1rem;
+        font-weight: 300;
+
+        span {
+            font-weight: 500;
         }
     }
+    
+    // =============== BANNER BOXED ===============
+    .obras-banner-img {
+        width: 100%;
+        height: 20rem;
+        margin-top: 80px; /* Espaço para o header sticky */
+        margin-bottom: 3rem; /* Espaço entre banner e próxima seção */
+
+        .banner-main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 992px) {
+            height: 10rem;
+            margin-bottom: 2rem;
+        }
+    }
+    
+    // =============== OBRAS CONTENT ===============
     
     .obra-destaque {
         position: relative;
@@ -57,7 +76,23 @@
 
 .meiaPagina {
     background-color: #192636;
-    padding: 3rem 0 5rem 0;
+    padding: 3rem 0 4rem 0;
+    
+    .obras-texto {
+        h1 {
+            color: white;
+            font-size: 2.5rem;
+            border-left: 1px solid white;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            font-weight: 300;
+            
+            span {
+                font-weight: 500;
+            }
+        }
+    }
 }
 
 
@@ -122,6 +157,25 @@
         justify-content: center;
         border-radius: 50%;
         background: #f8f9fa;
+        
+        .sistema-logo-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+
+        .sistema-logo-placeholder {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
         
         img {
             width: 60px;
@@ -652,6 +706,7 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     border: 1px solid #e0e0e0;
+    cursor: pointer;
     
     &:hover {
         transform: translateY(-5px);
@@ -1019,6 +1074,64 @@
         &.bahia,
         &.mato-grosso {
             font-size: 14px;
+        }
+    }
+}
+
+// =============== RESPONSIVIDADE BANNER ===============
+
+@media (max-width: 768px) {
+    .obras-banner {
+        padding: 60px 0 40px;
+        
+        .banner-visual {
+            height: 300px;
+            
+            .banner-image-grid .image-stack {
+                .banner-img {
+                    &.primary {
+                        width: 220px;
+                        height: 160px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                    }
+                    
+                    &.secondary {
+                        width: 180px;
+                        height: 120px;
+                        right: 50%;
+                        transform: translateX(50%);
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .obras-banner {
+        padding: 40px 0 30px;
+        
+        .banner-text .banner-title {
+            font-size: 2.2rem;
+        }
+        
+        .banner-visual {
+            height: 250px;
+            
+            .banner-image-grid .image-stack {
+                .banner-img {
+                    &.primary {
+                        width: 180px;
+                        height: 130px;
+                    }
+                    
+                    &.secondary {
+                        width: 150px;
+                        height: 100px;
+                    }
+                }
+            }
         }
     }
 }

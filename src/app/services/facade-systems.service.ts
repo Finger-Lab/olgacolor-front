@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, collectionData, doc, addDoc, updateDoc, deleteDoc, getDocs, query, limit } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, doc, addDoc, updateDoc, deleteDoc, getDocs, getDoc, query, limit } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -13,6 +13,7 @@ export interface FacadeSystem {
 }
 
 import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { Auth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +21,42 @@ import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage
 export class FacadeSystemsService {
   constructor(
     private firestore: Firestore,
-    private storage: Storage
+    private storage: Storage,
+    private auth: Auth
   ) {}
 
 
 
   async uploadImage(file: File): Promise<string> {
-    const storageRef = ref(this.storage, `obras/${new Date().getTime()}_${file.name}`);
-    await uploadBytes(storageRef, file);
-    return await getDownloadURL(storageRef);
+    // Verificar se o usuário está autenticado
+    if (!this.auth.currentUser) {
+      throw new Error('Usuário não autenticado. Faça login para fazer upload de imagens.');
+    }
+
+    try {
+      // Usar o UID do usuário para organizar os uploads
+      const fileName = `${new Date().getTime()}_${file.name}`;
+      const storageRef = ref(this.storage, `obras/${fileName}`);
+      
+      console.log('🔄 Fazendo upload da imagem:', fileName);
+      console.log('👤 Usuário autenticado:', this.auth.currentUser.email);
+      
+      const snapshot = await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      
+      console.log('✅ Upload concluído:', downloadURL);
+      return downloadURL;
+    } catch (error: any) {
+      console.error('❌ Erro no upload:', error);
+      
+      if (error.code === 'storage/unauthorized') {
+        throw new Error('Erro de permissão: Você não tem autorização para fazer upload de imagens. Verifique se está logado como administrador.');
+      } else if (error.code === 'storage/unknown') {
+        throw new Error('Erro desconhecido no Firebase Storage. Tente novamente em alguns minutos.');
+      } else {
+        throw new Error(`Erro no upload: ${error.message || 'Erro desconhecido'}`);
+      }
+    }
   }
 
   getFacadeSystems(): Observable<FacadeSystem[]> {
@@ -72,8 +100,10 @@ export class FacadeSystemsService {
           }
           
           // Verificar se já existe um campo de construtora direto
-          const directConstructor = item.constructor || item.construtora || item.cliente || '';
+          const directConstructor = item.construtora || item.cliente || '';
           const constructor = typeof directConstructor === 'string' ? directConstructor : 'Construtora não definida';
+          
+          console.log(`🏗️ [Debug] ID ${item.id}: construtora original:`, item.construtora, '-> processada:', constructor);
           
           const mapped = {
             id: item.id || item.slug || '',
@@ -91,6 +121,58 @@ export class FacadeSystemsService {
         return mappedData;
       })
     );
+  }
+
+  async getFacadeSystemById(id: string): Promise<FacadeSystem | null> {
+    try {
+      console.log('🔍 Buscando obra com ID:', id);
+      
+      // Primeiro tenta buscar diretamente por ID
+      const docRef = doc(this.firestore, 'facadeSystems', id);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        const data = docSnap.data() as any;
+        console.log('🗃️ Dados brutos do Firestore:', data);
+        console.log('🖼️ Campos de imagem disponíveis - imageUrl:', data.imageUrl, '| imagem:', data.imagem);
+        
+        const facadeSystem: FacadeSystem = {
+          id: docSnap.id,
+          title: data.title || data.titulo || 'Título não definido',
+          location: data.location || data.estado || data.uf || 'Localização não definida',
+          system: Array.isArray(data.system) ? data.system : (data.system ? [data.system] : ['Sistema não definido']),
+          construtora: data.construtora || data.cliente || 'Construtora não definida',
+          imageUrl: data.imageUrl || data.imagem || ''
+        };
+        
+        console.log('✅ Obra encontrada via getDoc:', facadeSystem);
+        return facadeSystem;
+      }
+      
+      // Se não encontrar, tenta buscar na lista completa (fallback)
+      console.log('⚠️ Documento não encontrado com getDoc, tentando buscar na lista...');
+      return new Promise((resolve) => {
+        this.getFacadeSystems().subscribe({
+          next: (systems) => {
+            const foundSystem = systems.find(system => system.id === id);
+            if (foundSystem) {
+              console.log('✅ Obra encontrada na lista:', foundSystem);
+              resolve(foundSystem);
+            } else {
+              console.log('❌ Obra não encontrada em lugar nenhum com ID:', id);
+              resolve(null);
+            }
+          },
+          error: (error) => {
+            console.error('❌ Erro ao buscar na lista:', error);
+            resolve(null);
+          }
+        });
+      });
+    } catch (error) {
+      console.error('❌ Erro ao buscar obra:', error);
+      return null;
+    }
   }
 
   // Método auxiliar para extrair localização das categorias
@@ -243,25 +325,39 @@ export class FacadeSystemsService {
   }
 
   async createFacadeSystem(facade: Omit<FacadeSystem, 'id'>): Promise<void> {
+    console.log('🏪 [FacadeSystemsService] Criando obra no Firestore:', facade);
+    console.log('🏗️ [FacadeSystemsService] Construtora recebida:', facade.construtora);
+    
     // Normalizar sistemas antes de criar
     const normalizedFacade = {
       ...facade,
       system: this.normalizeSystemsArray(facade.system)
     };
     
+    console.log('✨ [FacadeSystemsService] Dados normalizados:', normalizedFacade);
+    
     const facadesRef = collection(this.firestore, 'facadeSystems');
     await addDoc(facadesRef, normalizedFacade);
+    
+    console.log('✅ [FacadeSystemsService] Obra criada com sucesso no Firestore');
   }
 
   async updateFacadeSystem(id: string, facade: Partial<FacadeSystem>): Promise<void> {
+    console.log('🔄 [FacadeSystemsService] Atualizando obra no Firestore:', id, facade);
+    console.log('🏗️ [FacadeSystemsService] Construtora recebida:', facade.construtora);
+    
     // Normalizar sistemas antes de atualizar (se houver systems no update)
     const normalizedFacade = { ...facade };
     if (facade.system) {
       normalizedFacade.system = this.normalizeSystemsArray(facade.system);
     }
     
+    console.log('✨ [FacadeSystemsService] Dados normalizados para update:', normalizedFacade);
+    
     const facadeDocRef = doc(this.firestore, 'facadeSystems', id);
     await updateDoc(facadeDocRef, normalizedFacade);
+    
+    console.log('✅ [FacadeSystemsService] Obra atualizada com sucesso no Firestore');
   }
 
   async deleteFacadeSystem(id: string): Promise<void> {
