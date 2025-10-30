@@ -105,7 +105,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   protected onCategoryClick(categoryName: string): void {
     this.profilesService.categorySelected.set(categoryName);
-    this._router.navigate(['/perfis', { outlets: { second: 'products' } }], { queryParams: { category: categoryName } })
+    
+    // Preservar query params existentes e adicionar/atualizar category
+    const currentParams = { ...this._route.snapshot.queryParams };
+    currentParams['category'] = categoryName;
+    
+    this._router.navigate(['/perfis/produtos'], { 
+      queryParams: currentParams,
+      queryParamsHandling: 'merge' 
+    });
     this._loadData(this.searchControl.value || '', categoryName);
   }
 

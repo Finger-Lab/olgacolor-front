@@ -84,12 +84,12 @@ export class HeaderComponent {
   }
 
   onPerfilClick(category: string): void {
-    this.router.navigate(['/perfis', { outlets: { second: 'products' } }], { queryParams: { category: category } })
+    this.router.navigate(['/perfis/produtos'], { queryParams: { category: category } })
     this._profilesService.categorySelected.set(category);
   }
 
   onFinishesClick(category: string): void {
-    this.router.navigate(['/acabamentos', { outlets: { second: 'products' } }], { queryParams: { category: category.toLowerCase() } })
+    this.router.navigate(['/acabamentos/produtos'], { queryParams: { category: category.toLowerCase() } })
     this._finishesService.categorySelected.set(category);
   }
 
@@ -103,12 +103,12 @@ export class HeaderComponent {
     this.isDropdownOpen.set(!this.isDropdownOpen())
   }
 
-  onFocus(): void {
-    if (this._profiles.length > 0)
-      return;
+  // onFocus(): void {
+  //   if (this._profiles.length > 0)
+  //     return;
 
-    this._getAllProfiles();
-  }
+  //   this._getAllProfiles();
+  // }
 
   private _getAllProfiles(): void {
     this._profilesService.find().subscribe(products => {
@@ -144,7 +144,7 @@ export class HeaderComponent {
     this._profilesService.selectedProduct.set(profile);
     
     // Navega para a página de perfis/products com o perfil filtrado
-    this.router.navigate(['/perfis', { outlets: { second: 'products' } }], { 
+    this.router.navigate(['/perfis/produtos'], { 
       queryParams: { 
         search: profile.name
       }
@@ -152,6 +152,40 @@ export class HeaderComponent {
 
     // Limpa o campo de busca
     this.searchProfileControl.setValue('', { emitEvent: false });
+  }
+
+  onSearch(): void {
+    const searchValue = this.searchProfileControl.value?.trim();
+    
+    if (searchValue) {
+      // Verificar se já estamos na rota de perfis/produtos
+      const currentUrl = this.router.url;
+      const isOnProductsPage = currentUrl.includes('/perfis/produtos');
+      
+      if (isOnProductsPage) {
+        console.log('estamos na pagina')
+        // Se já estamos na página, forçar reload da página com novos parâmetros
+        const newUrl = `/perfis/produtos?search=${encodeURIComponent(searchValue)}`;
+        window.location.href = `${window.location.origin}/#${newUrl}`;
+        window.location.reload();
+      } else {
+        console.log('nao estamos na pagina')
+        // Se não estamos na página, navegar normalmente
+        this.router.navigate(['/perfis/produtos'], {
+          queryParams: { search: searchValue }
+        });
+      }
+      
+      // Limpa o campo de busca
+      this.searchProfileControl.setValue('', { emitEvent: false });
+    }
+  }
+
+  onSearchKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      this.onSearch();
+    }
   }
 
   // Métodos para controlar o hover dos dropdowns
