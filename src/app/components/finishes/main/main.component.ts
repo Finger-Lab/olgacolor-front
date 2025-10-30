@@ -35,7 +35,7 @@ export class MainComponent {
     this.finishesService.categorySelected.set(mappedCategory);
     
     // Navegar para a página de acabamentos com o filtro aplicado
-    this.router.navigate(['/acabamentos', { outlets: { second: 'products' } }], { 
+    this.router.navigate(['/acabamentos/produtos'], { 
       queryParams: { category: mappedCategory.toLowerCase().replace(/\s+/g, '-') } 
     });
   }

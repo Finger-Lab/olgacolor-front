@@ -88,7 +88,7 @@ export class FacadeSystemsService {
             });
             // Remover duplicatas usando Set
             systemsArray = Array.from(new Set(validSystems));
-            console.log(`🔧 Sistema ID ${item.id}: array original:`, item.system, '-> único:', systemsArray);
+            // console.log(`🔧 Sistema ID ${item.id}: array original:`, item.system, '-> único:', systemsArray);
             if (item.system.length !== systemsArray.length) {
               console.log(`♾️ Removidas ${item.system.length - systemsArray.length} duplicata(s)`);
             }
@@ -96,14 +96,14 @@ export class FacadeSystemsService {
             // Se não é array, usar método de extração
             const directSystem = item.sistema || item.produto;
             systemsArray = this.extractSystemsArray(item.categorias, directSystem);
-            console.log(`🔧 Sistema ID ${item.id}: extraindo de categorias:`, systemsArray);
+            // console.log(`🔧 Sistema ID ${item.id}: extraindo de categorias:`, systemsArray);
           }
           
           // Verificar se já existe um campo de construtora direto
           const directConstructor = item.construtora || item.cliente || '';
           const constructor = typeof directConstructor === 'string' ? directConstructor : 'Construtora não definida';
           
-          console.log(`🏗️ [Debug] ID ${item.id}: construtora original:`, item.construtora, '-> processada:', constructor);
+          // console.log(`🏗️ [Debug] ID ${item.id}: construtora original:`, item.construtora, '-> processada:', constructor);
           
           const mapped = {
             id: item.id || item.slug || '',

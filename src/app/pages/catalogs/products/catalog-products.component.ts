@@ -118,7 +118,7 @@ export class CatalogProductsComponent implements OnInit, OnDestroy {
 
   protected onCategoryClick(categoryName: string): void {
     this.catalogsService.categorySelected.set(categoryName);
-    this._router.navigate(['/catalogos', { outlets: { second: 'products' } }], { 
+    this._router.navigate(['/catalogos/produtos'], { 
       queryParams: { category: categoryName }
     });
     this._loadData(this.searchControl.value || '', categoryName);

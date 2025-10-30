@@ -27,11 +27,11 @@ export class AppComponent {
       if (isPlatformBrowser(this.platformId)) {
         // Não fazer scroll automático na página de acabamentos para preservar posição
         const isFinishesPage = event.url.includes('/acabamentos');
-        const isFinishesOutletNavigation = event.url.includes('outlets') && event.url.includes('second');
+        const isProductsNavigation = event.url.includes('/produtos');
         const hasDrawerOpen = document.body.classList.contains('drawer-open');
         
         // Só fazer scroll se não for navegação relacionada a acabamentos e não houver drawer aberto
-        if (!isFinishesPage && !isFinishesOutletNavigation && !hasDrawerOpen) {
+        if (!isFinishesPage && !isProductsNavigation && !hasDrawerOpen) {
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         

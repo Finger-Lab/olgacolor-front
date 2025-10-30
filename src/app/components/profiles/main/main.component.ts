@@ -18,17 +18,17 @@ export class MainComponent {
   protected onTodosClick(): void {
     // Clear any previously selected category so products page shows all products
     this._profilesService.categorySelected.set(null);
-    this.router.navigate(['/perfis', { outlets: { second: 'products' } }]);
+    this.router.navigate(['/perfis/produtos']);
   }
 
   protected onCategoryClick(category: string): void {
     this._profilesService.categorySelected.set(category);
-    this.router.navigate(['/perfis', { outlets: { second: 'products' } }], { queryParams: { category: category } });
+    this.router.navigate(['/perfis/produtos'], { queryParams: { category: category } });
   }
 
   protected onFinishesClick(category: string): void {
     this._finishesService.categorySelected.set(category);
-    this.router.navigate(['/acabamentos', { outlets: { second: 'products' } }], { queryParams: { category: category.toLowerCase() } });
+    this.router.navigate(['/acabamentos/produtos'], { queryParams: { category: category.toLowerCase() } });
   }
 
 }

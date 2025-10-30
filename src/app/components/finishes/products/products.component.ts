@@ -94,7 +94,7 @@ export class FinishesProductsComponent implements OnInit, OnDestroy {
 
   protected onCategoryClick(categoryName: string): void {
     this.finishesService.categorySelected.set(categoryName);
-    this._router.navigate(['/acabamentos', { outlets: { second: 'products' } }], { queryParams: { category: categoryName.toLowerCase() } })
+    this._router.navigate(['/acabamentos/produtos'], { queryParams: { category: categoryName.toLowerCase() } })
     this.loadData(this.searchControl.value || '', categoryName);
   }
 

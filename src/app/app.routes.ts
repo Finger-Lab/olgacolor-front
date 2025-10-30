@@ -168,13 +168,11 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                outlet: 'second',
                 loadComponent: () => import('./components/profiles/main/main.component').then(mod => mod.MainComponent)
             },
             {
+                path: 'produtos',
                 title: 'Perfis - Olgacolor',
-                outlet: 'second',
-                path: 'products',
                 loadComponent: () => import('./pages/products/products.component').then(c => c.ProductsComponent)
             },
         ]
@@ -185,13 +183,11 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                outlet: 'second',
                 loadComponent: () => import('./components/finishes/main/main.component').then(mod => mod.MainComponent)
             },
             {
+                path: 'produtos',
                 title: 'Acabamentos - Olgacolor',
-                outlet: 'second',
-                path: 'products',
                 loadComponent: () => import('./components/finishes/products/products.component').then(mod => mod.FinishesProductsComponent)
             },
         ]
@@ -212,13 +208,11 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                outlet: 'second',
                 loadComponent: () => import('./pages/catalogs/products/catalog-products.component').then(mod => mod.CatalogProductsComponent)
             },
             {
+                path: 'produtos',
                 title: 'Catálogos - Olgacolor',
-                outlet: 'second',
-                path: 'products',
                 loadComponent: () => import('./pages/catalogs/products/catalog-products.component').then(mod => mod.CatalogProductsComponent)
             },
         ]
