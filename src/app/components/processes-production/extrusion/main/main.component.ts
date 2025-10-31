@@ -39,7 +39,7 @@ export class MainComponent implements OnInit {
         </svg>
       `,
       title: 'Equipamentos',
-      description: 'De última geração;'
+      description: 'De última geração'
     },
     {
       img: `
@@ -87,7 +87,7 @@ export class MainComponent implements OnInit {
         </svg>
       `,
       title: 'Utilização',
-      description: 'Tarugos de 6, 7 e 8 polegadas;'
+      description: 'Tarugos de 6, 7 e 8 polegadas'
     },
     {
       img: `
@@ -114,7 +114,7 @@ export class MainComponent implements OnInit {
         </svg>
       `,
       title: 'Departamentos',
-      description: 'Para desenvolvimento de novos produtos e linhas próprias;'
+      description: 'Para desenvolvimento de novos produtos e linhas próprias'
     },
     {
       img: `
@@ -127,7 +127,7 @@ export class MainComponent implements OnInit {
         </svg>
       `,
       title: 'Prensas',
-      description: '3 Prensas;'
+      description: '3 Prensas'
     },
     {
       img: `
@@ -146,7 +146,7 @@ export class MainComponent implements OnInit {
         </svg>
       `,
       title: 'Dimensões',
-      description: '90.000m2;'
+      description: '90.000m2'
     },
     {
       img: `      
