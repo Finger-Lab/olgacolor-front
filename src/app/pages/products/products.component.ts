@@ -66,7 +66,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       takeUntil(this.destroy$)
     ).subscribe(searchTerm => {
-      this._loadData(searchTerm || '', this.profilesService.categorySelected() || '');
+      this._router.navigate(['/perfis/produtos'], { queryParams: { search: searchTerm} }).then(() => {
+        this._loadData(searchTerm || '', this.profilesService.categorySelected() || '');
+      })
     });
   }
 
@@ -82,7 +84,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
       search: searchTerm,
       category: category
     };
-
     this.profilesService.find(params).pipe(
       take(1),
       catchError(error => {
@@ -130,6 +131,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   protected clearFilters(): void {
+    this._router.navigate(['/perfis/produtos'], { queryParams: { search: '', category: ''} });
     this.profilesService.categorySelected.set('');
     this.searchControl.setValue('');
     this._loadData();
