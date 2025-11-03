@@ -86,11 +86,11 @@ import { AuthService } from '../../services/auth.service';
                       (click)="onSubmit()">
                 {{ isSubmitting ? 'Criando conta...' : 'Cadastrar' }}
               </button>
+
+              <div class="auth-footer text-center mt-3" style="text-align:center; margin-top:1rem;">
+                <p>Sistema de Autenticação Olgacolor</p>
+              </div>
             </div>
-          </div>
-          
-          <div>
-            <p>Sistema de Autenticação Olgacolor</p>
           </div>
         </div>
       </div>
