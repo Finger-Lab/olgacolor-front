@@ -69,6 +69,14 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/quality-policy/quality-policy.component').then(c => c.QualityPolicyComponent)
     },
     {
+        path: 'politica-de-privacidade',
+        loadComponent: () => import('./pages/privacy-policy/privacy-policy.component').then(c => c.PrivacyPolicyComponent)
+    },
+    {
+        path: 'politica-de-cookies',
+        loadComponent: () => import('./pages/cookies-policy/cookies-policy.component').then(c => c.CookiesPolicyComponent)
+    },
+    {
         path: 'processos-producao',
         loadComponent: () => import('./pages/processes-production/processes-production.component').then(mod => mod.ProcessesProductionComponent)
     },

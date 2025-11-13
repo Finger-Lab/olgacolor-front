@@ -24,7 +24,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Tecnologia',
-    description: 'Equipamento italiano com 8 turbinas;'
+    description: 'Equipamento italiano com 8 turbinas'
   },
   {
     img: `
@@ -69,7 +69,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Acabamento',
-    description: 'Fosco acetinado;'
+    description: 'Fosco acetinado'
   },
   {
     img: `
@@ -82,7 +82,7 @@ const BLOCKS = [
         </svg>
       `,
     title: 'Garantia',
-    description: 'Uniformidade na superfície do alumínio;'
+    description: 'Uniformidade na superfície do alumínio'
   },
   {
     img: `
@@ -111,7 +111,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Automação',
-    description: 'Carga e descarga automática;'
+    description: 'Carga e descarga automática'
   },
   {
     img: `
@@ -130,7 +130,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Dimensões',
-    description: '24 metros de comprimento;'
+    description: '24 metros de comprimento'
   },
 ];
 

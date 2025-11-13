@@ -14,7 +14,9 @@ export class MainComponent {
   private _profilesService = inject(ProfilesService);
 
   protected onPerfilClick(category: string) {
+    // Armazenar a categoria e navegar para a rota correta de perfis/produtos
     this._profilesService.categorySelected.set(category);
-    this.router.navigate(['/produtos'], { queryParams: { category: category.toUpperCase() } })
+    // Manter capitalização original e navegar para /perfis/produtos com query string
+    this.router.navigate(['/perfis', 'produtos'], { queryParams: { category } });
   }
 }

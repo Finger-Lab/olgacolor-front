@@ -190,16 +190,16 @@ export class CatalogsService {
       order: 6,
       createdAt: '2025-09-06'
     },
-    {
-      id: '20',
-      name: 'Sistema Lock/L',
-    //   description: 'Soluções completas em alumínio para projetos residenciais',
-      category: 'RESIDENCIAL LOCK',
-      thumbnailUrl: 'assets/images/catalogs/lock-l.png',
-      pdfUrl: 'https://firebasestorage.googleapis.com/v0/b/olgacolor-5ed0f.firebasestorage.app/o/catalogs%2Fportas-janelas%2Flock%2FCat%C3%A1logo%20Lock%20L%202024.pdf?alt=media&token=89829663-47c4-4ac8-809c-f14804d72f95',
-      order: 6,
-      createdAt: '2025-09-06'
-    },
+    // {
+    //   id: '20',
+    //   name: 'Sistema Lock/L',
+    // //   description: 'Soluções completas em alumínio para projetos residenciais',
+    //   category: 'RESIDENCIAL LOCK',
+    //   thumbnailUrl: 'assets/images/catalogs/lock-l.png',
+    //   pdfUrl: 'https://firebasestorage.googleapis.com/v0/b/olgacolor-5ed0f.firebasestorage.app/o/catalogs%2Fportas-janelas%2Flock%2FCat%C3%A1logo%20Lock%20L%202024.pdf?alt=media&token=89829663-47c4-4ac8-809c-f14804d72f95',
+    //   order: 6,
+    //   createdAt: '2025-09-06'
+    // },
     {
       id: '21',
       name: 'Sistema Delicato',
@@ -233,9 +233,9 @@ export class CatalogsService {
     },
     {
       id: '24',
-      name: 'integrada',
+      name: 'Integrada',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
-      category: 'INTEGRADO',
+      category: 'INTEGRADA',
       thumbnailUrl: 'assets/images/catalogs/unico-integrada.png',
       pdfUrl: 'https://firebasestorage.googleapis.com/v0/b/olgacolor-5ed0f.firebasestorage.app/o/catalogs%2Fportas-janelas%2Fsistema-integrado%2Fcatalogo-INTEGRADA-web.pdf?alt=media&token=8e9fa582-8377-40d3-b586-2e02fc81b461',
       order: 6,

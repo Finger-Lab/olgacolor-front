@@ -50,6 +50,7 @@
                         z-index: 1;
                         transition: all .5s ease-in-out;
                         border-radius: 1rem;
+                        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
                         
                         p {
                             margin: 0;
@@ -61,7 +62,7 @@
                         content: '';
                         position: absolute;
                         inset: 0;
-                        background-color: #19263637;
+                        background-color: rgba(0, 0, 0, 0.45);
                         transition: all .5s ease-in-out;
                         cursor: pointer;
                         border-radius: 1rem;    
@@ -77,11 +78,7 @@
 
                     &:hover {
                         &::after {
-                            background-color: #00000000;
-                        }
-
-                        > div {
-                            opacity: 0;
+                            background-color: rgba(0, 0, 0, 0.25);
                         }
 
                         img {

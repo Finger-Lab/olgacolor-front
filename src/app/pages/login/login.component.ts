@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   formAuth: FormGroup
   isLoading: boolean = false
   returnUrl: string = '/';
+  isSendingReset: boolean = false;
   
   constructor(
     private authService: AuthService, 
@@ -62,10 +63,7 @@ export class LoginComponent implements OnInit {
       try {
         const user = await this.authService.login(email, password);
         this.snackbar.open('Login realizado com sucesso!', 'Fechar', { duration: 3000 });
-        
-        // Redirecionar para a URL de retorno
-        console.log('✅ Login bem-sucedido, redirecionando para:', this.returnUrl);
-        this.router.navigate([this.returnUrl]);
+        this.navigateToProtectedArea(user);
       } catch (error: any) {
         this.snackbar.open(
           error.message.includes('invalid-credential') || error.message.includes('user-not-found') 
@@ -80,5 +78,48 @@ export class LoginComponent implements OnInit {
     } else {
       this.snackbar.open('Preencha todos os campos corretamente', 'Fechar', { duration: 3000 });
     }
+  }
+
+  async onForgotPassword(): Promise<void> {
+    const emailControl = this.formAuth.get('email');
+    const email = emailControl?.value?.trim();
+
+    if (!email) {
+      this.snackbar.open('Informe seu email para redefinir a senha', 'Fechar', { duration: 3000 });
+      emailControl?.markAsTouched();
+      return;
+    }
+
+    if (this.isSendingReset) return;
+
+    this.isSendingReset = true;
+    try {
+      await this.authService.resetPassword(email);
+      this.snackbar.open('Enviamos instruções de redefinição para seu email.', 'Fechar', { duration: 5000 });
+    } catch (error: any) {
+      this.snackbar.open(error.message || 'Erro ao enviar email de redefinição', 'Fechar', { duration: 5000 });
+    } finally {
+      this.isSendingReset = false;
+    }
+  }
+
+  private navigateToProtectedArea(user: any): void {
+    if (!user) {
+      console.warn('⚠️ Usuário não fornecido para redirecionamento. Usando fallback.');
+      this.router.navigate(['/catalogos']);
+      return;
+    }
+
+    if (user.role === 'admin') {
+      this.router.navigate(['/admin']);
+      return;
+    }
+
+    if (user.role === 'user' || !user.role) {
+      this.router.navigate(['/catalogos']);
+      return;
+    }
+
+    this.router.navigate(['/catalogos']);
   }
 }

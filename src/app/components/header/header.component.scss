@@ -6,6 +6,16 @@
     z-index: 10000;
     background-color: #192636;
 
+        @media (max-width: 992px) {
+            .navbar-toggler {
+                border-color: #FFF;
+            
+                .navbar-toggler-icon {
+                    filter: invert(1);
+                }
+            }
+        }
+
     >div {
         &:nth-of-type(1) {
             color: #FFF;
@@ -171,6 +181,15 @@
     background-color: transparent;
     color: #FFF;
     transition: .35s ease-in-out;
+
+    @media (max-width: 992px) {
+        .navbar-toggler-icon {
+            filter: invert(1);
+            border: 1px solid #FFF;
+            border-radius: 3px;
+            padding: 3px;
+        }
+    }
 
     &::placeholder {
         color: #FFF;

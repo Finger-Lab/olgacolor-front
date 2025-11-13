@@ -63,7 +63,7 @@
             <h3><i class="fas fa-cogs"></i> Sistemas Utilizados</h3>
             <div class="sistemas-list">
               @for (sistema of obra()!.system; track sistema) {
-                <span class="sistema-tag">{{ sistema }}</span>
+                <span class="sistema-tag">{{ getSystemDisplayName(sistema) }}</span>
               }
             </div>
           </div>

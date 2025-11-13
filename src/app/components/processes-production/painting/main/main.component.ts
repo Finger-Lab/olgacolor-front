@@ -24,7 +24,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Tecnologia',
-    description: 'Italiana;'
+    description: 'Italiana'
   },
   {
     img: `
@@ -69,7 +69,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Processo',
-    description: '100% Automatizado;'
+    description: '100% Automatizado'
   },
   {
     img: `
@@ -82,7 +82,7 @@ const BLOCKS = [
         </svg>
       `,
     title: 'Garantia',
-    description: 'Contra desplacamento;'
+    description: 'Contra desplacamento'
   },
   {
     img: `
@@ -111,7 +111,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Qualidade',
-    description: 'Alta resistência contra intempérie;'
+    description: 'Alta resistência contra intempérie'
   },
   {
     img: `
@@ -124,7 +124,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Sustentável',
-    description: 'Sem riscos ao meio ambiente e reciclável;'
+    description: 'Sem riscos ao meio ambiente e reciclável'
   },
   {
     img: `
@@ -172,7 +172,7 @@ const BLOCKS = [
         </svg>
       `,
     title: 'Uniformidade',
-    description: 'Pintura homogênea;'
+    description: 'Pintura homogênea'
   },
   {
     img: `
@@ -191,7 +191,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Pré-cura',
-    description: 'Câmara infra-vermelha para aceleramento de pré-cura;'
+    description: 'Câmara infra-vermelha para aceleramento de pré-cura'
   },
   {
     img: `      

@@ -38,7 +38,7 @@ export class MainComponent {
         </svg>
       `,
       title: 'Tecnologia',
-      description: 'Italiana;'
+      description: 'Italiana'
     },
     {
       img: `
@@ -83,7 +83,7 @@ export class MainComponent {
         </svg>
       `,
       title: 'Processo',
-      description: '100% Automatizada;'
+      description: '100% Automatizada'
     },
     {
       img: `
@@ -106,7 +106,7 @@ export class MainComponent {
         </svg>
       `,
       title: 'Garantia',
-      description: 'Contra desplacamento;'
+      description: 'Contra desplacamento'
     },
     {
       img: `
@@ -135,7 +135,7 @@ export class MainComponent {
         </svg>
       `,
       title: 'Qualidade',
-      description: 'Alta resistência contra intempérie;'
+      description: 'Alta resistência contra intempérie'
     },
     {
       img: `
@@ -148,7 +148,7 @@ export class MainComponent {
         </svg>
       `,
       title: 'Sustentável',
-      description: 'Sem riscos ao meio ambiente e reciclável;'
+      description: 'Sem riscos ao meio ambiente e reciclável'
     },
   ];
 

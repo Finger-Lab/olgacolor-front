@@ -10,6 +10,7 @@ export interface IProfile {
     equivalence?: string;
     images?: string[];
     categories?: string[];
+    systemTypes?: string[];
     weight?: string;
     [key: string]: any;
 }

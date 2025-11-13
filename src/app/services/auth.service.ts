@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, User, authState, onAuthStateChanged } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail, onAuthStateChanged } from '@angular/fire/auth';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { User as FirestoreUser } from '../interfaces/user.interface';
@@ -148,6 +148,16 @@ export class AuthService {
     }
   }
 
+  async resetPassword(email: string): Promise<void> {
+    try {
+      await sendPasswordResetEmail(this.auth, email);
+      console.log(`📧 Email de redefinição enviado para ${email}`);
+    } catch (error: any) {
+      console.error('❌ Erro ao enviar email de redefinição:', error);
+      throw this.handleAuthError(error);
+    }
+  }
+
   // Verificar se está logado
   get isLoggedIn(): boolean {
     return this.currentUserSubject.value !== null;
@@ -254,6 +264,15 @@ export class AuthService {
         break;
       case 'auth/email-already-in-use':
         message = 'Email já está em uso';
+        break;
+      case 'auth/missing-email':
+        message = 'Informe um email válido';
+        break;
+      case 'auth/invalid-credential':
+        message = 'Credenciais inválidas';
+        break;
+      case 'auth/user-disabled':
+        message = 'Usuário desativado';
         break;
       case 'auth/weak-password':
         message = 'Senha muito fraca';

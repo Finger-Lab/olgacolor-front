@@ -96,6 +96,47 @@
                                    step="0.01">
                         </div>
 
+                        <!-- Categorias -->
+                        <div class="mb-3">
+                            <label for="categories" class="form-label">Categoria principal</label>
+                            <select id="categories"
+                                    class="form-select"
+                                    formControlName="categories">
+                                <option value="" disabled>Selecione uma categoria</option>
+                                @if (categoryOptions.length) {
+                                    @for (option of categoryOptions; track option) {
+                                        <option [value]="option">{{ option }}</option>
+                                    }
+                                } @else {
+                                    <option disabled>Carregando categorias...</option>
+                                }
+                            </select>
+                            <small class="form-text text-muted">
+                                Escolha a categoria principal deste perfil (ex.: Construção Civil, Vidraçaria, Moveleiros, Industriais, Tabelados).
+                            </small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="systemTypes" class="form-label">Sistemas vinculados</label>
+                            <select id="systemTypes"
+                                    class="form-select"
+                                    formControlName="systemTypes"
+                                    multiple>
+                                @if (getSystemOptionsForSelectedCategory().length) {
+                                    @for (system of getSystemOptionsForSelectedCategory(); track system.id) {
+                                        <option [value]="system.displayName || system.name">
+                                            {{ system.displayName || system.name }}
+                                        </option>
+                                    }
+                                } @else {
+                                    <option disabled>Carregando sistemas...</option>
+                                }
+                            </select>
+                            <small class="form-text text-muted">
+                                Selecione os sistemas (AGLO, Stick, etc.) vinculados a este perfil. Use CTRL/CMD + clique para múltiplos.
+                            </small>
+                        </div>
+
                         <!-- Botões -->
                         <div class="d-flex gap-2">
                             <button type="submit" 
@@ -176,6 +217,8 @@
                                     <th>Descrição</th>
                                     <th>Peso</th>
                                     <th>Equivalência</th>
+                                    <th>Categorias</th>
+                                    <th>Sistemas</th>
                                     <th>Ações</th>
                                 </tr>
                             </thead>
@@ -202,6 +245,24 @@
                                     <td>{{ profile.description }}</td>
                                     <td>{{ profile.weight }}</td>
                                     <td>{{ profile.equivalence }}</td>
+                                    <td>
+                                        @if (profile.categories?.length) {
+                                            <span class="badge bg-primary">
+                                                {{ profile.categories![0] }}
+                                            </span>
+                                        } @else {
+                                            <span class="text-muted">—</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (profile.systemTypes?.length) {
+                                            @for (system of profile.systemTypes; track system) {
+                                                <span class="badge bg-secondary me-1">{{ system }}</span>
+                                            }
+                                        } @else {
+                                            <span class="text-muted">—</span>
+                                        }
+                                    </td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             <button type="button" 

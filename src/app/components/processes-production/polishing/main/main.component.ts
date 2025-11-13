@@ -24,7 +24,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Equipamento',
-    description: 'Italiano com 2 cabeçotes;'
+    description: 'Italiano com 2 cabeçotes'
   },
   {
     img: `
@@ -43,7 +43,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Dimensões',
-    description: '22 metros de comprimento;'
+    description: '22 metros de comprimento'
   },
   {
     img: `
@@ -88,7 +88,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Acabamento',
-    description: 'Brilhante e escovado;'
+    description: 'Brilhante e escovado'
   },
   {
     img: `
@@ -117,7 +117,7 @@ const BLOCKS = [
       </svg>
     `,
     title: 'Automação',
-    description: 'Carga e descarga automática;'
+    description: 'Carga e descarga automática'
   },
 ];
 @Component({

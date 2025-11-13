@@ -23,6 +23,8 @@ export interface Profile {
   coverImageUrl?: string;
   sidebarImageUrl?: string;
   images?: string[]; // Array de URLs das imagens
+  categories?: string[];
+  systemTypes?: string[];
 }
 
 @Injectable({
