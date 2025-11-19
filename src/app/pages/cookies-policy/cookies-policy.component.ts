@@ -3,11 +3,14 @@ import { HeaderComponent } from "../../components/header/header.component";
 import { FooterComponent } from "../../components/footer/footer.component";
 
 @Component({
-  selector: 'app-quality-policy',
+  selector: 'app-cookies-policy',
+  standalone: true,
   imports: [HeaderComponent, FooterComponent],
-  templateUrl: './quality-policy.component.html',
-  styleUrl: './quality-policy.component.scss'
+  templateUrl: './cookies-policy.component.html',
+  styleUrl: './cookies-policy.component.scss'
 })
-export class QualityPolicyComponent {
+export class CookiesPolicyComponent {
   protected readonly classScrolled = 'scrolled position-sticky';
 }
+
+

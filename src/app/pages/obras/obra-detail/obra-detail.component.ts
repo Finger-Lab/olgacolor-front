@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../../components/header/header.component';
 import { FooterComponent } from '../../../components/footer/footer.component';
 import { FacadeSystemsService, FacadeSystem } from '../../../services/facade-systems.service';
+import { FacadeSystemTypesService } from '../../../services/facade-system-types.service';
 
 @Component({
   selector: 'app-obra-detail',
@@ -17,14 +18,26 @@ export class ObraDetailComponent implements OnInit {
   protected loading = signal<boolean>(true);
   protected error = signal<string | null>(null);
   protected imageError = signal<boolean>(false);
+  private systemDisplayNames = new Map<string, string>();
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private facadeSystemsService: FacadeSystemsService
+    private facadeSystemsService: FacadeSystemsService,
+    private systemTypesService: FacadeSystemTypesService
   ) {}
 
   ngOnInit() {
+    // Carregar tipos de sistemas primeiro
+    this.systemTypesService.getFacadeSystemTypes().subscribe({
+      next: (systemTypes) => {
+        // Criar mapa de nomes de exibição
+        systemTypes?.forEach(type => {
+          this.systemDisplayNames.set(type.name, type.displayName || type.name);
+        });
+      }
+    });
+    
     // Debug: listar obras disponíveis
     this.facadeSystemsService.getFacadeSystems().subscribe({
       next: (obras) => {
@@ -88,5 +101,10 @@ export class ObraDetailComponent implements OnInit {
   onImageLoad() {
     console.log('✅ Imagem da obra carregada com sucesso');
     this.imageError.set(false);
+  }
+
+  // Método helper para obter o displayName de um sistema
+  protected getSystemDisplayName(systemName: string): string {
+    return this.systemDisplayNames.get(systemName) || systemName;
   }
 }

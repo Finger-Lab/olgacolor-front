@@ -29,6 +29,9 @@ export class ObrasComponent implements OnInit {
   protected estadosDisponiveis = signal<string[]>([]);
   protected obrasPorEstado = signal<{[key: string]: FacadeSystem[]}>({});
   
+  // Mapa de sistema -> displayName
+  private systemDisplayNames = new Map<string, string>();
+
   // Modal da imagem
   protected modalAberto = signal<boolean>(false);
   protected imagemModal = signal<string | null>(null);
@@ -52,11 +55,20 @@ export class ObrasComponent implements OnInit {
       next: (systemTypes) => {
         console.log('✅ Tipos de sistemas carregados para obras:', systemTypes?.length);
         this.systemTypesArray.set(systemTypes || []);
+        // Criar mapa de nomes de exibição
+        systemTypes?.forEach(type => {
+          this.systemDisplayNames.set(type.name, type.displayName || type.name);
+        });
       },
       error: (error) => {
         console.error('❌ Erro ao carregar tipos de sistemas:', error);
       }
     });
+  }
+
+  // Método helper para obter o displayName de um sistema
+  protected getSystemDisplayName(systemName: string): string {
+    return this.systemDisplayNames.get(systemName) || systemName;
   }
 
   private loadObras() {
@@ -151,7 +163,7 @@ export class ObrasComponent implements OnInit {
           
           if (temObras) {
             path.classList.add('has-obras');
-            path.style.setProperty('fill', '#4CAF50', 'important');
+            path.style.setProperty('fill', '#2874a6', 'important');
           }
           
           this.setupPathEvents(path, estadoNome);
@@ -199,17 +211,17 @@ export class ObrasComponent implements OnInit {
     svgPath.style.setProperty('cursor', 'pointer', 'important');
     svgPath.style.setProperty('transition', 'all 0.3s ease', 'important');
     
-    // Se o estado tem obras, aplicar cor verde
+    // Se o estado tem obras, aplicar cor azul claro
     if (svgPath.classList.contains('has-obras')) {
-      svgPath.style.setProperty('fill', '#4CAF50', 'important');
+      svgPath.style.setProperty('fill', '#2874a6', 'important');
     }
     
     svgPath.addEventListener('mouseenter', () => {
       if (!svgPath.classList.contains('selected')) {
         if (svgPath.classList.contains('has-obras')) {
-          svgPath.style.setProperty('fill', '#45a049', 'important');
+          svgPath.style.setProperty('fill', '#2874a6', 'important');
         } else {
-          svgPath.style.setProperty('fill', '#007bff', 'important');
+          svgPath.style.setProperty('fill', '#fff', 'important');
         }
         svgPath.style.setProperty('stroke-width', '3', 'important');
       }
@@ -218,7 +230,7 @@ export class ObrasComponent implements OnInit {
     svgPath.addEventListener('mouseleave', () => {
       if (!svgPath.classList.contains('selected')) {
         if (svgPath.classList.contains('has-obras')) {
-          svgPath.style.setProperty('fill', '#4CAF50', 'important');
+          svgPath.style.setProperty('fill', '#2874a6', 'important');
         } else {
           svgPath.style.setProperty('fill', '#192636', 'important');
         }
@@ -246,11 +258,7 @@ export class ObrasComponent implements OnInit {
   private addHoverEffects(svgPath: SVGPathElement) {
     svgPath.addEventListener('mouseenter', () => {
       if (!svgPath.classList.contains('selected')) {
-        if (svgPath.classList.contains('has-obras')) {
-          svgPath.style.setProperty('fill', '#45a049', 'important');
-        } else {
-          svgPath.style.setProperty('fill', '#007bff', 'important');
-        }
+        svgPath.style.setProperty('fill', '#85c1e9', 'important');
         svgPath.style.setProperty('stroke-width', '3', 'important');
       }
     });
@@ -258,7 +266,7 @@ export class ObrasComponent implements OnInit {
     svgPath.addEventListener('mouseleave', () => {
       if (!svgPath.classList.contains('selected')) {
         if (svgPath.classList.contains('has-obras')) {
-          svgPath.style.setProperty('fill', '#4CAF50', 'important');
+          svgPath.style.setProperty('fill', '#2874a6', 'important');
         } else {
           svgPath.style.setProperty('fill', '#192636', 'important');
         }
@@ -416,12 +424,12 @@ export class ObrasComponent implements OnInit {
       
       if (estadoNome === estadoSelecionado) {
         path.classList.add('selected');
-        path.style.setProperty('fill', '#FF6B35', 'important');
+        path.style.setProperty('fill', '#85c1e9', 'important');
         path.style.setProperty('stroke-width', '4', 'important');
       } else {
         path.classList.remove('selected');
         if (path.classList.contains('has-obras')) {
-          path.style.setProperty('fill', '#4CAF50', 'important');
+          path.style.setProperty('fill', '#2874a6', 'important');
         } else {
           path.style.setProperty('fill', '#192636', 'important');
         }
@@ -655,9 +663,9 @@ export class ObrasComponent implements OnInit {
     paths.forEach((path: SVGPathElement) => {
       path.classList.remove('selected');
       if (path.classList.contains('has-obras')) {
-        path.style.setProperty('fill', '#4CAF50', 'important');
+        path.style.setProperty('fill', '#2874a6', 'important');
       } else {
-        path.style.setProperty('fill', '#192636', 'important');
+        path.style.setProperty('fill', '#2874a6', 'important');
       }
       path.style.setProperty('stroke-width', '2', 'important');
     });

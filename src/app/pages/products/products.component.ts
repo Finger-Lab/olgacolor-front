@@ -66,7 +66,9 @@ export class ProductsComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       takeUntil(this.destroy$)
     ).subscribe(searchTerm => {
-      this._loadData(searchTerm || '', this.profilesService.categorySelected() || '');
+      this._router.navigate(['/perfis/produtos'], { queryParams: { search: searchTerm} }).then(() => {
+        this._loadData(searchTerm || '', this.profilesService.categorySelected() || '');
+      })
     });
   }
 
@@ -82,7 +84,6 @@ export class ProductsComponent implements OnInit, OnDestroy {
       search: searchTerm,
       category: category
     };
-
     this.profilesService.find(params).pipe(
       take(1),
       catchError(error => {
@@ -105,7 +106,15 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   protected onCategoryClick(categoryName: string): void {
     this.profilesService.categorySelected.set(categoryName);
-    this._router.navigate(['/perfis', { outlets: { second: 'products' } }], { queryParams: { category: categoryName } })
+    
+    // Preservar query params existentes e adicionar/atualizar category
+    const currentParams = { ...this._route.snapshot.queryParams };
+    currentParams['category'] = categoryName;
+    
+    this._router.navigate(['/perfis/produtos'], { 
+      queryParams: currentParams,
+      queryParamsHandling: 'merge' 
+    });
     this._loadData(this.searchControl.value || '', categoryName);
   }
 
@@ -122,6 +131,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   protected clearFilters(): void {
+    this._router.navigate(['/perfis/produtos'], { queryParams: { search: '', category: ''} });
     this.profilesService.categorySelected.set('');
     this.searchControl.setValue('');
     this._loadData();
