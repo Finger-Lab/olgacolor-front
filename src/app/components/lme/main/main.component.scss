@@ -17,6 +17,34 @@
         }
     }
 
+    .filter-field {
+        ::ng-deep {
+            .mat-mdc-text-field-wrapper {
+                background-color: white;
+            }
+            
+            .mat-mdc-form-field-label {
+                color: #000 !important;
+            }
+            
+            .mat-mdc-select-value {
+                color: #000 !important;
+            }
+            
+            .mat-mdc-select-arrow {
+                color: #000 !important;
+            }
+            
+            .mat-mdc-form-field-focus-overlay {
+                background-color: transparent;
+            }
+            
+            .mat-mdc-form-field-required-marker {
+                color: #000 !important;
+            }
+        }
+    }
+
     .variation {
         .block {
             > div {

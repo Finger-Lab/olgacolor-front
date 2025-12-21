@@ -1,23 +1,21 @@
 /* Estilos específicos para o componente de administração de perfis */
 
-.editing-highlight {
-  animation: highlightEdit 3s ease-in-out;
-  border: 2px solid #007bff !important;
+// Estilos para o modal
+.modal {
+  &.show {
+    display: block;
+  }
 }
 
-@keyframes highlightEdit {
-  0% {
-    box-shadow: 0 0 0 rgba(0, 123, 255, 0);
-    border-color: #007bff;
+.modal-backdrop {
+  &.show {
+    opacity: 0.5;
   }
-  50% {
-    box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
-    border-color: #007bff;
-  }
-  100% {
-    box-shadow: 0 0 0 rgba(0, 123, 255, 0);
-    border-color: #dee2e6;
-  }
+}
+
+.modal-dialog-scrollable .modal-body {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
 }
 
 // Estilo para a busca
@@ -32,5 +30,104 @@
   .page-link {
     padding: 0.25rem 0.5rem;
     font-size: 0.875rem;
+  }
+}
+
+// Estilos para a tabela de perfis
+.table-responsive {
+  .table {
+    th, td {
+      vertical-align: middle;
+    }
+
+    // Coluna de imagens - largura fixa e contida
+    th:first-child,
+    td:first-child {
+      width: 120px;
+      min-width: 120px;
+      max-width: 120px;
+      padding: 0.5rem;
+      overflow: hidden;
+      text-align: center;
+      
+      .profile-images-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        
+        .profile-image {
+          max-width: 50px;
+          max-height: 50px;
+          width: auto;
+          height: auto;
+          object-fit: cover;
+          border: 1px solid #dee2e6;
+          border-radius: 0.25rem;
+          display: block;
+        }
+      }
+    }
+
+    // Coluna de nome - garantir espaço adequado
+    th:nth-child(2),
+    td:nth-child(2) {
+      min-width: 150px;
+      max-width: 150px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      
+      &.profile-name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    // Coluna de descrição
+    th:nth-child(3),
+    td:nth-child(3) {
+      min-width: 250px;
+      max-width: 300px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    // Coluna de categorias
+    th:nth-child(4),
+    td:nth-child(4) {
+      min-width: 150px;
+      max-width: 250px;
+      
+      .badge {
+        white-space: nowrap;
+        display: inline-block;
+        margin-bottom: 0.25rem;
+      }
+    }
+
+    // Coluna de ações
+    th:last-child,
+    td:last-child {
+      width: 180px;
+      min-width: 180px;
+      max-width: 180px;
+      text-align: center;
+      padding: 0.5rem;
+      white-space: nowrap;
+      
+      .btn-group {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 0.25rem;
+        
+        .btn {
+          flex-shrink: 0;
+          white-space: nowrap;
+        }
+      }
+    }
   }
 }

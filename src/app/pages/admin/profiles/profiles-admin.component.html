@@ -11,318 +11,303 @@
         </button>
     </div>
     
-    <div class="row">
-        <!-- Formulário -->
-        <div class="col-md-4">
-            <div class="card" [class.editing-highlight]="showEditingHighlight">
-                <div class="card-body">
-                    <h5 class="card-title">{{ isEditing ? 'Editar' : 'Novo' }} Perfil</h5>
-                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" id="profile-form">
-                        <!-- Imagem de Capa -->
-                        <div class="mb-3">
-                            <label class="form-label">Imagem de Capa</label>
-                            @if (coverPreviewUrl) {
-                                <img [src]="coverPreviewUrl" 
-                                     alt="Preview da Capa" 
-                                     class="img-thumbnail mb-2" 
-                                     style="max-height: 200px;">
-                            } @else {
-                                <div class="alert alert-info mb-2">
-                                    <small>Nenhuma imagem de capa válida encontrada. Selecione uma nova imagem.</small>
-                                </div>
-                            }
-                            <input type="file" 
-                                   class="form-control" 
-                                   accept="image/*" 
-                                   (change)="onFileSelected($event, 'cover')">
-                            <small class="form-text text-muted">Esta imagem será exibida na listagem principal dos perfis.</small>
-                        </div>
+    <!-- Lista de Perfis -->
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="card-title mb-0">Perfis Cadastrados</h5>
+                <button class="btn btn-success btn-sm" 
+                        (click)="openNewProfileModal()"
+                        title="Criar novo perfil">
+                    <i class="fa fa-plus"></i> Novo Perfil
+                </button>
+            </div>
 
-                        <!-- Imagem do Sidebar -->
-                        <div class="mb-3">
-                            <label class="form-label">Imagem do Sidebar</label>
-                            @if (sidebarPreviewUrl) {
-                                <img [src]="sidebarPreviewUrl" 
-                                     alt="Preview do Sidebar" 
-                                     class="img-thumbnail mb-2" 
-                                     style="max-height: 200px;">
-                            } @else {
-                                <div class="alert alert-info mb-2">
-                                    <small>Nenhuma imagem de sidebar válida encontrada. Selecione uma nova imagem.</small>
-                                </div>
-                            }
-                            <input type="file" 
-                                   class="form-control" 
-                                   accept="image/*" 
-                                   (change)="onFileSelected($event, 'sidebar')">
-                            <small class="form-text text-muted">Esta imagem será exibida no sidebar junto com as informações detalhadas.</small>
-                        </div>
-
-                        <!-- Nome -->
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Nome</label>
-                            <input type="text" 
-                                   class="form-control" 
-                                   id="name" 
-                                   formControlName="name">
-                        </div>
-
-                        <!-- Descrição -->
-                        <div class="mb-3">
-                            <label for="description" class="form-label">Descrição</label>
-                            <textarea class="form-control" 
-                                      id="description" 
-                                      formControlName="description" 
-                                      rows="3"></textarea>
-                        </div>
-
-                        <!-- Peso -->
-                        <div class="mb-3">
-                            <label for="weight" class="form-label">Peso</label>
-                            <input type="number" 
-                                   class="form-control" 
-                                   id="weight" 
-                                   formControlName="weight" 
-                                   step="0.01">
-                        </div>
-
-                        <!-- Equivalência -->
-                        <div class="mb-3">
-                            <label for="equivalence" class="form-label">Equivalência</label>
-                            <input type="number" 
-                                   class="form-control" 
-                                   id="equivalence" 
-                                   formControlName="equivalence" 
-                                   step="0.01">
-                        </div>
-
-                        <!-- Categorias -->
-                        <div class="mb-3">
-                            <label for="categories" class="form-label">Categoria principal</label>
-                            <select id="categories"
-                                    class="form-select"
-                                    formControlName="categories">
-                                <option value="" disabled>Selecione uma categoria</option>
-                                @if (categoryOptions.length) {
-                                    @for (option of categoryOptions; track option) {
-                                        <option [value]="option">{{ option }}</option>
-                                    }
-                                } @else {
-                                    <option disabled>Carregando categorias...</option>
-                                }
-                            </select>
-                            <small class="form-text text-muted">
-                                Escolha a categoria principal deste perfil (ex.: Construção Civil, Vidraçaria, Moveleiros, Industriais, Tabelados).
-                            </small>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="systemTypes" class="form-label">Sistemas vinculados</label>
-                            <select id="systemTypes"
-                                    class="form-select"
-                                    formControlName="systemTypes"
-                                    multiple>
-                                @if (getSystemOptionsForSelectedCategory().length) {
-                                    @for (system of getSystemOptionsForSelectedCategory(); track system.id) {
-                                        <option [value]="system.displayName || system.name">
-                                            {{ system.displayName || system.name }}
-                                        </option>
-                                    }
-                                } @else {
-                                    <option disabled>Carregando sistemas...</option>
-                                }
-                            </select>
-                            <small class="form-text text-muted">
-                                Selecione os sistemas (AGLO, Stick, etc.) vinculados a este perfil. Use CTRL/CMD + clique para múltiplos.
-                            </small>
-                        </div>
-
-                        <!-- Botões -->
-                        <div class="d-flex gap-2">
-                            <button type="submit" 
-                                    class="btn btn-primary" 
-                                    [disabled]="!profileForm.valid || isUploading">
-                                {{ isEditing ? 'Atualizar' : 'Salvar' }}
+            <!-- Controles de Busca -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <input type="text" 
+                               class="form-control" 
+                               placeholder="Buscar por nome ou descrição..."
+                               [(ngModel)]="searchTerm"
+                               (ngModelChange)="onSearchChange()">
+                        @if (searchTerm) {
+                            <button class="btn btn-outline-secondary" 
+                                    type="button"
+                                    (click)="clearSearch()"
+                                    title="Limpar busca">
+                                ✕
                             </button>
-                            @if (isEditing) {
-                                <button type="button" 
-                                        class="btn btn-outline-secondary ms-2"
-                                        (click)="cancelEdit()"
-                                        title="Cancelar edição e voltar à lista">
-                                    <i class="fa fa-arrow-left"></i> Voltar
-                                </button>
-                            }
-                        </div>
-                    </form>
+                        }
+                    </div>
+                </div>
+                <div class="col-md-6 text-end">
+                    <small class="text-muted">
+                        Mostrando {{ (currentPage - 1) * itemsPerPage + 1 }} - 
+                        {{ Math.min(currentPage * itemsPerPage, totalItems) }} de {{ totalItems }} perfis
+                    </small>
                 </div>
             </div>
-        </div>
 
-        <!-- Lista de Perfis -->
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-title mb-0">Perfis Cadastrados</h5>
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-info btn-sm" 
-                                    (click)="runDiagnostic()"
-                                    title="Executar diagnóstico do Firebase">
-                                🔧 Diagnóstico
-                            </button>
-                            <button class="btn btn-warning btn-sm" 
-                                    (click)="cleanInvalidUrls()"
-                                    [disabled]="isUploading">
-                                Limpar URLs Inválidas
-                            </button>
-                            <a class="btn btn-primary btn-sm" routerLink="/admin/perfis/imagens">
-                                Ver Galeria de Imagens
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Controles de Busca -->
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <input type="text" 
-                                       class="form-control" 
-                                       placeholder="Buscar por nome ou descrição..."
-                                       [(ngModel)]="searchTerm"
-                                       (ngModelChange)="onSearchChange()">
-                                @if (searchTerm) {
-                                    <button class="btn btn-outline-secondary" 
-                                            type="button"
-                                            (click)="clearSearch()"
-                                            title="Limpar busca">
-                                        ✕
-                                    </button>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Categorias</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (profile of paginatedProfiles; track profile.id) {
+                        <tr>
+                            <td>
+                                <div class="profile-images-container">
+                                    @if (profile.images?.[0] || profile.coverImageUrl) {
+                                        <img [src]="profile.images?.[0] || profile.coverImageUrl" 
+                                             alt="Imagem de Capa" 
+                                             class="profile-image">
+                                    }
+                                    @if (profile.images?.[1] || profile.sidebarImageUrl) {
+                                        <img [src]="profile.images?.[1] || profile.sidebarImageUrl" 
+                                             alt="Imagem do Sidebar" 
+                                             class="profile-image">
+                                    }
+                                </div>
+                            </td>
+                            <td class="profile-name">{{ profile.name }}</td>
+                            <td>{{ profile.description }}</td>
+                            <td>
+                                @if (profile.categories?.length) {
+                                    @for (category of profile.categories; track category) {
+                                        <span class="badge bg-primary me-1">{{ category }}</span>
+                                    }
+                                } @else {
+                                    <span class="text-muted">—</span>
                                 }
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-end">
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" 
+                                            class="btn btn-sm btn-primary" 
+                                            (click)="editProfile(profile)">
+                                        Editar
+                                    </button>
+                                    <button type="button" 
+                                            class="btn btn-sm btn-danger" 
+                                            (click)="deleteProfile(profile)">
+                                        Excluir
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Controles de Paginação -->
+            @if (totalPages > 1) {
+                <nav aria-label="Navegação de páginas" class="mt-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
                             <small class="text-muted">
-                                Mostrando {{ (currentPage - 1) * itemsPerPage + 1 }} - 
-                                {{ Math.min(currentPage * itemsPerPage, totalItems) }} de {{ totalItems }} perfis
+                                Página {{ currentPage }} de {{ totalPages }}
                             </small>
                         </div>
+                        <ul class="pagination pagination-sm mb-0">
+                            <li class="page-item" [class.disabled]="currentPage === 1">
+                                <button class="page-link" 
+                                        (click)="changePage(currentPage - 1)"
+                                        [disabled]="currentPage === 1">
+                                    Anterior
+                                </button>
+                            </li>
+                            
+                            @for (page of getPaginationArray(); track page) {
+                                <li class="page-item" [class.active]="page === currentPage">
+                                    <button class="page-link" 
+                                            (click)="changePage(page)">
+                                        {{ page }}
+                                    </button>
+                                </li>
+                            }
+                            
+                            <li class="page-item" [class.disabled]="currentPage === totalPages">
+                                <button class="page-link" 
+                                        (click)="changePage(currentPage + 1)"
+                                        [disabled]="currentPage === totalPages">
+                                    Próxima
+                                </button>
+                            </li>
+                        </ul>
                     </div>
+                </nav>
+            }
+        </div>
+    </div>
+</div>
 
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Imagem</th>
-                                    <th>Nome</th>
-                                    <th>Descrição</th>
-                                    <th>Peso</th>
-                                    <th>Equivalência</th>
-                                    <th>Categorias</th>
-                                    <th>Sistemas</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (profile of paginatedProfiles; track profile.id) {
-                                <tr>
-                                    <td>
-                                        <div class="d-flex gap-2">
-                                            @if (profile.images?.[0] || profile.coverImageUrl) {
-                                                <img [src]="profile.images?.[0] || profile.coverImageUrl" 
-                                                     alt="Imagem de Capa" 
-                                                     class="img-thumbnail" 
-                                                     style="max-height: 50px;">
-                                            }
-                                            @if (profile.images?.[1] || profile.sidebarImageUrl) {
-                                                <img [src]="profile.images?.[1] || profile.sidebarImageUrl" 
-                                                     alt="Imagem do Sidebar" 
-                                                     class="img-thumbnail" 
-                                                     style="max-height: 50px;">
-                                            }
-                                        </div>
-                                    </td>
-                                    <td>{{ profile.name }}</td>
-                                    <td>{{ profile.description }}</td>
-                                    <td>{{ profile.weight }}</td>
-                                    <td>{{ profile.equivalence }}</td>
-                                    <td>
-                                        @if (profile.categories?.length) {
-                                            <span class="badge bg-primary">
-                                                {{ profile.categories![0] }}
-                                            </span>
-                                        } @else {
-                                            <span class="text-muted">—</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (profile.systemTypes?.length) {
-                                            @for (system of profile.systemTypes; track system) {
-                                                <span class="badge bg-secondary me-1">{{ system }}</span>
-                                            }
-                                        } @else {
-                                            <span class="text-muted">—</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        <div class="btn-group" role="group">
-                                            <button type="button" 
-                                                    class="btn btn-sm btn-primary" 
-                                                    (click)="editProfile(profile)">
-                                                Editar
-                                            </button>
-                                            <button type="button" 
-                                                    class="btn btn-sm btn-danger" 
-                                                    (click)="deleteProfile(profile)">
-                                                Excluir
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Controles de Paginação -->
-                    @if (totalPages > 1) {
-                        <nav aria-label="Navegação de páginas" class="mt-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <small class="text-muted">
-                                        Página {{ currentPage }} de {{ totalPages }}
-                                    </small>
-                                </div>
-                                <ul class="pagination pagination-sm mb-0">
-                                    <li class="page-item" [class.disabled]="currentPage === 1">
-                                        <button class="page-link" 
-                                                (click)="changePage(currentPage - 1)"
-                                                [disabled]="currentPage === 1">
-                                            Anterior
-                                        </button>
-                                    </li>
-                                    
-                                    @for (page of getPaginationArray(); track page) {
-                                        <li class="page-item" [class.active]="page === currentPage">
-                                            <button class="page-link" 
-                                                    (click)="changePage(page)">
-                                                {{ page }}
-                                            </button>
-                                        </li>
-                                    }
-                                    
-                                    <li class="page-item" [class.disabled]="currentPage === totalPages">
-                                        <button class="page-link" 
-                                                (click)="changePage(currentPage + 1)"
-                                                [disabled]="currentPage === totalPages">
-                                            Próxima
-                                        </button>
-                                    </li>
-                                </ul>
+<!-- Modal para Edição/Criação de Perfil -->
+<div class="modal fade" 
+     id="profileModal" 
+     tabindex="-1" 
+     aria-labelledby="profileModalLabel" 
+     aria-hidden="true"
+     [class.show]="showModal"
+     [style.display]="showModal ? 'block' : 'none'">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profileModalLabel">
+                    {{ isEditing ? 'Editar' : 'Novo' }} Perfil
+                </h5>
+                <button type="button" 
+                        class="btn-close" 
+                        (click)="closeModal()"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" id="profile-form">
+                    <!-- Imagem de Capa -->
+                    <div class="mb-3">
+                        <label class="form-label">Imagem de Capa</label>
+                        @if (coverPreviewUrl) {
+                            <img [src]="coverPreviewUrl" 
+                                 alt="Preview da Capa" 
+                                 class="img-thumbnail mb-2" 
+                                 style="max-height: 200px;">
+                        } @else {
+                            <div class="alert alert-info mb-2">
+                                <small>Nenhuma imagem de capa válida encontrada. Selecione uma nova imagem.</small>
                             </div>
-                        </nav>
+                        }
+                        <input type="file" 
+                               class="form-control" 
+                               accept="image/*" 
+                               (change)="onFileSelected($event, 'cover')">
+                        <small class="form-text text-muted">Esta imagem será exibida na listagem principal dos perfis.</small>
+                    </div>
+
+                    <!-- Imagem do Sidebar -->
+                    <div class="mb-3">
+                        <label class="form-label">Imagem do Sidebar</label>
+                        @if (sidebarPreviewUrl) {
+                            <img [src]="sidebarPreviewUrl" 
+                                 alt="Preview do Sidebar" 
+                                 class="img-thumbnail mb-2" 
+                                 style="max-height: 200px;">
+                        } @else {
+                            <div class="alert alert-info mb-2">
+                                <small>Nenhuma imagem de sidebar válida encontrada. Selecione uma nova imagem.</small>
+                            </div>
+                        }
+                        <input type="file" 
+                               class="form-control" 
+                               accept="image/*" 
+                               (change)="onFileSelected($event, 'sidebar')">
+                        <small class="form-text text-muted">Esta imagem será exibida no sidebar junto com as informações detalhadas.</small>
+                    </div>
+
+                    <!-- Nome -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="name" 
+                               formControlName="name">
+                    </div>
+
+                    <!-- Descrição -->
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Descrição</label>
+                        <textarea class="form-control" 
+                                  id="description" 
+                                  formControlName="description" 
+                                  rows="3"></textarea>
+                    </div>
+
+                    <!-- Peso -->
+                    <div class="mb-3">
+                        <label for="weight" class="form-label">Peso</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="weight" 
+                               formControlName="weight" 
+                               step="0.01">
+                    </div>
+
+                    <!-- Equivalência -->
+                    <div class="mb-3">
+                        <label for="equivalence" class="form-label">Equivalência</label>
+                        <input type="number" 
+                               class="form-control" 
+                               id="equivalence" 
+                               formControlName="equivalence" 
+                               step="0.01">
+                    </div>
+
+                    <!-- Categoria Principal -->
+                    <div class="mb-3">
+                        <label for="mainCategory" class="form-label">Categoria principal</label>
+                        <select id="mainCategory"
+                                class="form-select"
+                                formControlName="mainCategory">
+                            <option value="" disabled>Selecione uma categoria principal</option>
+                            @if (categoryOptions.length) {
+                                @for (option of categoryOptions; track option) {
+                                    <option [value]="option">{{ option }}</option>
+                                }
+                            } @else {
+                                <option disabled>Carregando categorias...</option>
+                            }
+                        </select>
+                        <small class="form-text text-muted">
+                            Escolha uma categoria principal: Construção Civil, Vidraçaria, Moveleira, Industriais ou Tabelados.
+                        </small>
+                    </div>
+
+                    <!-- Categorias Adicionais -->
+                    @if (additionalCategoryOptions.length > 0) {
+                        <div class="mb-3">
+                            <label for="additionalCategories" class="form-label">Categorias adicionais</label>
+                            <select id="additionalCategories"
+                                    class="form-select"
+                                    formControlName="additionalCategories"
+                                    multiple>
+                                @for (option of additionalCategoryOptions; track option) {
+                                    <option [value]="option">{{ option }}</option>
+                                }
+                            </select>
+                            <small class="form-text text-muted">
+                                Selecione categorias adicionais (opcional). Use CTRL/CMD + clique para múltiplos.
+                            </small>
+                        </div>
                     }
-                </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" 
+                        class="btn btn-secondary"
+                        (click)="closeModal()">
+                    Cancelar
+                </button>
+                <button type="button" 
+                        class="btn btn-primary" 
+                        [disabled]="!profileForm.valid || isUploading"
+                        (click)="onSubmit()">
+                    {{ isUploading ? 'Salvando...' : (isEditing ? 'Atualizar' : 'Salvar') }}
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Backdrop do Modal -->
+@if (showModal) {
+    <div class="modal-backdrop fade show" (click)="closeModal()"></div>
+}
+

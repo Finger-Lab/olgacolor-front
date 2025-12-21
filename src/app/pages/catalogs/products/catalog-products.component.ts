@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { Subject, debounceTime, distinctUntilChanged, takeUntil, catchError, of, take } from 'rxjs';
 import { CatalogsService } from '../catalogs.service';
 import { ICatalog } from '../catalog.interface';
@@ -24,7 +24,8 @@ import { ICatalog } from '../catalog.interface';
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    RouterLink
   ],
   templateUrl: './catalog-products.component.html',
   styleUrls: ['./catalog-products.component.scss']
@@ -130,9 +131,36 @@ export class CatalogProductsComponent implements OnInit, OnDestroy {
     this._loadData();
   }
 
-  protected openPdf(url: string): void {
-    if (url) {
-      window.open(url, '_blank');
+  protected downloadPdf(url: string, catalogName: string): void {
+    if (!url) return;
+    
+    try {
+      // Limpar o nome do catálogo
+      const fileName = `${catalogName.replace(/[^a-zA-Z0-9-_\s]/g, '_')}.pdf`;
+      
+      // Para URLs do Firebase Storage, adicionar parâmetro para forçar download
+      let downloadUrl = url;
+      
+      // Se for URL do Firebase Storage, adicionar parâmetro response-content-disposition
+      if (url.includes('firebasestorage.googleapis.com')) {
+        const separator = url.includes('?') ? '&' : '?';
+        downloadUrl = `${url}${separator}response-content-disposition=attachment;filename="${encodeURIComponent(fileName)}"`;
+      }
+      
+      // Criar elemento anchor temporário
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.download = fileName;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      
+      // Adicionar ao DOM, clicar e remover
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Erro ao fazer download do PDF:', error);
+      alert('Erro ao fazer download do catálogo. Tente novamente.');
     }
   }
 }

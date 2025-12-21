@@ -15,8 +15,10 @@
                     <div class="obras-texto">
                         <h1><span>OBRAS</span> REALIZADAS</h1>
                         <p class="lead text-white mt-4">
-                            Conheça nossa trajetória através de projetos únicos e inovadores em todo o Brasil. 
-                            Cada obra representa nossa excelência e compromisso com a qualidade.
+                            Conheça nossa trajetória por meio de mais de 
+                            1.000 obras únicas e inovadoras em todo o Brasil. Cada projeto reflete 
+                            nossa excelência, atenção aos detalhes e compromisso constante com a 
+                            qualidade. Explore e inspire-se. 
                         </p>
                     </div>
                 </div>
@@ -28,8 +30,8 @@
     <div class="mapa-sistemas-section">
         <div class="container">
             <div class="mb-5">
-                <h2 class="display-6 mb-3">Confira nossas</h2>
-                <h2 class="display-6 fw-bold mb-4">obras por estado:</h2>
+                <h2 class="display-6 mb-3">Confira nossas <span style="font-weight: 600;">obras:</span></h2>
+                
                 <p class="lead">
                     Em nosso mapa interativo você consegue visualizar as obras realizadas em cada estado do Brasil,
                     além de filtrar por sistemas de fachada específicos.
@@ -41,7 +43,8 @@
             <div class="mapa-sistemas-container">
             <!-- Mapa do Brasil -->
             <div class="mapa-brasil-wrapper">
-                <h6>Filtrar por Estado</h6>
+                <h6>Confira nossas obras por 
+                    estado</h6>
                 <div class="mapa-brasil">
                     <object data="assets/images/brazil-map.svg" 
                             type="image/svg+xml" 
@@ -105,7 +108,7 @@
 
             <!-- Sistemas de Fachada -->
             <div class="sistemas-wrapper">
-                <h6>Sistemas de Fachada</h6>
+                <h6>Confira nossas obras por sistema utilizado</h6>
                 <div class="sistemas-grid">
                     @for (sistema of getSistemasDisponiveisFiltrados(); track sistema) {
                         <div class="sistema-card" 
@@ -140,7 +143,14 @@
     @if (estadoSelecionado() || sistemaExpandido()) {
         <div class="sistema-obras-expandidas" #obrasSection>
             <div class="container">
-                <h3 class="text-center mb-4">{{ getTituloFiltro() }}</h3>
+                <div class="filtros-ativos mb-4">
+                    <h3 class="text-center mb-3">{{ getTituloFiltro() }}</h3>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-outline-danger btn-sm" (click)="limparFiltros()">
+                            <i class="fas fa-times"></i> Limpar Filtros
+                        </button>
+                    </div>
+                </div>
                 <div class="obras-grid-expandida">
                 @for (obra of getObrasFiltradas(); track obra.id) {
                     <div class="obra-card-expandida" (click)="navegarParaObra(obra)">
@@ -167,15 +177,9 @@
                 }
                 @if (getObrasFiltradas().length === 0) {
                     <div class="no-obras-message">
-                        <p>Nenhuma obra encontrada{{ estadoSelecionado() ? ' no estado de ' + estadoSelecionado() : '' }}{{ sistemaExpandido() ? ' para o sistema ' + sistemaExpandido() : '' }}</p>
+                        <p>Nenhuma obra encontrada{{ estadoSelecionado() ? ' no estado de ' + estadoSelecionado() : '' }}{{ sistemaExpandido() ? ' para o sistema ' + getSystemDisplayName(sistemaExpandido()!) : '' }}</p>
                     </div>
                 }
-                </div>
-                
-                <div class="text-center mt-4">
-                    <button type="button" class="btn btn-secondary" (click)="limparFiltros()">
-                        Limpar Filtros
-                    </button>
                 </div>
             </div>
         </div>

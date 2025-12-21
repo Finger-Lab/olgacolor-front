@@ -1,0 +1,90 @@
+<div class="container py-5">
+    <h1 class="mb-4">Ouvidoria</h1>
+    <p class="lead mb-4">
+        Sua opinião é importante para nós! Utilize este canal para enviar sugestões, reclamações, elogios ou 
+        solicitações de melhoria. Todos os registros são tratados com confidencialidade e agilidade.
+    </p>
+
+    @if (showSuccessMessage) {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Mensagem enviada com sucesso!</strong> Entraremos em contato em breve.
+            <button type="button" class="btn-close" (click)="showSuccessMessage = false" aria-label="Close"></button>
+        </div>
+    }
+
+    <form [formGroup]="ouvidoriaForm" (ngSubmit)="onSubmit()" class="ouvidoria-form">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <label for="tipoMelhoria" class="form-label">Tipo de Melhoria/Sugestão <span class="text-danger">*</span></label>
+                <select class="form-select" id="tipoMelhoria" formControlName="tipoMelhoria">
+                    <option value="">Selecione uma opção</option>
+                    <option value="sugestao">Sugestão</option>
+                    <option value="reclamacao">Reclamação</option>
+                    <option value="elogio">Elogio</option>
+                    <option value="solicitacao">Solicitação</option>
+                    <option value="duvida">Dúvida</option>
+                    <option value="outro">Outro</option>
+                </select>
+                @if (ouvidoriaForm.get('tipoMelhoria')?.invalid && ouvidoriaForm.get('tipoMelhoria')?.touched) {
+                    <div class="text-danger small">Este campo é obrigatório</div>
+                }
+            </div>
+
+            <div class="col-md-12 mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="identificar" formControlName="identificar">
+                    <label class="form-check-label" for="identificar">
+                        Desejo me identificar
+                    </label>
+                </div>
+            </div>
+
+            @if (ouvidoriaForm.get('identificar')?.value) {
+                <div class="col-md-6 mb-3">
+                    <label for="nome" class="form-label">Nome <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="nome" formControlName="nome" placeholder="Seu nome completo">
+                    @if (ouvidoriaForm.get('nome')?.invalid && ouvidoriaForm.get('nome')?.touched) {
+                        <div class="text-danger small">Este campo é obrigatório</div>
+                    }
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="email" class="form-label">E-mail <span class="text-danger">*</span></label>
+                    <input type="email" class="form-control" id="email" formControlName="email" placeholder="seu@email.com">
+                    @if (ouvidoriaForm.get('email')?.invalid && ouvidoriaForm.get('email')?.touched) {
+                        <div class="text-danger small">
+                            @if (ouvidoriaForm.get('email')?.errors?.['required']) {
+                                Este campo é obrigatório
+                            } @else if (ouvidoriaForm.get('email')?.errors?.['email']) {
+                                E-mail inválido
+                            }
+                        </div>
+                    }
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <label for="telefone" class="form-label">Telefone <span class="text-danger">*</span></label>
+                    <input type="tel" class="form-control" id="telefone" formControlName="telefone" placeholder="(11) 99999-9999">
+                    @if (ouvidoriaForm.get('telefone')?.invalid && ouvidoriaForm.get('telefone')?.touched) {
+                        <div class="text-danger small">Este campo é obrigatório</div>
+                    }
+                </div>
+            }
+
+            <div class="col-md-12 mb-3">
+                <label for="mensagem" class="form-label">Mensagem <span class="text-danger">*</span></label>
+                <textarea class="form-control" id="mensagem" formControlName="mensagem" rows="6" 
+                    placeholder="Descreva sua sugestão, reclamação ou solicitação..."></textarea>
+                @if (ouvidoriaForm.get('mensagem')?.invalid && ouvidoriaForm.get('mensagem')?.touched) {
+                    <div class="text-danger small">Este campo é obrigatório</div>
+                }
+            </div>
+
+            <div class="col-md-12">
+                <button type="submit" class="btn btn-primary" [disabled]="ouvidoriaForm.invalid">
+                    Enviar Mensagem
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

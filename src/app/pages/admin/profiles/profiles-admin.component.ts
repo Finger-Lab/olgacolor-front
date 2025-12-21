@@ -5,8 +5,6 @@ import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ProfilesService, Profile } from '../../../services/profiles.service';
 import { Observable } from 'rxjs';
-import { FacadeSystemTypesService } from '../../../services/facade-system-types.service';
-import { FacadeSystemType } from '../../../interfaces/facade-system-type.interface';
 
 @Component({
   selector: 'app-profiles-admin',
@@ -29,25 +27,22 @@ export class ProfilesAdminComponent implements OnInit {
   filteredProfilesArray: Profile[] = []; // Array filtrado para exibição
   paginatedProfiles: Profile[] = []; // Array para página atual
   isEditing = false;
-  showEditingHighlight = false; // Para controlar o destaque visual temporário
+  showModal = false; // Controla a exibição do modal
   currentProfileId: string | null = null;
   selectedCoverFile: File | null = null;
   selectedSidebarFile: File | null = null;
   isUploading = false;
   coverPreviewUrl: string | null = null;
   sidebarPreviewUrl: string | null = null;
-  systemTypes: FacadeSystemType[] = [];
-  categoryOptions: string[] = [];
-  systemTypeOptions: FacadeSystemType[] = [];
+  categoryOptions: string[] = []; // Apenas as 5 categorias principais
+  additionalCategoryOptions: string[] = []; // Outras categorias encontradas nos perfis
   private readonly DEFAULT_CATEGORIES: string[] = [
     'Construção Civil',
     'Vidraçaria',
-    'Moveleiros',
+    'Moveleira',
     'Industriais',
     'Tabelados'
   ];
-  private categoryOptionSet = new Set<string>();
-  private categorySystemMap = new Map<string, Set<string>>();
 
   // Paginação
   currentPage = 1;
@@ -61,83 +56,58 @@ export class ProfilesAdminComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private profilesService: ProfilesService,
-    private cdr: ChangeDetectorRef,
-    private systemTypesService: FacadeSystemTypesService
+    private cdr: ChangeDetectorRef
   ) {
     this.profileForm = this.formBuilder.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       weight: ['', [Validators.required, Validators.min(0)]],
       equivalence: ['', [Validators.required, Validators.min(0)]],
-      categories: this.formBuilder.control<string>(''),
-      systemTypes: this.formBuilder.control<string[]>([])
+      mainCategory: this.formBuilder.control<string>(''), // Categoria principal (uma das 5)
+      additionalCategories: this.formBuilder.control<string[]>([]) // Categorias adicionais (múltipla seleção)
     });
 
     this.profiles$ = this.profilesService.getProfiles();
-    this.mergeCategoryOptions(this.DEFAULT_CATEGORIES);
-    this.initializeCategorySystemMap();
-
-    this.profileForm.get('categories')?.valueChanges.subscribe(() => {
-      this.filterSelectedSystemTypes();
-    });
+    this.categoryOptions = [...this.DEFAULT_CATEGORIES];
   }
 
   ngOnInit(): void {
     this.loadProfiles();
-    this.loadSystemTypes();
   }
 
   private loadProfiles(): void {
     this.profiles$.subscribe(profiles => {
       this.profilesArray = profiles;
-      this.updateCategoryOptionsFromProfiles(profiles);
-      this.rebuildCategorySystemMap();
+      this.updateAdditionalCategoryOptions(profiles);
       this.applyFilters();
     });
   }
 
-  private loadSystemTypes(): void {
-    this.systemTypesService.getActiveFacadeSystemTypes().subscribe({
-      next: (types) => {
-        this.systemTypes = types || [];
-        this.systemTypeOptions = (types || []).sort((a, b) => {
-          const nameA = (a.displayName || a.name).toLowerCase();
-          const nameB = (b.displayName || b.name).toLowerCase();
-          return nameA.localeCompare(nameB);
+  private updateAdditionalCategoryOptions(profiles: Profile[]): void {
+    const allCategories = new Set<string>();
+    
+    profiles.forEach(profile => {
+      if (profile.categories) {
+        const categories = Array.isArray(profile.categories) 
+          ? profile.categories 
+          : [profile.categories];
+        
+        categories.forEach(cat => {
+          if (cat && typeof cat === 'string') {
+            const trimmed = cat.trim();
+            // Adicionar apenas categorias que não estão nas principais
+            if (trimmed && !this.DEFAULT_CATEGORIES.includes(trimmed)) {
+              allCategories.add(trimmed);
+            }
+          }
         });
-      },
-      error: (error) => {
-        console.error('Erro ao carregar tipos de sistemas:', error);
       }
     });
+    
+    this.additionalCategoryOptions = Array.from(allCategories).sort((a, b) => a.localeCompare(b));
   }
 
-  private updateCategoryOptionsFromProfiles(profiles: Profile[]): void {
-    const categories = profiles
-      .flatMap(profile => {
-        if (!profile.categories) return [];
-        return Array.isArray(profile.categories) ? profile.categories : [profile.categories];
-      })
-      .map(category => category?.trim())
-      .filter((category): category is string => !!category);
 
-    if (categories.length) {
-      this.mergeCategoryOptions(categories);
-    }
-  }
-
-  private mergeCategoryOptions(categories: string[]): void {
-    categories.forEach(category => this.categoryOptionSet.add(category));
-    this.updateCategoryOptionsList();
-  }
-
-  private updateCategoryOptionsList(): void {
-    const additional = Array.from(this.categoryOptionSet)
-      .filter(category => !this.DEFAULT_CATEGORIES.includes(category))
-      .sort((a, b) => a.localeCompare(b));
-
-    this.categoryOptions = [...this.DEFAULT_CATEGORIES, ...additional];
-  }
 
   // Métodos de busca e filtros
   onSearchChange(): void {
@@ -149,14 +119,29 @@ export class ProfilesAdminComponent implements OnInit {
     let filtered = [...this.profilesArray];
 
     // Aplicar filtro de busca
-    if (this.searchTerm.trim()) {
+    if (this.searchTerm?.trim()) {
       const searchLower = this.searchTerm.toLowerCase().trim();
-      filtered = filtered.filter(profile =>
-        profile.name?.toLowerCase().includes(searchLower) ||
-        profile.description?.toLowerCase().includes(searchLower) ||
-        profile.categories?.some(category => category.toLowerCase().includes(searchLower)) ||
-        profile.systemTypes?.some(system => system.toLowerCase().includes(searchLower))
-      );
+      filtered = filtered.filter(profile => {
+        // Buscar no nome
+        const nameMatch = (typeof profile.name === 'string' && profile.name) 
+          ? profile.name.toLowerCase().includes(searchLower) 
+          : false;
+        
+        // Buscar na descrição
+        const descriptionMatch = (typeof profile.description === 'string' && profile.description)
+          ? profile.description.toLowerCase().includes(searchLower)
+          : false;
+        
+        // Buscar nas categorias
+        const categoriesMatch = profile.categories?.some(category => {
+          if (typeof category === 'string' && category) {
+            return category.toLowerCase().includes(searchLower);
+          }
+          return false;
+        }) || false;
+        
+        return nameMatch || descriptionMatch || categoriesMatch;
+      });
     }
 
     this.filteredProfilesArray = filtered;
@@ -229,13 +214,32 @@ export class ProfilesAdminComponent implements OnInit {
     if (this.profileForm.valid) {
       this.isUploading = true;
       try {
+        // Combinar categoria principal com categorias adicionais
+        const mainCategory = this.profileForm.get('mainCategory')?.value;
+        const additionalCategories = this.profileForm.get('additionalCategories')?.value || [];
+        const allCategories: string[] = [];
+        
+        if (mainCategory && typeof mainCategory === 'string' && mainCategory.trim()) {
+          allCategories.push(mainCategory.trim());
+        }
+        
+        if (Array.isArray(additionalCategories)) {
+          additionalCategories.forEach(cat => {
+            if (cat && typeof cat === 'string') {
+              const trimmed = cat.trim();
+              if (trimmed && !allCategories.includes(trimmed)) {
+                allCategories.push(trimmed);
+              }
+            }
+          });
+        }
+        
         const profileData: Profile = {
           name: this.profileForm.get('name')?.value,
           description: this.profileForm.get('description')?.value,
           weight: parseFloat(this.profileForm.get('weight')?.value),
           equivalence: parseFloat(this.profileForm.get('equivalence')?.value),
-          categories: this.normalizeCategory(this.profileForm.get('categories')?.value),
-          systemTypes: this.normalizeList(this.profileForm.get('systemTypes')?.value)
+          categories: allCategories
         };
 
         console.log('Salvando perfil:', profileData);
@@ -262,7 +266,7 @@ export class ProfilesAdminComponent implements OnInit {
         }
 
         console.log('Perfil salvo com sucesso');
-        this.resetForm();
+        this.closeModal();
       } catch (error: any) {
         console.error('Erro detalhado ao salvar perfil:', error);
         
@@ -286,6 +290,15 @@ export class ProfilesAdminComponent implements OnInit {
     }
   }
 
+  openNewProfileModal(): void {
+    this.isEditing = false;
+    this.currentProfileId = null;
+    this.resetForm();
+    this.showModal = true;
+    // Prevenir scroll do body quando modal estiver aberto
+    document.body.style.overflow = 'hidden';
+  }
+
   editProfile(profile: Profile): void {
     console.log('Editando perfil:', profile);
     console.log('URLs de imagens encontradas:', {
@@ -297,13 +310,39 @@ export class ProfilesAdminComponent implements OnInit {
 
     this.isEditing = true;
     this.currentProfileId = profile.id || null;
+    
+    // Separar categoria principal das categorias adicionais
+    let mainCategory = '';
+    const additionalCategories: string[] = [];
+    
+    if (profile.categories) {
+      const categoriesArray = Array.isArray(profile.categories) 
+        ? profile.categories 
+        : [profile.categories];
+      
+      categoriesArray.forEach(cat => {
+        if (cat && typeof cat === 'string') {
+          const trimmed = cat.trim();
+          if (trimmed) {
+            // Se for uma das categorias principais, usar como categoria principal
+            if (this.DEFAULT_CATEGORIES.includes(trimmed) && !mainCategory) {
+              mainCategory = trimmed;
+            } else if (!this.DEFAULT_CATEGORIES.includes(trimmed)) {
+              // Caso contrário, adicionar às categorias adicionais
+              additionalCategories.push(trimmed);
+            }
+          }
+        }
+      });
+    }
+    
     this.profileForm.patchValue({
       name: profile.name,
       description: profile.description,
       weight: profile.weight,
       equivalence: profile.equivalence,
-      categories: profile.categories?.[0] || '',
-      systemTypes: profile.systemTypes || []
+      mainCategory: mainCategory,
+      additionalCategories: additionalCategories
     });
     
     // Usar array de imagens com fallback para propriedades antigas
@@ -321,23 +360,17 @@ export class ProfilesAdminComponent implements OnInit {
       console.warn('URL inválida encontrada para sidebar:', sidebarUrl);
     }
 
-    // Scroll para o formulário
-    setTimeout(() => {
-      const formElement = document.getElementById('profile-form');
-      if (formElement) {
-        formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        
-        // Destacar o formulário
-        this.showEditingHighlight = true;
-        this.cdr.detectChanges();
-        
-        // Remover o destaque após alguns segundos
-        setTimeout(() => {
-          this.showEditingHighlight = false;
-          this.cdr.detectChanges();
-        }, 3000);
-      }
-    }, 100);
+    // Abrir modal
+    this.showModal = true;
+    // Prevenir scroll do body quando modal estiver aberto
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+    this.resetForm();
+    // Restaurar scroll do body
+    document.body.style.overflow = 'auto';
   }
 
   private isValidImageUrl(url: string | null): boolean {
@@ -378,29 +411,9 @@ export class ProfilesAdminComponent implements OnInit {
       description: '',
       weight: '',
       equivalence: '',
-      categories: '',
-      systemTypes: []
+      mainCategory: '',
+      additionalCategories: []
     });
-  }
-
-  cancelEdit(): void {
-    console.log('📝 Cancelando edição...');
-    
-    this.resetForm();
-    
-    // Scroll suave para a lista de perfis
-    setTimeout(() => {
-      const profilesListElement = document.querySelector('.table-responsive');
-      if (profilesListElement) {
-        profilesListElement.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'start' 
-        });
-      }
-    }, 100);
-    
-    // Feedback visual através de notificação
-    console.log('ℹ️ Edição cancelada');
   }
 
   async cleanInvalidUrls(): Promise<void> {
@@ -426,85 +439,5 @@ export class ProfilesAdminComponent implements OnInit {
     alert('Diagnóstico executado! Verifique o console do navegador para os resultados.');
   }
 
-  protected getSystemOptionsForSelectedCategory(): FacadeSystemType[] {
-    const selectedCategory = this.profileForm.get('categories')?.value;
-    if (!selectedCategory) {
-      return this.systemTypeOptions;
-    }
 
-    const allowedSystems = this.categorySystemMap.get(selectedCategory);
-
-    if (allowedSystems && allowedSystems.size > 0) {
-      const recommended = this.systemTypeOptions.filter(system =>
-        allowedSystems.has(system.displayName || system.name)
-      );
-      const remaining = this.systemTypeOptions.filter(system =>
-        !allowedSystems.has(system.displayName || system.name)
-      );
-      return [...recommended, ...remaining];
-    }
-
-    return this.systemTypeOptions;
-  }
-
-  private initializeCategorySystemMap(): void {
-    this.categorySystemMap.clear();
-    this.DEFAULT_CATEGORIES.forEach(category => {
-      this.categorySystemMap.set(category, new Set<string>());
-    });
-  }
-
-  private rebuildCategorySystemMap(): void {
-    this.initializeCategorySystemMap();
-
-    this.profilesArray.forEach(profile => {
-      const categories = Array.isArray(profile.categories)
-        ? profile.categories
-        : profile.categories
-          ? [profile.categories]
-          : [];
-      const systems = profile.systemTypes || [];
-
-      categories.forEach(category => {
-        if (!category) return;
-        if (!this.categorySystemMap.has(category)) {
-          this.categorySystemMap.set(category, new Set<string>());
-        }
-
-        const systemSet = this.categorySystemMap.get(category)!;
-        systems.forEach(system => systemSet.add(system));
-      });
-    });
-  }
-
-  private filterSelectedSystemTypes(): void {
-    // Mantém a seleção atual mesmo que o sistema não esteja entre os recomendados.
-  }
-
-  private normalizeList(value: string[] | string | null | undefined): string[] {
-    if (!value) {
-      return [];
-    }
-
-    const values = Array.isArray(value) ? value : [value];
-
-    const normalized = values
-      .map(item => item?.trim())
-      .filter((item): item is string => !!item);
-
-    return Array.from(new Set(normalized));
-  }
-
-  private normalizeCategory(value: string | string[] | null | undefined): string[] {
-    if (!value) {
-      return [];
-    }
-
-    if (Array.isArray(value)) {
-      return this.normalizeList(value);
-    }
-
-    const trimmed = value.trim();
-    return trimmed ? [trimmed] : [];
-  }
 }

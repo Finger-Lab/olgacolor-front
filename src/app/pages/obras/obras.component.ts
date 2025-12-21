@@ -123,6 +123,23 @@ export class ObrasComponent implements OnInit {
     }, 1000);
   }
 
+  private estadoTemSistema(estado: string, sistema: string): boolean {
+    const obrasDoEstado = this.obrasPorEstado()[estado] || [];
+    return obrasDoEstado.some(obra => obra.system.includes(sistema));
+  }
+
+  private estadoTemObrasRelevantes(estado: string): boolean {
+    const sistemaAtual = this.sistemaExpandido();
+    
+    // Se tem sistema selecionado, verifica se o estado tem obras desse sistema
+    if (sistemaAtual) {
+      return this.estadoTemSistema(estado, sistemaAtual);
+    }
+    
+    // Se não tem sistema selecionado, verifica se tem obras em geral
+    return this.obrasPorEstado()[estado]?.length > 0;
+  }
+
   private forceMapStyles() {
     const svgObject = this.brazilMapSvg?.nativeElement;
     if (!svgObject) {
@@ -146,24 +163,32 @@ export class ObrasComponent implements OnInit {
     if (svgDoc) {
       console.log('✅ Aplicando estilos no mapa do Brasil');
       const paths = svgDoc.querySelectorAll('path');
+      const sistemaAtual = this.sistemaExpandido();
       
       paths.forEach((path: SVGPathElement) => {
-        // Aplicar estilos base
-        path.style.setProperty('fill', '#192636', 'important');
-        path.style.setProperty('stroke', '#ffffff', 'important');
-        path.style.setProperty('stroke-width', '2', 'important');
-        path.style.setProperty('cursor', 'pointer', 'important');
-        path.style.setProperty('transition', 'all 0.3s ease', 'important');
-        
         const estadoId = path.id;
         const estadoNome = this.getEstadoNome(estadoId);
         
         if (estadoNome) {
-          const temObras = this.obrasPorEstado()[estadoNome]?.length > 0;
+          const temObrasRelevantes = this.estadoTemObrasRelevantes(estadoNome);
           
-          if (temObras) {
+          // Aplicar estilos base
+          path.style.setProperty('stroke', '#ffffff', 'important');
+          path.style.setProperty('stroke-width', '2', 'important');
+          path.style.setProperty('transition', 'all 0.3s ease', 'important');
+          
+          if (temObrasRelevantes) {
             path.classList.add('has-obras');
+            path.classList.remove('no-relevant-obras');
             path.style.setProperty('fill', '#2874a6', 'important');
+            path.style.setProperty('cursor', 'pointer', 'important');
+            path.style.setProperty('opacity', '1', 'important');
+          } else {
+            path.classList.remove('has-obras');
+            path.classList.add('no-relevant-obras');
+            path.style.setProperty('fill', '#192636', 'important');
+            path.style.setProperty('cursor', sistemaAtual ? 'not-allowed' : 'pointer', 'important');
+            path.style.setProperty('opacity', sistemaAtual ? '0.3' : '1', 'important');
           }
           
           this.setupPathEvents(path, estadoNome);
@@ -183,24 +208,7 @@ export class ObrasComponent implements OnInit {
     }
 
     console.log('✅ Configurando interatividade do mapa');
-    const svgDoc = svgObject.contentDocument;
-    const paths = svgDoc.querySelectorAll('path');
-    
-    paths.forEach((path: SVGPathElement) => {
-      const estadoId = path.id;
-      const estadoNome = this.getEstadoNome(estadoId);
-      
-      if (estadoNome) {
-        const temObras = this.obrasPorEstado()[estadoNome]?.length > 0;
-        
-        if (temObras) {
-          path.classList.add('has-obras');
-        }
-        
-        this.setupPathEvents(path, estadoNome);
-        this.addHoverEffects(path);
-      }
-    });
+    this.forceMapStyles();
   }
 
   private setupPathStyles(svgPath: SVGPathElement) {
@@ -240,10 +248,27 @@ export class ObrasComponent implements OnInit {
   }
 
   private setupPathEvents(svgPath: SVGPathElement, estadoNome: string) {
+    // Usar uma flag para evitar adicionar listeners múltiplas vezes
+    if ((svgPath as any).__clickListenersAdded) {
+      return;
+    }
+    
+    (svgPath as any).__clickListenersAdded = true;
+    
     svgPath.addEventListener('click', (event) => {
       event.preventDefault();
       event.stopPropagation();
       console.log(`🎯 Clique detectado no estado: ${estadoNome}`);
+      
+      const sistemaAtual = this.sistemaExpandido();
+      // Se tem sistema selecionado e o estado não tem obras desse sistema, limpa o sistema
+      if (sistemaAtual && !this.estadoTemSistema(estadoNome, sistemaAtual)) {
+        this.sistemaExpandido.set(null);
+        setTimeout(() => {
+          this.forceMapStyles();
+        }, 100);
+      }
+      
       this.filtrarPorEstado(estadoNome);
     });
     
@@ -251,13 +276,30 @@ export class ObrasComponent implements OnInit {
     svgPath.addEventListener('touchend', (event) => {
       event.preventDefault();
       event.stopPropagation();
+      
+      const sistemaAtual = this.sistemaExpandido();
+      // Se tem sistema selecionado e o estado não tem obras desse sistema, limpa o sistema
+      if (sistemaAtual && !this.estadoTemSistema(estadoNome, sistemaAtual)) {
+        this.sistemaExpandido.set(null);
+        setTimeout(() => {
+          this.forceMapStyles();
+        }, 100);
+      }
+      
       this.filtrarPorEstado(estadoNome);
     });
   }
 
   private addHoverEffects(svgPath: SVGPathElement) {
+    // Usar uma flag para evitar adicionar listeners múltiplas vezes
+    if ((svgPath as any).__hoverListenersAdded) {
+      return;
+    }
+    
+    (svgPath as any).__hoverListenersAdded = true;
+    
     svgPath.addEventListener('mouseenter', () => {
-      if (!svgPath.classList.contains('selected')) {
+      if (!svgPath.classList.contains('selected') && !svgPath.classList.contains('no-relevant-obras')) {
         svgPath.style.setProperty('fill', '#85c1e9', 'important');
         svgPath.style.setProperty('stroke-width', '3', 'important');
       }
@@ -268,7 +310,9 @@ export class ObrasComponent implements OnInit {
         if (svgPath.classList.contains('has-obras')) {
           svgPath.style.setProperty('fill', '#2874a6', 'important');
         } else {
+          const sistemaAtual = this.sistemaExpandido();
           svgPath.style.setProperty('fill', '#192636', 'important');
+          svgPath.style.setProperty('opacity', sistemaAtual ? '0.3' : '1', 'important');
         }
         svgPath.style.setProperty('stroke-width', '2', 'important');
       }
@@ -405,10 +449,15 @@ export class ObrasComponent implements OnInit {
 
   filtrarPorEstado(estado: string) {
     console.log(`🔍 Filtrando por estado: ${estado}`);
-    this.estadoSelecionado.set(estado);
-    this.sistemaExpandido.set(null);
-    this.updateMapSelection(estado);
-    this.scrollToObras();
+    // Se o mesmo estado for clicado novamente, deseleciona
+    if (this.estadoSelecionado() === estado) {
+      this.estadoSelecionado.set(null);
+      this.clearMapSelection();
+    } else {
+      this.estadoSelecionado.set(estado);
+      this.updateMapSelection(estado);
+      this.scrollToObras();
+    }
     console.log(`✅ Estado selecionado atualizado para: ${this.estadoSelecionado()}`);
   }
 
@@ -424,14 +473,20 @@ export class ObrasComponent implements OnInit {
       
       if (estadoNome === estadoSelecionado) {
         path.classList.add('selected');
-        path.style.setProperty('fill', '#85c1e9', 'important');
+        path.style.setProperty('fill', '#FF6B35', 'important');
         path.style.setProperty('stroke-width', '4', 'important');
+        path.style.setProperty('opacity', '1', 'important');
       } else {
         path.classList.remove('selected');
-        if (path.classList.contains('has-obras')) {
+        const temObrasRelevantes = this.estadoTemObrasRelevantes(estadoNome || '');
+        
+        if (temObrasRelevantes) {
           path.style.setProperty('fill', '#2874a6', 'important');
+          path.style.setProperty('opacity', '1', 'important');
         } else {
+          const sistemaAtual = this.sistemaExpandido();
           path.style.setProperty('fill', '#192636', 'important');
+          path.style.setProperty('opacity', sistemaAtual ? '0.3' : '1', 'important');
         }
         path.style.setProperty('stroke-width', '2', 'important');
       }
@@ -459,14 +514,19 @@ export class ObrasComponent implements OnInit {
 
   getObrasPorSistema(sistema: string): FacadeSystem[] {
     const estadoAtual = this.estadoSelecionado();
+    const obrasDoSistema = this.obrasPorSistema()[sistema] || [];
     
-    // Se tem estado selecionado, ignora o filtro de sistema (filtro OU)
+    // Se tem estado selecionado, filtra obras do sistema que também estão no estado
     if (estadoAtual) {
-      return this.obrasPorEstado()[estadoAtual] || [];
+      const obrasDoEstado = this.obrasPorEstado()[estadoAtual] || [];
+      // Retorna obras que estão tanto no sistema quanto no estado (AND)
+      return obrasDoSistema.filter(obra => 
+        obrasDoEstado.some(obraEstado => obraEstado.id === obra.id)
+      );
     }
     
-    // Se não tem estado, mostra obras do sistema
-    return this.obrasPorSistema()[sistema] || [];
+    // Se não tem estado, mostra todas as obras do sistema
+    return obrasDoSistema;
   }
 
   getNumeroObrasPorEstado(estado: string): number {
@@ -480,16 +540,25 @@ export class ObrasComponent implements OnInit {
       this.sistemaExpandido.set(null);
     } else {
       this.sistemaExpandido.set(sistema);
-      this.estadoSelecionado.set(null); // Limpar estado quando seleciona sistema
-      this.clearMapSelection(); // Limpar seleção do mapa
       this.scrollToObras();
     }
+    
+    // Atualizar estilos do mapa quando sistema muda
+    setTimeout(() => {
+      this.forceMapStyles();
+    }, 100);
   }
 
   limparFiltros() {
     this.estadoSelecionado.set(null);
     this.sistemaExpandido.set(null);
     this.clearMapSelection();
+    // Atualizar estilos do mapa após limpar filtros
+    setTimeout(() => {
+      this.forceMapStyles();
+    }, 100);
+    // Scroll para o topo da seção de filtros
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   getSistemaLogo(sistema: string): string {
@@ -582,12 +651,23 @@ export class ObrasComponent implements OnInit {
     const estadoAtual = this.estadoSelecionado();
     const sistemaAtual = this.sistemaExpandido();
     
-    // Se tem estado selecionado, mostra obras do estado
+    // Se ambos os filtros estão selecionados, retorna obras que atendem AMBOS (AND)
+    if (estadoAtual && sistemaAtual) {
+      const obrasDoEstado = this.obrasPorEstado()[estadoAtual] || [];
+      const obrasDoSistema = this.obrasPorSistema()[sistemaAtual] || [];
+      
+      // Retorna obras que estão tanto no estado quanto no sistema
+      return obrasDoEstado.filter(obra => 
+        obrasDoSistema.some(obraSistema => obraSistema.id === obra.id)
+      );
+    }
+    
+    // Se apenas estado está selecionado, mostra obras do estado
     if (estadoAtual) {
       return this.obrasPorEstado()[estadoAtual] || [];
     }
     
-    // Se tem sistema selecionado, mostra obras do sistema
+    // Se apenas sistema está selecionado, mostra obras do sistema
     if (sistemaAtual) {
       return this.obrasPorSistema()[sistemaAtual] || [];
     }
@@ -600,12 +680,19 @@ export class ObrasComponent implements OnInit {
     const estadoAtual = this.estadoSelecionado();
     const sistemaAtual = this.sistemaExpandido();
     
+    // Se ambos os filtros estão selecionados
+    if (estadoAtual && sistemaAtual) {
+      return `Obras realizadas no estado de ${estadoAtual} com o sistema ${this.getSystemDisplayName(sistemaAtual)}`;
+    }
+    
+    // Se apenas estado está selecionado
     if (estadoAtual) {
       return `Obras realizadas no estado de ${estadoAtual}`;
     }
     
+    // Se apenas sistema está selecionado
     if (sistemaAtual) {
-      return `Obras realizadas com ${sistemaAtual}`;
+      return `Obras realizadas com o sistema ${this.getSystemDisplayName(sistemaAtual)}`;
     }
     
     return 'Obras realizadas';
@@ -659,13 +746,22 @@ export class ObrasComponent implements OnInit {
 
     const svgDoc = svgObject.contentDocument;
     const paths = svgDoc.querySelectorAll('path');
+    const sistemaAtual = this.sistemaExpandido();
     
     paths.forEach((path: SVGPathElement) => {
       path.classList.remove('selected');
-      if (path.classList.contains('has-obras')) {
-        path.style.setProperty('fill', '#2874a6', 'important');
-      } else {
-        path.style.setProperty('fill', '#2874a6', 'important');
+      const estadoNome = this.getEstadoNome(path.id);
+      
+      if (estadoNome) {
+        const temObrasRelevantes = this.estadoTemObrasRelevantes(estadoNome);
+        
+        if (temObrasRelevantes) {
+          path.style.setProperty('fill', '#2874a6', 'important');
+          path.style.setProperty('opacity', '1', 'important');
+        } else {
+          path.style.setProperty('fill', '#192636', 'important');
+          path.style.setProperty('opacity', sistemaAtual ? '0.3' : '1', 'important');
+        }
       }
       path.style.setProperty('stroke-width', '2', 'important');
     });

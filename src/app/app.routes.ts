@@ -77,6 +77,37 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/cookies-policy/cookies-policy.component').then(c => c.CookiesPolicyComponent)
     },
     {
+        path: 'video-institucional',
+        loadComponent: () => import('./pages/institutional-video/institutional-video.component').then(c => c.InstitutionalVideoComponent)
+    },
+    {
+        path: 'juridico',
+        loadComponent: () => import('./pages/juridico/juridico.component').then(c => c.JuridicoComponent),
+        children: [
+            {
+                path: '',
+                redirectTo: 'lgpd',
+                pathMatch: 'full'
+            },
+            {
+                path: 'lgpd',
+                loadComponent: () => import('./pages/juridico/lgpd/lgpd.component').then(c => c.LgpdComponent)
+            },
+            {
+                path: 'ouvidoria',
+                loadComponent: () => import('./pages/juridico/ouvidoria/ouvidoria.component').then(c => c.OuvidoriaComponent)
+            },
+            {
+                path: 'compliance',
+                loadComponent: () => import('./pages/juridico/compliance/compliance.component').then(c => c.ComplianceComponent)
+            },
+            {
+                path: 'cookies',
+                loadComponent: () => import('./pages/juridico/cookies-juridico/cookies-juridico.component').then(c => c.CookiesJuridicoComponent)
+            }
+        ]
+    },
+    {
         path: 'processos-producao',
         loadComponent: () => import('./pages/processes-production/processes-production.component').then(mod => mod.ProcessesProductionComponent)
     },
@@ -209,6 +240,10 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/contact/contact.component').then(mod => mod.ContactComponent)
     },
     {
+        path: 'trabalhe-conosco',
+        loadComponent: () => import('./pages/trabalhe-conosco/trabalhe-conosco.component').then(mod => mod.TrabalheConoscoComponent)
+    },
+    {
         path: 'catalogos',
         canActivate: [AdminGuard],
         data: { roles: ['Admin', 'User'] },
@@ -222,6 +257,11 @@ export const routes: Routes = [
                 path: 'produtos',
                 title: 'Catálogos - Olgacolor',
                 loadComponent: () => import('./pages/catalogs/products/catalog-products.component').then(mod => mod.CatalogProductsComponent)
+            },
+            {
+                path: 'material-tecnico/:id',
+                title: 'Material Técnico - Olgacolor',
+                loadComponent: () => import('./pages/catalogs/material-tecnico/material-tecnico.component').then(mod => mod.MaterialTecnicoComponent)
             },
         ]
     },

@@ -1,19 +1,31 @@
 <div id="profiles">
     <app-header [customClass]="classScrolled" />
     
-    <!-- Custom drawer overlay -->
-    <div class="custom-drawer-overlay" [class.open]="profilesService.selectedProduct()" (click)="closeModal()"></div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" 
+         [class.open]="profilesService.selectedProduct()" 
+         (click)="closeModal()"></div>
     
-    <!-- Custom drawer -->
-    <div class="custom-drawer" [class.open]="profilesService.selectedProduct()">
-        <div class="product">
-            <button class="close-btn" (click)="closeModal()">
+    <!-- Modal Centralizado -->
+    <div class="profile-modal" [class.open]="profilesService.selectedProduct()">
+        <div class="modal-content-wrapper">
+            <button class="close-btn" (click)="closeModal()" aria-label="Fechar">
                 <span>&times;</span>
             </button>
             
-            <div class="product-content">
-                <img [src]="profilesService.selectedProduct()?.images?.[1] || profilesService.selectedProduct()?.images?.[0]"
-                    [alt]="profilesService.selectedProduct()?.name" />
+            <div class="modal-content">
+                <div class="product-image-container" 
+                     (mousemove)="onImageMouseMove($event)"
+                     (mouseleave)="onImageMouseLeave()">
+                    <div class="image-wrapper">
+                        <img [src]="profilesService.selectedProduct()?.images?.[1] || profilesService.selectedProduct()?.images?.[0]"
+                             [alt]="profilesService.selectedProduct()?.name"
+                             class="product-image"
+                             [class.zoomed]="showZoomLens"
+                             [style.transform]="showZoomLens ? 'scale(' + zoomScale + ')' : 'none'"
+                             [style.transform-origin]="showZoomLens ? zoomOrigin : 'center center'" />
+                    </div>
+                </div>
                 
                 <div class="product-info">
                     <h3 class="product-title">{{ profilesService.selectedProduct()?.name }}</h3>

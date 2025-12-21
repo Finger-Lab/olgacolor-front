@@ -41,11 +41,27 @@ export class ProfilesService {
 
         // Aplicar filtro de categoria
         if (params.category && params.category.trim()) {
-          const categoryTerm = params.category.toLowerCase().trim();
+          // Mapeamento de categorias antigas/alternativas para categorias principais
+          const categoryMapping: { [key: string]: string } = {
+            'perfis tabelados': 'tabelados',
+            'tabelados o': 'tabelados',
+            'moveleiros': 'moveleira',
+            'industrial': 'industriais'
+          };
+          
+          let categoryTerm = params.category.toLowerCase().trim();
+          
+          // Se existe mapeamento, usar a categoria mapeada
+          if (categoryMapping[categoryTerm]) {
+            categoryTerm = categoryMapping[categoryTerm];
+          }
+          
           profiles = profiles.filter(doc =>
-            doc.categories && doc.categories.some((cat: string) =>
-              cat.toLowerCase().includes(categoryTerm)
-            )
+            doc.categories && doc.categories.some((cat: string) => {
+              const catLower = cat.toLowerCase();
+              // Verificar se a categoria do documento contém o termo OU se o termo contém palavras-chave da categoria
+              return catLower.includes(categoryTerm) || categoryTerm.includes(catLower);
+            })
           );
         }
 

@@ -43,6 +43,35 @@ export class MainComponent {
   selectedMonth = this.months[0]?.value || this.getCurrentMonth(); // Primeiro mês da lista (mais recente)
   selectedDays: any[] = []
 
+  // Filtros separados de mês e ano
+  monthNames: { value: number, label: string }[] = [
+    { value: 0, label: 'Janeiro' },
+    { value: 1, label: 'Fevereiro' },
+    { value: 2, label: 'Março' },
+    { value: 3, label: 'Abril' },
+    { value: 4, label: 'Maio' },
+    { value: 5, label: 'Junho' },
+    { value: 6, label: 'Julho' },
+    { value: 7, label: 'Agosto' },
+    { value: 8, label: 'Setembro' },
+    { value: 9, label: 'Outubro' },
+    { value: 10, label: 'Novembro' },
+    { value: 11, label: 'Dezembro' }
+  ];
+
+  selectedMonthIndex: number = new Date().getMonth();
+  selectedYear: number = new Date().getFullYear();
+  
+  // Gerar anos disponíveis (últimos 3 anos + ano atual)
+  get availableYears(): number[] {
+    const currentYear = new Date().getFullYear();
+    const years: number[] = [];
+    for (let i = 0; i <= 3; i++) {
+      years.push(currentYear - i);
+    }
+    return years;
+  }
+
   metals: string[] = [
     'Alumínio',
     'Dólar'
@@ -88,20 +117,13 @@ export class MainComponent {
 
   // Obter a data ISO do mês selecionado (primeiro dia)
   getSelectedMonthDate(): string {
-    const selectedOption = this.months.find(m => m.value === this.selectedMonth);
-    return selectedOption ? selectedOption.date : new Date().toISOString().slice(0, 10);
+    const date = new Date(this.selectedYear, this.selectedMonthIndex, 1);
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-01`;
   }
 
   // Obter a data correta para buscar variações
   getVariationsDate(): string | undefined {
-    const selectedOption = this.months.find(m => m.value === this.selectedMonth);
-    
-    if (!selectedOption) return undefined;
-    
-    // Criar data usando os componentes para evitar problemas de timezone
-    const dateString = selectedOption.date; // '2025-08-01'
-    const [year, month, day] = dateString.split('-').map(Number);
-    const selectedDate = new Date(year, month - 1, day); // month - 1 porque Date() usa mês base 0
+    const selectedDate = new Date(this.selectedYear, this.selectedMonthIndex, 1);
     const currentDate = new Date();
     
     // Comparar se o mês selecionado é o atual
@@ -121,11 +143,43 @@ export class MainComponent {
   }
 
   ngOnInit(): void {
+    // Inicializar com mês e ano atuais
+    this.selectedMonthIndex = new Date().getMonth();
+    this.selectedYear = new Date().getFullYear();
+    this.updateSelectedMonth();
     this.fetchMetalData()
   }
 
   async onMonthChange(): Promise<void> {
+    this.updateSelectedMonth();
     this.fetchMetalData();
+  }
+
+  async onYearChange(): Promise<void> {
+    this.updateSelectedMonth();
+    this.fetchMetalData();
+  }
+
+  updateSelectedMonth(): void {
+    const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    const year = this.selectedYear.toString().slice(-2);
+    const monthName = monthNames[this.selectedMonthIndex];
+    this.selectedMonth = `${monthName}/${year}`;
+    
+    // Atualizar a data correspondente
+    const date = new Date(this.selectedYear, this.selectedMonthIndex, 1);
+    const dateString = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-01`;
+    
+    // Atualizar o objeto months para manter compatibilidade
+    const monthOption = this.months.find(m => m.value === this.selectedMonth);
+    if (!monthOption) {
+      // Se não encontrar, adicionar ao array
+      this.months.unshift({
+        value: this.selectedMonth,
+        label: this.selectedMonth,
+        date: dateString
+      });
+    }
   }
 
   async loadMonthlyData(): Promise<void> {

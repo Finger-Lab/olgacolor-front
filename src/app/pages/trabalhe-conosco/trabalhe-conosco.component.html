@@ -1,0 +1,133 @@
+<app-header [customClass]="classScrolled" />
+
+<div class="trabalhe-conosco-container">
+    <div class="container">
+        <div class="content-wrapper">
+            <div class="header-section">
+                <h1>Trabalhe Conosco</h1>
+                <p class="subtitle">
+                    Faça parte do nosso time! Envie seu currículo e candidate-se às vagas disponíveis.
+                </p>
+            </div>
+
+            <div class="form-wrapper">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="form-row">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Nome Completo</mat-label>
+                            <input matInput formControlName="nome" placeholder="Digite seu nome completo">
+                            <mat-icon matPrefix>person</mat-icon>
+                            <mat-error>{{ getErrorMessage('nome') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-row">
+                        <mat-form-field appearance="outline" class="half-width">
+                            <mat-label>Email</mat-label>
+                            <input matInput type="email" formControlName="email" placeholder="seu@email.com">
+                            <mat-icon matPrefix>email</mat-icon>
+                            <mat-error>{{ getErrorMessage('email') }}</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="half-width">
+                            <mat-label>Telefone</mat-label>
+                            <input matInput formControlName="telefone" placeholder="(11) 98765-4321">
+                            <mat-icon matPrefix>phone</mat-icon>
+                            <mat-error>{{ getErrorMessage('telefone') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-row">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Vaga de Interesse</mat-label>
+                            <mat-select formControlName="vaga" placeholder="Selecione uma vaga">
+                                <mat-option *ngFor="let vaga of vagas" [value]="vaga">
+                                    {{ vaga }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error>{{ getErrorMessage('vaga') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-row file-upload-section">
+                        <label class="file-upload-label">
+                            <mat-icon>upload_file</mat-icon>
+                            <span>Anexar Currículo (PDF ou DOC - Máx. 5MB)</span>
+                        </label>
+                        
+                        <div class="file-input-wrapper">
+                            <input 
+                                type="file" 
+                                id="curriculo" 
+                                accept=".pdf,.doc,.docx" 
+                                (change)="onFileSelected($event)"
+                                class="file-input"
+                            >
+                            <label for="curriculo" class="file-button">
+                                <mat-icon>attach_file</mat-icon>
+                                Escolher arquivo
+                            </label>
+                            
+                            @if (selectedFileName()) {
+                                <div class="file-selected">
+                                    <mat-icon>description</mat-icon>
+                                    <span>{{ selectedFileName() }}</span>
+                                    <button type="button" mat-icon-button (click)="removeFile()" class="remove-file">
+                                        <mat-icon>close</mat-icon>
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button 
+                            mat-raised-button 
+                            color="primary" 
+                            type="submit" 
+                            [disabled]="isLoading()"
+                            class="submit-button"
+                        >
+                            @if (isLoading()) {
+                                <mat-spinner diameter="20"></mat-spinner>
+                                <span>Enviando...</span>
+                            } @else {
+                                <mat-icon>send</mat-icon>
+                                <span>Enviar Currículo</span>
+                            }
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="info-section">
+                <h3>Por que trabalhar na Olgacolor?</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <mat-icon>people</mat-icon>
+                        <h4>Ambiente Colaborativo</h4>
+                        <p>Trabalhe em um time unido e profissional</p>
+                    </div>
+                    <div class="benefit-item">
+                        <mat-icon>trending_up</mat-icon>
+                        <h4>Crescimento Profissional</h4>
+                        <p>Oportunidades de desenvolvimento e carreira</p>
+                    </div>
+                    <div class="benefit-item">
+                        <mat-icon>verified</mat-icon>
+                        <h4>Empresa Consolidada</h4>
+                        <p>Mais de 30 anos de experiência no mercado</p>
+                    </div>
+                    <div class="benefit-item">
+                        <mat-icon>balance</mat-icon>
+                        <h4>Qualidade de Vida</h4>
+                        <p>Benefícios e ambiente de trabalho saudável</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer />
+

@@ -42,7 +42,7 @@ export class CatalogsService {
     },
     {
       id: '4',
-      name: 'Portas deslizantes',
+      name: 'TMC',
     //   description: 'Soluções inovadoras para fachadas comerciais e corporativas',
       category: 'VIDRAÇARIA',
       thumbnailUrl: 'assets/images/catalogs/glazing_systems_4.png',
@@ -52,7 +52,7 @@ export class CatalogsService {
     },
     {
       id: '5',
-      name: 'Envidraçamento',
+      name: 'Sistema Olga',
     //   description: 'Catálogo técnico completo de perfis estruturais em alumínio',
       category: 'VIDRAÇARIA',
       thumbnailUrl: 'assets/images/catalogs/glazing_systems_5.png',
@@ -112,7 +112,7 @@ export class CatalogsService {
     },
     {
       id: '12',
-      name: 'Sistema Aglo 2.0',
+      name: 'Aglo 2.0',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'RESIDENCIAL AGLO',
       thumbnailUrl: 'assets/images/catalogs/aglo2.0.png',
@@ -122,7 +122,7 @@ export class CatalogsService {
     },
     {
       id: '13',
-      name: 'Sistema Aglo 2.5 OC',
+      name: 'Aglo 2.5 OC',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'RESIDENCIAL AGLO',
       thumbnailUrl: 'assets/images/catalogs/aglo2.5oc.png',
@@ -132,7 +132,7 @@ export class CatalogsService {
     },
     {
       id: '14',
-      name: 'Sistema Aglo 2.5',
+      name: 'Aglo 2.5',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'RESIDENCIAL AGLO',
       thumbnailUrl: 'assets/images/catalogs/aglo2.5.png',
@@ -142,7 +142,7 @@ export class CatalogsService {
     },
     {
       id: '15',
-      name: 'Sistema Aglo 2.2 OC',
+      name: 'Aglo 2.2 OC',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'RESIDENCIAL AGLO',
       thumbnailUrl: 'assets/images/catalogs/aglo2.2oc.png',
@@ -152,7 +152,7 @@ export class CatalogsService {
     },
     {
       id: '16',
-      name: 'Sistema Aglo 3.2',
+      name: 'Aglo 3.2',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'RESIDENCIAL AGLO',
       thumbnailUrl: 'assets/images/catalogs/aglo3.2.png',
@@ -162,7 +162,7 @@ export class CatalogsService {
     },
     {
       id: '17',
-      name: 'Sistema Lock/CL',
+      name: 'Lock/CL',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'RESIDENCIAL LOCK',
       thumbnailUrl: 'assets/images/catalogs/lockcl.png',
@@ -172,7 +172,7 @@ export class CatalogsService {
     },
     {
       id: '18',
-      name: 'Sistema Lock/HD e Lock/S',
+      name: 'Lock/HD e Lock/S',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'RESIDENCIAL LOCK',
       thumbnailUrl: 'assets/images/catalogs/lock-hds.png',
@@ -182,7 +182,7 @@ export class CatalogsService {
     },
     {
       id: '19',
-      name: 'Sistema Lock/SL',
+      name: 'Lock/SL',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'RESIDENCIAL LOCK',
       thumbnailUrl: 'assets/images/catalogs/unicosl.png',
@@ -202,7 +202,7 @@ export class CatalogsService {
     // },
     {
       id: '21',
-      name: 'Sistema Delicato',
+      name: 'Delicato',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'MINIMALISTA',
       thumbnailUrl: 'assets/images/catalogs/unico-delicato.png',
@@ -212,7 +212,7 @@ export class CatalogsService {
     },
     {
       id: '22',
-      name: 'Sistema Delicato³',
+      name: 'Delicato³',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'MINIMALISTA',
       thumbnailUrl: 'assets/images/catalogs/delicato3.png',
@@ -221,16 +221,16 @@ export class CatalogsService {
       createdAt: '2025-09-06'
     },
     
-    {
-      id: '23',
-      name: 'Vidro Colado',
-    //   description: 'Soluções completas em alumínio para projetos residenciais',
-      category: 'VIDRO COLADO',
-      thumbnailUrl: 'assets/images/catalogs/unico-colato.png',
-      pdfUrl: 'https://firebasestorage.googleapis.com/v0/b/olgacolor-5ed0f.firebasestorage.app/o/catalogs%2Fportas-janelas%2Fcolato%2Fcatalogo-COLATO-web.pdf?alt=media&token=670ae40d-fee8-4ac8-b85b-e9114b13fdb1',
-      order: 6,
-      createdAt: '2025-09-06'
-    },
+    // {
+    //   id: '23',
+    //   name: 'Vidro Colado',
+    // //   description: 'Soluções completas em alumínio para projetos residenciais',
+    //   category: 'VIDRO COLADO',
+    //   thumbnailUrl: 'assets/images/catalogs/unico-colato.png',
+    //   pdfUrl: 'https://firebasestorage.googleapis.com/v0/b/olgacolor-5ed0f.firebasestorage.app/o/catalogs%2Fportas-janelas%2Fcolato%2Fcatalogo-COLATO-web.pdf?alt=media&token=670ae40d-fee8-4ac8-b85b-e9114b13fdb1',
+    //   order: 6,
+    //   createdAt: '2025-09-06'
+    // },
     {
       id: '24',
       name: 'Integrada',
@@ -263,7 +263,7 @@ export class CatalogsService {
     },
     {
       id: '27',
-      name: 'Sistem Grid',
+      name: 'Grid',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'FACHADAS',
       thumbnailUrl: 'assets/images/catalogs/unico-grid.png',
@@ -283,7 +283,7 @@ export class CatalogsService {
     },
     {
       id: '29',
-      name: 'Fachada Unik',
+      name: 'Unik',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'FACHADAS',
       thumbnailUrl: 'assets/images/catalogs/Unik.png',
@@ -303,7 +303,7 @@ export class CatalogsService {
     },
     {
       id: '31',
-      name: 'Sistema Neograd',
+      name: 'Neograd',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'GUARDA-CORPO',
       thumbnailUrl: 'assets/images/catalogs/uniconeograd.png',
@@ -313,7 +313,7 @@ export class CatalogsService {
     },
     {
       id: '32',
-      name: 'Sistema Linea Glass',
+      name: 'Linea Glass',
     //   description: 'Soluções completas em alumínio para projetos residenciais',
       category: 'GUARDA-CORPO',
       thumbnailUrl: 'assets/images/catalogs/linea-glass.png',

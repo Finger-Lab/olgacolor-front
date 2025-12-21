@@ -1,0 +1,316 @@
+// Garantir que o header tenha o background correto
+::ng-deep app-header #header {
+    background-color: #192636 !important;
+}
+
+.trabalhe-conosco-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 4rem 0;
+    margin-top: 180px; // Compensar altura do header
+
+    @media (max-width: 992px) {
+        margin-top: 140px;
+    }
+
+    @media (max-width: 576px) {
+        margin-top: 200px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .content-wrapper {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .header-section {
+        background: #192636;
+        color: white;
+        padding: 3rem 2rem;
+        text-align: center;
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            
+            @media (max-width: 768px) {
+                font-size: 2rem;
+            }
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    }
+
+    .form-wrapper {
+        padding: 3rem 2rem;
+
+        @media (max-width: 768px) {
+            padding: 2rem 1.5rem;
+        }
+
+        form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+
+            @media (max-width: 768px) {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .full-width {
+                flex: 1;
+                width: 100%;
+            }
+
+            .half-width {
+                flex: 1;
+                min-width: 0;
+
+                @media (max-width: 768px) {
+                    width: 100%;
+                }
+            }
+        }
+
+        .file-upload-section {
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px dashed #d1d5db;
+
+            .file-upload-label {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-size: 1rem;
+                font-weight: 500;
+                color: #374151;
+
+                mat-icon {
+                    color: #192636;
+                }
+            }
+
+            .file-input-wrapper {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+
+                .file-input {
+                    display: none;
+                }
+
+                .file-button {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 1.5rem;
+                    background: #192636;
+                    color: white;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    font-weight: 500;
+                    width: fit-content;
+
+                    &:hover {
+                        background: #0d1520;
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 12px rgba(25, 38, 54, 0.3);
+                    }
+
+                    mat-icon {
+                        font-size: 20px;
+                        height: 20px;
+                        width: 20px;
+                    }
+                }
+
+                .file-selected {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    padding: 0.75rem 1rem;
+                    background: white;
+                    border: 1px solid #d1d5db;
+                    border-radius: 8px;
+                    width: fit-content;
+
+                    mat-icon {
+                        color: #192636;
+                    }
+
+                    span {
+                        color: #374151;
+                        font-size: 0.9rem;
+                    }
+
+                    .remove-file {
+                        margin-left: 0.5rem;
+
+                        mat-icon {
+                            color: #ef4444;
+                            font-size: 18px;
+                            height: 18px;
+                            width: 18px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+
+            .submit-button {
+                padding: 0.75rem 3rem;
+                font-size: 1.1rem;
+                font-weight: 600;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                gap: 0.5rem;
+                background: #192636;
+                transition: all 0.3s ease;
+                height: auto;
+                line-height: normal;
+
+                &:hover:not(:disabled) {
+                    background: #0d1520;
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 20px rgba(25, 38, 54, 0.4);
+                }
+
+                &:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                }
+
+                mat-spinner {
+                    display: inline-flex !important;
+                    align-items: center !important;
+                    vertical-align: middle;
+                    margin: 0;
+                }
+
+                mat-icon {
+                    color: #fff;
+                    display: inline-flex !important;
+                    align-items: center !important;
+                    vertical-align: middle;
+                    margin: 0;
+                }
+
+                span {
+                    color: #fff;
+                    padding-left: 0;
+                    display: inline-flex !important;
+                    align-items: center !important;
+                    vertical-align: middle;
+                    line-height: 1;
+                }
+            }
+        }
+    }
+
+    .info-section {
+        padding: 3rem 2rem;
+        background: #f8f9fa;
+        border-top: 1px solid #e5e7eb;
+
+        h3 {
+            text-align: center;
+            font-size: 2rem;
+            color: #192636;
+            margin-bottom: 2rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+
+            .benefit-item {
+                text-align: center;
+                padding: 1.5rem;
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                transition: all 0.3s ease;
+
+                &:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+                }
+
+                mat-icon {
+                    font-size: 48px;
+                    height: 48px;
+                    width: 48px;
+                    color: #192636;
+                    margin-bottom: 1rem;
+                }
+
+                h4 {
+                    font-size: 1.2rem;
+                    color: #192636;
+                    margin-bottom: 0.5rem;
+                }
+
+                p {
+                    color: #6b7280;
+                    font-size: 0.95rem;
+                    line-height: 1.5;
+                }
+            }
+        }
+    }
+}
+
+::ng-deep {
+    .success-snackbar {
+        background-color: #10b981 !important;
+        color: white !important;
+    }
+
+    .error-snackbar {
+        background-color: #ef4444 !important;
+        color: white !important;
+    }
+
+    // Forçar centralização vertical no botão Material
+    .submit-button.mat-mdc-raised-button {
+        .mdc-button__label {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 0.5rem;
+        }
+    }
+}
+

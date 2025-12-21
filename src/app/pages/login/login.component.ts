@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -104,6 +104,13 @@ export class LoginComponent implements OnInit {
   }
 
   private navigateToProtectedArea(user: any): void {
+    // Se houver returnUrl, usar ele (exceto para admin que sempre vai para /admin)
+    if (this.returnUrl && this.returnUrl !== '/' && user.role !== 'admin') {
+      console.log('🔄 Redirecionando para returnUrl:', this.returnUrl);
+      this.router.navigate([this.returnUrl]);
+      return;
+    }
+
     if (!user) {
       console.warn('⚠️ Usuário não fornecido para redirecionamento. Usando fallback.');
       this.router.navigate(['/catalogos']);

@@ -11,12 +11,13 @@
                 </h3>
 
                 <p class="mb-0 w-100">
-                    Acompanhe diariamente as cotações dos Metais na LME (London Metal Exchange) e do Dólar.
-                    A LME é o centro mundial para o comércio de metais industriais. A maior parte dos negócios 
-                    de metais não-ferrosos do mundo é negociada nas plataformas da LME, cujos preços são usados 
-                    como referência global. Os investidores valorizam a LME como uma bolsa de futuros vibrante, 
-                    mas também por suas estreitas ligações com a indústria.
-
+                    Acompanhe diariamente as cotações dos metais na LME (London Metal Exchange) 
+e do dólar. A LME é o centro mundial para o comércio de metais industriais. A 
+maior parte dos negócios de metais não ferrosos do mundo é negociada nas 
+plataformas da LME, cujos preços são usados como referência global. Os 
+investidores valorizam a LME como uma bolsa de futuros vibrante, mas também 
+por suas estreitas ligações com a indústria. 
+<br>
                     fonte: <a href="#">www.lme.com</a>
                 </p>
                 <!-- <a href="#" class="btn btn-outline-dark px-3 rounded-pill mt-5">Conheça a Olga</a> -->
@@ -25,16 +26,26 @@
 
         <div class="row justify-content-center mt-5">
             <div class="col-lg-10">
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                     <h4>Indicadores de {{ selectedMonth }}</h4>
-                    <mat-form-field>
-                        <mat-label>Selecione o mês</mat-label>
-                        <mat-select [(value)]="selectedMonth" (selectionChange)="onMonthChange()">
-                            @for (monthOption of months; track monthOption.value) {
-                                <mat-option [value]="monthOption.value">{{ monthOption.label }}</mat-option>
-                            }
-                        </mat-select>
-                    </mat-form-field>
+                    <div class="d-flex gap-3 align-items-center">
+                        <mat-form-field class="filter-field">
+                            <mat-label>Mês</mat-label>
+                            <mat-select [(value)]="selectedMonthIndex" (selectionChange)="onMonthChange()">
+                                @for (month of monthNames; track month.value) {
+                                    <mat-option [value]="month.value">{{ month.label }}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="filter-field">
+                            <mat-label>Ano</mat-label>
+                            <mat-select [(value)]="selectedYear" (selectionChange)="onYearChange()">
+                                @for (year of availableYears; track year) {
+                                    <mat-option [value]="year">{{ year }}</mat-option>
+                                }
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
                 </div>
     
                 <!-- <div>

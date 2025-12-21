@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg flex-column" id="header" [ngClass]="headerClass()">
     <div class="container">
-        <div>
+        <!-- <div>
             <i class="bi bi-globe" title="Mudar idioma" (click)="openDropdown()"></i>
             @if (isDropdownOpen()) {
             <div class="dropdown">
@@ -15,15 +15,11 @@
             </div>
             }
             <span class="ms-2 d-sm-none">|</span>
-        </div>
-        <span class="d-none d-sm-block">|</span>
+        </div> -->
+        <!-- <span class="d-none d-sm-block">|</span> -->
         <div>
             @if (isLoggedIn) {
                 <div class="auth-section">
-                    <span class="user-info">
-                        <i class="bi bi-person-check"></i>
-                        {{ currentUser?.email }}
-                    </span>
                     <a routerLink="/area-restrita" class="area-restrita-link">
                         <i class="bi bi-shield-check"></i>ÁREA RESTRITA
                     </a>
@@ -37,16 +33,25 @@
                     </button>
                 </div>
             } @else {
-                <a routerLink="/login"><i class="bi bi-person-lock"></i>ACESSE A ÁREA DO CLIENTE</a>
+                <a routerLink="/login"><i class="bi bi-person-lock"></i>MATERIAS TÉCNICOS</a>
             }
             <span class="ms-2 d-sm-none">|</span>
         </div>
         <span class="d-none d-sm-block">|</span>
         <div>
-            <div class="fale-conosco">
-                <a routerLink="/contato"><i class="bi bi-envelope"></i>FALE CONOSCO</a>
-            </div>
-            <!-- <p class="mb-0">FALE CONOSCO</p> -->
+            <a href="https://sales.olgacolor.com.br" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-graph-up-arrow"></i>PORTAL SALES
+            </a>
+            <span class="ms-2 d-sm-none">|</span>
+        </div>
+        <span class="d-none d-sm-block">|</span>
+        <div>
+            <a routerLink="/trabalhe-conosco"><i class="bi bi-briefcase"></i>TRABALHE CONOSCO</a>
+            <span class="ms-2 d-sm-none">|</span>
+        </div>
+        <span class="d-none d-sm-block">|</span>
+        <div>
+            <a routerLink="/contato"><i class="bi bi-envelope"></i>CONTATO</a>
             <a href="https://www.linkedin.com/in/olgacolor-alum%C3%ADnio" target="_blank">
                 <i class="bi bi-linkedin"></i>
             </a>
@@ -103,7 +108,22 @@
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" routerLink="/tecnologia">Sobre nós</a></li>
                         <li><a class="dropdown-item" routerLink="/processos-producao">Processos de produção</a></li>
+                        <li><a class="dropdown-item" routerLink="/video-institucional">Vídeo Institucional</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item" href="#">
+                                Jurídico <span style="float: right; font-size: 10px; align-items: center;">▶</span>
+                            </a>
+                            <ul class="dropdown-menu submenu">
+                                <li><a class="dropdown-item" routerLink="/juridico/lgpd">LGPD</a></li>
+                                <li><a class="dropdown-item" routerLink="/juridico/ouvidoria">Ouvidoria</a></li>
+                                <li><a class="dropdown-item" routerLink="/juridico/compliance">Compliance</a></li>
+                                <li><a class="dropdown-item" routerLink="/juridico/cookies">Cookies</a></li>
+                            </ul>
+                        </li>
                         <li><a class="dropdown-item" routerLink="/politica-qualidade">Política de Qualidade</a></li>
+
+                        <li><a class="dropdown-item" routerLink="/politica-de-privacidade">Política de Privacidade</a></li>
                         <!-- <li><a class="dropdown-item" routerLink="/processos-producao/extrusao">Extrusão</a></li>
                         <li><a class="dropdown-item" routerLink="/processos-producao/jateamento">Jateamento</a></li>
                         <li><a class="dropdown-item" routerLink="/processos-producao/polimento">Polimento</a></li>
@@ -140,7 +160,7 @@
                         <li><a class="dropdown-item" (click)="onPerfilClick('Vidraçaria')">Vidraçaria</a></li>
                         <li><a class="dropdown-item" (click)="onPerfilClick('Moveleira')">Moveleiros</a></li>
                         <li><a class="dropdown-item" (click)="onPerfilClick('Industrial')">Industriais</a></li>
-                        <li><a class="dropdown-item" (click)="onPerfilClick('PERFIS TABELADOS')">Tabelados / Padrão</a>
+                        <li><a class="dropdown-item" (click)="onPerfilClick('Tabelados')">Tabelados / Padrão</a>
                         </li>
                     </ul>
                 </li>

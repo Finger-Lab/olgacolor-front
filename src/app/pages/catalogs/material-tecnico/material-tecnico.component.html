@@ -1,0 +1,189 @@
+<div id="material-tecnico">
+    @if (catalog) {
+        <div class="container py-5">
+            <h1 class="text-center mb-5">Materiais Técnicos - {{ catalog.name }}</h1>
+
+            <div class="row mb-5">
+                <div class="col-lg-6">
+                    <div class="specifications-card">
+                        <h2 class="mb-4">Especificações Técnicas</h2>
+                        <p>O sistema {{ catalog.name }} oferece uma solução completa, atendendo aos mais rigorosos padrões de qualidade e desempenho.</p>
+                        
+                        @if (specifications) {
+                            <ul class="specs-list mt-4">
+                                <li><strong>Material:</strong> {{ specifications.material }}</li>
+                                <li><strong>Espessura:</strong> {{ specifications.thickness }}</li>
+                                <li><strong>Acabamento:</strong> {{ specifications.finish }}</li>
+                                <li><strong>Vedação:</strong> {{ specifications.sealing }}</li>
+                                <li><strong>Vidro compatível:</strong> {{ specifications.glass }}</li>
+                                <li><strong>Sistema:</strong> {{ specifications.system }}</li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+
+                <div class="col-lg-6 mt-4 mt-lg-0">
+                    <div class="test-results-card">
+                        <h2 class="mb-4">Resultados de Ensaios</h2>
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Ensaio</th>
+                                    <th>Resultado</th>
+                                    <th>Classificação</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (result of testResults; track result.test) {
+                                    <tr>
+                                        <td>{{ result.test }}</td>
+                                        <td>{{ result.result }}</td>
+                                        <td>{{ result.classification }}</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            @if (catalog.thumbnailUrl || iframeUrl) {
+                <div class="row mb-5">
+                    @if (catalog.thumbnailUrl) {
+                        <div class="col-lg-5">
+                            <div class="profile-image-container">
+                                <h3 class="mb-3">Imagem do Sistema</h3>
+                                <img [src]="catalog.thumbnailUrl" [alt]="catalog.name" class="img-fluid profile-image">
+                            </div>
+                        </div>
+                    }
+                    @if (iframeUrl) {
+                        <div [class]="catalog.thumbnailUrl ? 'col-lg-7' : 'col-lg-12'">
+                            <h3 class="mb-3">Simulação 3D Interativa</h3>
+                            <div class="iframe-container">
+                                <iframe [src]="iframeUrl | safe:'resourceUrl'" frameborder="0" allowfullscreen class="iframe-content"></iframe>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+
+            <div class="text-center mt-5">
+                <a routerLink="/catalogos/produtos" class="btn btn-outline-dark rounded-pill me-2">Voltar para Catálogos</a>
+                @if (catalog.pdfUrl) {
+                    <button (click)="openPdf()" class="btn btn-outline-primary rounded-pill me-2">
+                        <i class="bi bi-file-pdf"></i> Ver PDF
+                    </button>
+                    <button (click)="downloadPdf()" class="btn btn-primary rounded-pill">
+                        <i class="bi bi-download"></i> Download PDF
+                    </button>
+                }
+                @if (iframeUrl) {
+                    <a [href]="iframeUrl" target="_blank" class="btn btn-primary rounded-pill simulator ms-2">
+                        Abrir Simulação em Nova Janela
+                    </a>
+                }
+            </div>
+
+            <div class="applications-section mt-5 pt-5">
+                <h2 class="text-center mb-4">Aplicações do Sistema</h2>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="application-icon">
+                                    <i class="bi bi-house-door"></i>
+                                </div>
+                                <h4 class="card-title">Residencial</h4>
+                                <p class="card-text">Ideal para casas, apartamentos e condomínios residenciais, garantindo conforto térmico e acústico para os moradores.</p>
+                                <ul class="application-features">
+                                    <li>Isolamento acústico superior</li>
+                                    <li>Vedação eficiente contra água e vento</li>
+                                    <li>Design elegante e moderno</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="application-icon">
+                                    <i class="bi bi-building"></i>
+                                </div>
+                                <h4 class="card-title">Comercial</h4>
+                                <p class="card-text">Solução robusta para prédios comerciais, escritórios e estabelecimentos que necessitam de alta durabilidade.</p>
+                                <ul class="application-features">
+                                    <li>Alta resistência a intempéries</li>
+                                    <li>Opções de personalização para fachadas</li>
+                                    <li>Fácil manutenção e limpeza</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="application-icon">
+                                    <i class="bi bi-hospital"></i>
+                                </div>
+                                <h4 class="card-title">Institucional</h4>
+                                <p class="card-text">Desenvolvido para atender às necessidades específicas de hospitais, escolas e edifícios públicos.</p>
+                                <ul class="application-features">
+                                    <li>Resistência a longo prazo</li>
+                                    <li>Opções de segurança reforçada</li>
+                                    <li>Conformidade com normas técnicas específicas</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mt-4">
+                    <div class="col-md-8 offset-md-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title text-center">Vantagens do Sistema</h5>
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <div class="advantage-item">
+                                            <i class="bi bi-shield-check"></i>
+                                            <span>Proteção contra ruído externo</span>
+                                        </div>
+                                        <div class="advantage-item">
+                                            <i class="bi bi-droplet-half"></i>
+                                            <span>Resistência à água da chuva</span>
+                                        </div>
+                                        <div class="advantage-item">
+                                            <i class="bi bi-wind"></i>
+                                            <span>Vedação contra ventos fortes</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="advantage-item">
+                                            <i class="bi bi-thermometer-half"></i>
+                                            <span>Isolamento térmico</span>
+                                        </div>
+                                        <div class="advantage-item">
+                                            <i class="bi bi-lock"></i>
+                                            <span>Segurança reforçada</span>
+                                        </div>
+                                        <div class="advantage-item">
+                                            <i class="bi bi-recycle"></i>
+                                            <span>Material sustentável e durável</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    } @else {
+        <div class="container py-5 text-center">
+            <h2>Catálogo não encontrado</h2>
+            <a routerLink="/catalogos/produtos" class="btn btn-primary mt-3">Voltar para Catálogos</a>
+        </div>
+    }
+</div>
+
